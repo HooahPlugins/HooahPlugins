@@ -31,10 +31,10 @@ namespace HooahSmugFace.IL_HooahSmugFace
 
         public static void RegisterBlendShapeToFace(object __instance)
         {
-            if (!(_thisField.GetValue(__instance) is ChaControl cock)) return;
+            if (!(_thisField.GetValue(__instance) is ChaControl chaControl)) return;
             var id = (int) _headIDField.GetValue(__instance);
             if (!FaceData.TryGetData(id, out var list)) return;
-            var face = cock.cmpFace;
+            var face = chaControl.cmpFace;
             FaceData.CacheOriginalMesh(id, face);
             foreach (var faceData in list) faceData.Apply(face);
         }
