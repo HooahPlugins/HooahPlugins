@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>621E971A-996C-4411-8A9A-70DCE9D4E767</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>IL_Hooah</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ChannelTarget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ChannelTrackerBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ChannelTrackerGimmickBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CharacterGimmickBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\AuraConfigManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\ConfigManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\HooahConfigManger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\IConfigManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration\SceneConfigManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DickController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DickNavigator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DickNavigatorIntegration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DickPuller.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HijackLook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HijackNeck.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.IK.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.Serialization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.SkinnedBones.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.UIIntegration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.UIStudioIntegration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IKAnchor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LookAtIt.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LookAtMe.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Modules\Render\RenderContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ParticleController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RailedTracker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DragTracker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NomiEventConsumer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EventConsumer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NiceMirrorReflection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PewSpark.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SkinnedAccessory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SoundContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StudioExtension\ExtendedStudioItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StudioExtension\MaterialPresetGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\StudioItemControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\PluginConstant.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\SkinnedBones.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\StudioMacros.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\UIIntegration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XRayConfigurator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\icon.png" />
+  </ItemGroup>
+</Project>

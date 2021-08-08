@@ -1,0 +1,9 @@
+{
+    "name": "com.hooah.components",
+    "version": "0.1.1",
+    "displayName": "[PLUGIN] Hooah",
+    "description": "Hooah Components",
+    "unity": "2018.4",
+    "dependencies": {},
+    "keywords": ["studio", "map"]
+}

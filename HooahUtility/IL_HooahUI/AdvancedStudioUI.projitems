@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>BE6232BD-7E8C-40A2-BF59-5FF084413EB2</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>HooahComponents</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Constant.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\ArrayValueComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\AssetSelectComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\ColorPickerComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\ColorSpriteMesh.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\DynamicDropdownComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\Interface\IFormComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\Interface\ISingletonComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\LoadFileComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\MaterialSelectComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\MultiOptionButtonComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\OverridePropertyComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\PagedListComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\SpinnerComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\TextureSelectComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\ContentManagers\SerializedDataFormField.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Controls\ColorPickerControl\ColorPickerClass.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Controls\ColorPickerControl\ColorPickerControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Controls\ColorPickerControl\ColorPickerEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Controls\ColorPickerControl\ColorPickerLogic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model/Attribute/FieldNameAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model/Attribute/MultiSelectEnumAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model/Attribute/RuntimeFunctionAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model/Interface/IFormData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller/ButtonList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller/DraggableWindow.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller/TabbedContentControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller/WindowBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller/ContentManagers/ContentManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller/ContentManagers/SerializedDataForm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller/Components/CheckComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller/Components/DropdownComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller/Components/FormComponentBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller/Components/SliderComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller/Window/DragPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller/Components/TextComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Editor/FormPrefabs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Attribute\NumberSpinnerAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Attribute\PropertyRangeAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Class\ColorReference.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\Attributes\HooahSerializeAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\Attributes\StudioReferenceAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\Formatter\UnityHackResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\Formatter\UnityObjectFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\Formatter\UnityObjectFormatterGeneric.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\Formatter\UnityObjectResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\Formatter\UnityObjectResolverGetFormatterHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\HooahSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\ChlidNodeReferenceResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\FKReferenceResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\IKReferenceResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\StudioReference.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\TransformReferenceResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\AssetManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\CanvasManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UIUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\ColorPickerUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\ColorUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\ImageUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\InternalCacheUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\ObjectControlInfoUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\SerializationUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\StringUtility.cs" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)CompileResource/uiasset.assets" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Controller\Controls\ColorPickerControl.meta" />
+    <Content Include="$(MSBuildThisFileDirectory)Controller\Controls\ColorPickerControl\ColorPickerClass.cs.meta" />
+    <Content Include="$(MSBuildThisFileDirectory)Controller\Controls\ColorPickerControl\ColorPickerControl.cs.meta" />
+    <Content Include="$(MSBuildThisFileDirectory)Controller\Controls\ColorPickerControl\ColorPickerEvent.cs.meta" />
+    <Content Include="$(MSBuildThisFileDirectory)Controller\Controls\ColorPickerControl\ColorPickerLogic.cs.meta" />
+    <Content Include="$(MSBuildThisFileDirectory)Model\Class\ColorReference.cs.meta" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f25e9db8c5ee4981959d69b58223b6b0, type: 3}
+  m_Name: HooahFormPrefabs
+  m_EditorClassIdentifier: 
+  prefabs:
+  - id: slider
+    prefab: {fileID: 852732874750802316, guid: 56cc7c15bb5feed43a1ff96ac9abad5c, type: 3}
+  - id: input
+    prefab: {fileID: 5935678234021271584, guid: d9a92a6f59be97346a12356204283696,
+      type: 3}
+  - id: button
+    prefab: {fileID: 3964166620301899938, guid: 9f9f1fdffb991d44c9f1e15deb24f66b,
+      type: 3}
+  - id: dropdown
+    prefab: {fileID: 7234976610247975526, guid: 69214373f7ab1ac44be6973181fc42e1,
+      type: 3}
+  - id: check
+    prefab: {fileID: 6974362905202252612, guid: 97c62308d3be781468d4610e2dbcf2c6,
+      type: 3}
+  - id: btn
+    prefab: {fileID: 1627134122033186617, guid: 633b3ee3438602e4c8a0f23e69ebc751,
+      type: 3}
+  - id: btnbase
+    prefab: {fileID: 3964166620301899938, guid: 0039af5bdae5e564281cca5191dc5f60,
+      type: 3}
+  - id: label
+    prefab: {fileID: 1014360858026059674, guid: 06b78484d79c5234eb1ffd1f6eae7dd5,
+      type: 3}
+  - id: chk
+    prefab: {fileID: 5965900068674054359, guid: 55ffbabfc4deda44ea3325e405ceff5a,
+      type: 3}
+  - id: btncmb
+    prefab: {fileID: 6410003765352803242, guid: 8c6db79c32e018c4494eabf65520c2d4,
+      type: 3}
+  - id: colorpicker
+    prefab: {fileID: 618469694312764775, guid: 0c8dc67ab97f2874f831874f04c12ddd, type: 3}
+  - id: color
+    prefab: {fileID: 5937763779231478682, guid: 34a7be36b57895e419ad6e3d50237980,
+      type: 3}
+  - id: extasset
+    prefab: {fileID: 5937763779231478682, guid: 9aa89fd636eb43d45bb902ca93e942c1,
+      type: 3}
+  - id: refasset
+    prefab: {fileID: 5937763779231478682, guid: 9aa89fd636eb43d45bb902ca93e942c1,
+      type: 3}
+  - id: numspin
+    prefab: {fileID: 6974362905202252612, guid: d9b3e2d6df3195140921d72bfc7805cc,
+      type: 3}
+  compID:
+  - slider
+  - input
+  - button
+  - dropdown
+  - check
+  - btn
+  - btnbase
+  - label
+  - chk
+  - btncmb
+  - colorpicker
+  - color
+  - extasset
+  - refasset
+  - numspin
+  compPrefab:
+  - {fileID: 852732874750802316, guid: 56cc7c15bb5feed43a1ff96ac9abad5c, type: 3}
+  - {fileID: 5935678234021271584, guid: d9a92a6f59be97346a12356204283696, type: 3}
+  - {fileID: 3964166620301899938, guid: 9f9f1fdffb991d44c9f1e15deb24f66b, type: 3}
+  - {fileID: 7234976610247975526, guid: 69214373f7ab1ac44be6973181fc42e1, type: 3}
+  - {fileID: 6974362905202252612, guid: 97c62308d3be781468d4610e2dbcf2c6, type: 3}
+  - {fileID: 1627134122033186617, guid: 633b3ee3438602e4c8a0f23e69ebc751, type: 3}
+  - {fileID: 3964166620301899938, guid: 0039af5bdae5e564281cca5191dc5f60, type: 3}
+  - {fileID: 1014360858026059674, guid: 06b78484d79c5234eb1ffd1f6eae7dd5, type: 3}
+  - {fileID: 5965900068674054359, guid: 55ffbabfc4deda44ea3325e405ceff5a, type: 3}
+  - {fileID: 6410003765352803242, guid: 8c6db79c32e018c4494eabf65520c2d4, type: 3}
+  - {fileID: 618469694312764775, guid: 0c8dc67ab97f2874f831874f04c12ddd, type: 3}
+  - {fileID: 5937763779231478682, guid: 34a7be36b57895e419ad6e3d50237980, type: 3}
+  - {fileID: 5937763779231478682, guid: 9aa89fd636eb43d45bb902ca93e942c1, type: 3}
+  - {fileID: 5937763779231478682, guid: 9aa89fd636eb43d45bb902ca93e942c1, type: 3}
+  - {fileID: 6974362905202252612, guid: d9b3e2d6df3195140921d72bfc7805cc, type: 3}

@@ -1,0 +1,11 @@
+{
+    "name": "com.hooah.utility",
+    "version": "0.1.1",
+    "displayName": "[PLUGIN] Hooah Utility",
+    "description": "Hooah Components",
+    "unity": "2018.4",
+    "dependencies": {
+        "com.unity.textmeshpro": "1.4.1"
+    },
+    "keywords": ["studio", "map"]
+}

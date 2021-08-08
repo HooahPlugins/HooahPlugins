@@ -1,0 +1,111 @@
+ManifestFileVersion: 0
+CRC: 3386600695
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: fb7f6c8defcf489d8c471efa9aada04e
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb44028db33c7ad8d39c474f51751a3d
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 82
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f7346f41d61541f8b5c70fa7844661ad, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9e31758170de4be19b56cfd47a2bb1cc, type: 3}
+- Class: 114
+  Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -1200242548, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -146154839, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -2061169968, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 1367256648, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 2109663825, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -1184210157, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 058cba836c1846c3aa1c5fd2e28aea77, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 866877b3fb62488cb23fbff894205a0e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: da038aa50154471f907825d301e3514c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: e484c0961e7da9044861b23c58508da6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f9ac31c6c0fd2fa469f40cb93b0d7c46, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ccdcc6374e280e74d8b23b7cb715d3ed, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 961f6c97c1d04404c96edf1505444555, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2b3ceac78e814ff0b32597a4ca5c85af, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f25e9db8c5ee4981959d69b58223b6b0, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c9df719c4d557304e87bf1a976deca16, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: e23f941ea92949a88b835cb1fae1979a, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5e513ca09101438438871a07084c4d5c, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 223
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+- Class: 225
+  Script: {instanceID: 0}
+Assets:
+- Assets/AdvancedStudioUI/View/TabButton.prefab
+- Assets/AdvancedStudioUI/View/TabWindow.prefab
+- Assets/AdvancedStudioUI/View/FormDropdown.prefab
+- Assets/AdvancedStudioUI/View/ButtonComponent.prefab
+- Assets/AdvancedStudioUI/View/Label.prefab
+- Assets/AdvancedStudioUI/View/FormSlider.prefab
+- Assets/AdvancedStudioUI/View/ColorPickerField.prefab
+- Assets/AdvancedStudioUI/View/FormSpinner.prefab
+- Assets/AdvancedStudioUI/View/AssetField.prefab
+- Assets/AdvancedStudioUI/View/FormCheck.prefab
+- Assets/AdvancedStudioUI/View/HooahFormPrefabs.asset
+- Assets/AdvancedStudioUI/View/ColorPicker.prefab
+- Assets/AdvancedStudioUI/View/FormButtonBase.prefab
+- Assets/AdvancedStudioUI/View/FormButtonThree.prefab
+- Assets/AdvancedStudioUI/View/CombinationButton.prefab
+- Assets/AdvancedStudioUI/View/FormText.prefab
+- Assets/AdvancedStudioUI/View/CheckComponent.prefab
+- Assets/AdvancedStudioUI/View/FormButton.prefab
+Dependencies: []

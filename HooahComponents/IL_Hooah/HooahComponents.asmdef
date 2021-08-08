@@ -1,0 +1,28 @@
+{
+    "name": "HooahComponents",
+    "references": [
+        "Unity.Postprocessing.Runtime",
+        "Unity.TextMeshPro",
+        "MyBox",
+        "UniRx",
+        "HooahUtility"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor",
+        "LinuxStandalone32",
+        "LinuxStandalone64",
+        "LinuxStandaloneUniversal",
+        "macOSStandalone",
+        "WindowsStandalone64"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "MessagePack.dll",
+        "System.Memory.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

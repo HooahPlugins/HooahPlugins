@@ -1,0 +1,10 @@
+ManifestFileVersion: 0
+CRC: 3565050520
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: uiasset.assets
+      Dependencies: {}
+    Info_1:
+      Name: sdfsdf.unity3d
+      Dependencies: {}

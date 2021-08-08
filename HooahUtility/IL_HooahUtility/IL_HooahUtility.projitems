@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>c6ef468f-b4d6-4c46-bb2b-077f784741d2</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>HooahUtilityPlugin</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Constant.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\Attributes\HooahSerializeAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\Attributes\StudioReferenceAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\Formatter\UnityObjectFormatter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\HooahSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\ChlidNodeReferenceResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\FKReferenceResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\IKReferenceResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\StudioReference.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\TransformReferenceResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\InternalCacheUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\ObjectControlInfoUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\SerializationUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\String.cs" />
+  </ItemGroup>
+</Project>

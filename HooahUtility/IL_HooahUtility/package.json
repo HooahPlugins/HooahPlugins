@@ -1,0 +1,16 @@
+{
+    "name": "hooh.hooah.utility",
+    "version": "0.0.1",
+    "displayName": "Hooah Utility",
+    "description": "Hooah Utility",
+    "unity": "2018.3",
+    "dependencies": {},
+    "keywords": [
+        "legacy",
+        "studio",
+        "item",
+        "furniture",
+        "interior",
+        "exterior"
+    ]
+}
