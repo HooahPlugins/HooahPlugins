@@ -1,3 +1,5 @@
+> Repository is being setup. Please be patient.
+
 # Hooah Plugins 
 ## Hooah Components 
 
