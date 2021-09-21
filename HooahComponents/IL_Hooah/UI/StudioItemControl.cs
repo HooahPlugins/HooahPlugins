@@ -95,7 +95,6 @@ namespace AdvancedStudioUI
             _lastFailedObjects = null;
         }
 
-        // Todo: make this more responsive!
         public void MakeForm(GameObject[] gameObjects)
         {
             ColorPickerControl.Hide();

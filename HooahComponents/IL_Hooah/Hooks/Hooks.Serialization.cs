@@ -11,7 +11,8 @@ using KKAPI.Utilities;
 using Studio;
 #endif
 
-// TODO: Audit if this should be in the utilities.
+// TODO: Make the serialization process more modular
+//      Main serialization process will begin in the hooah utility.
 // TODO: also why this is in the hooah? what the fuck?
 namespace HooahComponents.Hooks
 {

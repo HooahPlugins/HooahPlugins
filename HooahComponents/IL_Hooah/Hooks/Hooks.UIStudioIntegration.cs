@@ -49,8 +49,9 @@ namespace HooahComponents.Hooks
         [HarmonyPostfix, HarmonyPatch(typeof(Studio.Studio), nameof(Studio.Studio.Duplicate))]
         public static void OnDuplicate(Studio.Studio __instance)
         {
-            // todo: support duplication selection...?
             OnDeselectStudioItem();
+            // todo: add duplicate support.
+            //          1. utility: transfer data based on the messagepack keys.
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(SystemButtonCtrl), "OnSelectInitYes")]

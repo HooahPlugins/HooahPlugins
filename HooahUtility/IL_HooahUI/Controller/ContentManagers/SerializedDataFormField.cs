@@ -30,7 +30,6 @@ namespace HooahUtility.Controller.ContentManagers
             form.AddField<CheckComponent>(UIConstant.CheckboxField, memberInfo, reference, targets, pre, post);
         }
 
-        // TODO: character reference
         public static void AddCharacterReference(SerializedDataForm form, MemberInfo memberInfo, object reference,
             object[] targets)
         {
