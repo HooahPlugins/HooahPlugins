@@ -1,9 +1,9 @@
-﻿#if UNITY_EDITOR
-using MyBox;
-#endif
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using HooahComponents;
+using HooahUtility.Model.Attribute;
 using MessagePack;
 using UniRx;
 using Unity.Collections;
@@ -12,14 +12,19 @@ using UnityEngine;
 using UnityEngine.Jobs;
 using UnityEngine.Serialization;
 using Random = System.Random;
+using ReadOnlyAttribute = Unity.Collections.ReadOnlyAttribute;
 #if AI || HS2
+using AIChara;
 using Studio;
 using HooahUtility.Model;
 using HooahUtility.Model.Attribute;
 
+#elif UNITY_EDITOR
+using MyBox;
 #endif
 
 // ReSharper disable MergeConditionalExpression
+
 
 namespace HooahComponents
 {
@@ -33,12 +38,37 @@ namespace HooahComponents
 }
 
 #if AI || HS2
+/// <list type="bullet|number|table">
+///     <listheader><index>Serialization Index</index><description>Data Description</description></listheader>
+///     <item><index>0</index><description>Dock Distance (0.1f-5.0f:2.1f)</description></item>
+///     <item><index>1</index><description>Pull Length (0.1f-5.0f:1.0f)</description></item>
+///     <item><index>2</index><description>Use Nearest Navigator (false)</description></item>
+///     <item><index>3</index><description>Use Nearest Proxy (false)</description></item>
+///     <item><index>4</index><description>Scale (0.001f-3.0f:1.0f)</description></item>
+///     <item><index>5</index><description>Use Censor Effect (false)</description></item>
+///     <item><index>50</index><description>Collider Diameter (0.01f-2.0f:1.0f)</description></item>
+///     <item><index>51</index><description>Collider Height (0.01f-2.0f:2.0f)</description></item>
+/// </list>
+/// <summary>
+///     Core controller MonoBehavior for the item.
+/// 
+/// </summary>
 public class DickController : MonoBehaviour, ISerializationCallbackReceiver, IFormData
 #else
 public class DickController : MonoBehaviour, ISerializationCallbackReceiver
 #endif
 {
+    #region Static Variables
+
     private static readonly Quaternion RotationA = Quaternion.Euler(90, 0, 0) * Quaternion.Euler(0, 90, 0);
+
+    public static HashSet<DickController> Instances = new HashSet<DickController>();
+
+    #endregion
+
+    #region Public Variables
+
+    #region Object References
 
     [Header("Audio References")] public AudioClip[] pewSounds;
     public AudioSource audioPlayer;
@@ -53,6 +83,10 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
     public Transform pullProxy;
     public Transform pullProxyRoot;
 
+    #endregion
+
+    #region Behavior Adjustment
+
     [Header("Navigation Control"), Key(0), Range(0.1f, 5)]
     public float dockDistance = 2.1f;
 
@@ -61,6 +95,7 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
 
     [FormerlySerializedAs("followClosestNavigator"), Key(2)]
     public bool useNearestNavigator;
+
     [Key(3)] public bool useNearestProxy;
 
     // Fuck you unity
@@ -73,7 +108,6 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
     [FormerlySerializedAs("_benisScale"), Key(4), Range(0.001f, 3f)]
     public float benisScale;
 
-    private bool _useCensor;
 
     [Key(5)]
     public bool UseCensorEffect
@@ -86,8 +120,129 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
         get => _useCensor;
     }
 
-    // Private stuff
+    #endregion
+
+    #region Material Adjustment
+
+    #region Material Adjustment Parameter
+
+    // Todo: integrate with other material adjustment plugins 
+    [FieldName("Rubber Opacity"), PropertyRange(0f, 1f), Key(100)]
+    public float MaterialRubberOpacity
+    {
+        get => _materialRubberOpacity;
+        set
+        {
+            _materialRubberOpacity = value;
+            UpdateMaterialFloat(MaterialRubberOpacityKey, value);
+        }
+    }
+
+    [FieldName("Border Strength"), PropertyRange(0.01f, 100f), Key(101)]
+    public float MaterialBorderStrength
+    {
+        get => _materialBorderStrength;
+        set
+        {
+            _materialBorderStrength = value;
+            UpdateMaterialFloat(MaterialBorderStrengthKey, value);
+        }
+    }
+
+    [FieldName("Border Progress"), PropertyRange(0f, 1f), Key(102)]
+    public float MaterialProgress
+    {
+        get => _materialProgress;
+        set
+        {
+            _materialProgress = value;
+            UpdateMaterialFloat(MaterialProgressKey, value);
+        }
+    }
+
+    [FieldName("Residue Scale Y"), PropertyRange(0.01f, 32f), Key(103)]
+    public float MaterialResidueScaleY
+    {
+        get => _materialResidueScaleY;
+        set
+        {
+            _materialResidueScaleY = value;
+            UpdateMaterialFloat(MaterialResidueScaleYKey, value);
+        }
+    }
+
+    [FieldName("Residue Scale X"), PropertyRange(0.01f, 32f), Key(104)]
+    public float MaterialResidueScaleX
+    {
+        get => _materialResidueScaleX;
+        set
+        {
+            _materialResidueScaleX = value;
+            UpdateMaterialFloat(MaterialResidueScaleXKey, value);
+        }
+    }
+
+    [FieldName("Residue Scale Noise"), PropertyRange(0.01f, 256f), Key(104)]
+    public float MaterialResidueScaleZ
+    {
+        get => _materialResidueScaleZ;
+        set
+        {
+            _materialResidueScaleZ = value;
+            UpdateMaterialFloat(MaterialResidueScaleZKey, value);
+        }
+    }
+
+    [FieldName("Residue Opacity"), PropertyRange(0, 1f), Key(105)]
+    public float MaterialResidueOpacity
+    {
+        get => _materialResidueOpacity;
+        set
+        {
+            _materialResidueOpacity = value;
+            UpdateMaterialFloat(MaterialResidueOpacityKey, value);
+        }
+    }
+
+    #endregion
+
+    #region Shader Keywords
+
+    private const string MaterialRubberOpacityKey = "_RubberOpacity";
+    private const string MaterialBorderStrengthKey = "_BorderStrength";
+    private const string MaterialProgressKey = "_Progress";
+    private const string MaterialResidueOpacityKey = "_ResidueIntensity";
+    private const string MaterialResidueScaleXKey = "_ResidueScaleX";
+    private const string MaterialResidueScaleYKey = "_ResidueScaleY";
+    private const string MaterialResidueScaleZKey = "_ResidueScaleZ";
+
+    #endregion
+
+    #region Private Variables
+
+    private float _materialRubberOpacity = 0f;
+    private float _materialBorderStrength = 1f;
+    private float _materialProgress;
+    private float _materialResidueOpacity = 0f;
+    private float _materialResidueScaleX = 15f;
+    private float _materialResidueScaleY = 15f;
+    private float _materialResidueScaleZ = 125f;
+
+    #endregion
+
+    private void UpdateMaterialFloat(string key, float value)
+    {
+        if (dickMesh) dickMesh.material.SetFloat(key, value);
+    }
+
+    #endregion
+
+    #endregion
+
+    #region Private Variables
+
 #pragma warning disable 169
+    private bool _useCensor;
     private readonly Random _random = new Random();
     private Animator _animator;
     private bool _canMorph;
@@ -114,6 +269,10 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
     private float _rightLength;
     private bool _lazy;
 #pragma warning restore 169
+
+    #endregion
+
+    #region In-game Parameters
 
 #if AI || HS2
     private DynamicBoneColliderBase[] _colliderBases;
@@ -168,16 +327,39 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
         foreach (var o in Studio.Studio.Instance
             .treeNodeCtrl.selectObjectCtrl
             .OfType<OCIChar>()
-            .Select(x => x.charInfo.gameObject))
-        {
-            foreach (var bones in o.GetComponentsInChildren<DynamicBone>())
-                bones.m_Colliders.AddRange(Colliders);
-        }
+            .Select(x => x.charInfo.gameObject)) RegisterCollidersWithGameObject(o);
+    }
+
+    public void RegisterCollidersWithGameObject(GameObject o)
+    {
+        foreach (var bones in o.GetComponentsInChildren<DynamicBone>())
+            bones.m_Colliders.AddRange(Colliders);
+    }
+
+    public void CollideWithCharacter(ChaControl chaControl)
+    {
+        RegisterCollidersWithGameObject(chaControl.gameObject);
     }
 #endif
 
+    #endregion
+
+    #region In-Game Logics
+
     private void Start()
     {
+        Instances.Add(this);
+
+#if AI || HS2
+        // Forgive me, father. I've sinned.
+        // But for now, I think no one will spawn more than 100 dicks in a scene.
+        if (KKAPI.KoikatuAPI.GetCurrentGameMode() == KKAPI.GameMode.Studio)
+        {
+            foreach (var ociChar in Studio.Studio.Instance.dicObjectCtrl.Values.OfType<OCIChar>())
+                CollideWithCharacter(ociChar.charInfo);
+        }
+#endif
+
         // Reference animator for sound pitch control
         _animator = GetComponent<Animator>();
 
@@ -185,6 +367,14 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
         _applyTransformJob = new ApplyTransformJob();
         _jobPosCalc = new DickPositionCalcuationJob();
         _jobCalcPull = new DickPullCalculationJob();
+
+        MaterialRubberOpacity = 0f;
+        MaterialProgress = 0.5f;
+        MaterialBorderStrength = 0.4f;
+        MaterialResidueOpacity = 0f;
+        MaterialResidueScaleX = 15f;
+        MaterialResidueScaleY = 15f;
+        MaterialResidueScaleZ = 125f;
 
         // Register shape keys to make pull proxy works
         if (_shapeGraphs == null) return;
@@ -232,7 +422,6 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
         _applyTransformJobHandle = _applyTransformJob.Schedule(_transformAccessArray, _moveHandle);
     }
 
-
     private void OnEnable()
     {
         _startPos = curveStart.transform.position;
@@ -242,7 +431,7 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
         var chainTransforms = dickChains.Select(o => o.transform).ToArray();
         _transformAccessArray = new TransformAccessArray(chainTransforms, chainTransforms.Length);
         _dickTransformTargetNative = new NativeArray<ApproachTarget>(dickChains.Length, Allocator.Persistent);
-        _factor = new NativeArray<float>(1, Allocator.Persistent) {[0] = 0f};
+        _factor = new NativeArray<float>(1, Allocator.Persistent) { [0] = 0f };
 
         Observable.IntervalFrame(10)
             .TakeUntilDisable(this)
@@ -285,10 +474,18 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
 
     private void OnDisable() => DisposeNativeJobAndArray();
 
-    private void OnDestroy() => DisposeNativeJobAndArray();
+    private void OnDestroy()
+    {
+        Instances.Remove(this);
+        DisposeNativeJobAndArray();
+    }
+
+    #endregion
+
+    #region Unity Editor Logics
 
 #if UNITY_EDITOR
-    private void EditorDrawDickChains()
+    private void EditorDrawDickChain()
     {
         if (dickChains == null) return;
         foreach (var dickChain in dickChains)
@@ -323,10 +520,14 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
 
     private void OnDrawGizmos()
     {
-        EditorDrawDickChains();
+        EditorDrawDickChain();
         EditorDrawProxy();
     }
 #endif
+
+    #endregion
+
+    #region Serialization
 
     public void OnBeforeSerialize()
     {
@@ -351,9 +552,13 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
         for (var i = _shapeGraphs.Length - 1; i >= 0; i--)
         {
             if (dataIndex[i] < 0 || dataKey[i] == null || dataCurve[i] == null) continue;
-            _shapeGraphs[i] = new VertexShapeGraph {key = dataKey[i], curve = dataCurve[i], index = dataIndex[i]};
+            _shapeGraphs[i] = new VertexShapeGraph { key = dataKey[i], curve = dataCurve[i], index = dataIndex[i] };
         }
     }
+
+    #endregion
+
+    #region Parallel Jobs
 
     private JobHandle PullFactorCalculation(Transform pullProxyTransform)
     {
@@ -455,7 +660,6 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
         }
     }
 
-
     public void PlayPew()
     {
 #if DEBUG
@@ -477,7 +681,7 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
 
     private struct ApplyTransformJob : IJobParallelForTransform
     {
-        [Unity.Collections.ReadOnly] public NativeArray<ApproachTarget> Targets;
+        [ReadOnly] public NativeArray<ApproachTarget> Targets;
 
         public void Execute(int i, TransformAccess transform)
         {
@@ -490,14 +694,14 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
     private struct DickPositionCalcuationJob : IJobParallelFor
     {
         public NativeArray<ApproachTarget> DickTransformTarget;
-        [Unity.Collections.ReadOnly] public Vector3 Start;
-        [Unity.Collections.ReadOnly] public Vector3 End;
-        [Unity.Collections.ReadOnly] public Vector3 Middle;
-        [Unity.Collections.ReadOnly] public Vector3 Right;
-        [Unity.Collections.ReadOnly] public float ChainsLength;
-        [Unity.Collections.ReadOnly] public float BenisScale;
-        [Unity.Collections.ReadOnly] public float LeftLength;
-        [Unity.Collections.ReadOnly] public float RightLength;
+        [ReadOnly] public Vector3 Start;
+        [ReadOnly] public Vector3 End;
+        [ReadOnly] public Vector3 Middle;
+        [ReadOnly] public Vector3 Right;
+        [ReadOnly] public float ChainsLength;
+        [ReadOnly] public float BenisScale;
+        [ReadOnly] public float LeftLength;
+        [ReadOnly] public float RightLength;
 
 
         private static Vector3 Linear(Vector3 p0, Vector3 p1, Vector3 p2, float left, float right, float length,
@@ -531,12 +735,12 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
 
     private struct DickPullCalculationJob : IJob
     {
-        [Unity.Collections.ReadOnly] public Vector3 Root;
-        [Unity.Collections.ReadOnly] public Vector3 Target;
+        [ReadOnly] public Vector3 Root;
+        [ReadOnly] public Vector3 Target;
         public NativeArray<float> Factor;
-        [Unity.Collections.ReadOnly] public float PullLength;
-        [Unity.Collections.ReadOnly] public float BenisScale;
-        [Unity.Collections.ReadOnly] public Vector3 Up;
+        [ReadOnly] public float PullLength;
+        [ReadOnly] public float BenisScale;
+        [ReadOnly] public Vector3 Up;
 
         public void Execute()
         {
@@ -544,4 +748,6 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
                 / PullLength * BenisScale + 1) / 2;
         }
     }
+
+    #endregion
 }

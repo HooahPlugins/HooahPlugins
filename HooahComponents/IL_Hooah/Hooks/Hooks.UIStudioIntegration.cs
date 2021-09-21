@@ -16,8 +16,8 @@ namespace HooahComponents.Hooks
             if (treeNodeCtrl == null)
             {
                 return;
-            };
-            
+            }
+
             treeNodeCtrl.onSelect += OnSelectStudioItem;
             treeNodeCtrl.onSelectMultiple += OnSelectStudioItem;
             treeNodeCtrl.onDelete += OnDeselectStudioItem;

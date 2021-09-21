@@ -47,12 +47,15 @@ namespace HooahComponents.Hooks
             var selectedObjects = instance.treeNodeCtrl.selectObjectCtrl
                 .Select(x =>
                 {
-                    return x switch
+                    switch (x)
                     {
-                        OCIItem item => item.objectItem,
-                        OCILight light => light.objectLight,
-                        _ => null
-                    };
+                        case OCIItem item:
+                            return item.objectItem;
+                        case OCILight light:
+                            return light.objectLight;
+                        default:
+                            return null;
+                    }
                 }).Where(x => x != null).ToArray();
 
 

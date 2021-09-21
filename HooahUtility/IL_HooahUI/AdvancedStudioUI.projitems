@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\MultiOptionButtonComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\OverridePropertyComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\PagedListComponent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\ListSpinnerComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\SpinnerComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\TextureSelectComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\ContentManagers\SerializedDataFormField.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\Attribute\NumberSpinnerAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Attribute\PropertyRangeAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Class\ColorReference.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Constant.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\Attributes\HooahSerializeAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\Attributes\StudioReferenceAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\Formatter\UnityHackResolver.cs" />
@@ -57,6 +59,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\Formatter\UnityObjectResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\Formatter\UnityObjectResolverGetFormatterHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\HooahSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\CharacterReference.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\ChlidNodeReferenceResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\FKReferenceResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\IKReferenceResolver.cs" />
@@ -72,6 +75,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\ObjectControlInfoUtility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\SerializationUtility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StringUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\StudioReferenceUtility.cs" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)CompileResource/uiasset.assets" />
   </ItemGroup>
   <ItemGroup>

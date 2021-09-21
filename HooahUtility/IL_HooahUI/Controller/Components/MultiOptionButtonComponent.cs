@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using HooahUtility.AdvancedStudioUI;
+using HooahUtility.AdvancedStudioUI.Constant;
 using HooahUtility.Service;
 using TMPro;
 using UnityEngine;
@@ -43,7 +44,7 @@ namespace HooahUtility.Controller.Components
             var div = 1f / options.Length;
             _checks = options.Select((title, i) =>
             {
-                if (!AssetManager.TryMakeUIPrefab("chk", out var check, checkParent)) return default;
+                if (!AssetManager.TryMakeUIPrefab(UIConstant.Checkbox, out var check, checkParent)) return default;
                 UIUtility.ScaleAsGrid(check, i, div);
                 return new Option(
                     check.GetComponentInChildren<TMP_Text>(),

@@ -3,17 +3,18 @@ using System.Linq;
 using System.Reflection;
 using AdvancedStudioUI;
 using HooahComponents.Configuration;
+using HooahComponents.Hooks;
 using HooahUtility.Controller.ContentManagers;
 using HooahUtility.Service;
 using UnityEngine;
 #if AI || HS2
-using AIProject;
 using KKAPI.Studio;
 using KKAPI.Studio.UI;
 using KKAPI.Utilities;
 using Studio;
 
 #endif
+
 namespace HooahComponents.Utility
 {
     public static class UIIntegration
@@ -84,11 +85,11 @@ namespace HooahComponents.Utility
 
         public static void SetupConfigTabContent(SerializedDataForm form)
         {
-            form.AddButton("Save Global Config", Hooks.Serialization.SaveAllConfigs);
+            form.AddButton("Save Global Config", Serialization.SaveAllConfigs);
             form.AddButton("Load Global Config", () =>
             {
                 form.RemoveAllFields();
-                Hooks.Serialization.LoadAllConfigs();
+                Serialization.LoadAllConfigs();
                 SetupConfigTabContent(form);
             });
 
@@ -102,15 +103,16 @@ namespace HooahComponents.Utility
         public static void InitializeSceneTab(StudioItemControl self, TabbedContentControl content)
         {
             var form = self.CreateTab("scene", "Scene");
-            var instance = new SceneConfigManager();
-            form.AddButton("Set Selected Folder as Camera Folder", () =>
-            {
-                var folder = Studio.Studio.Instance.treeNodeCtrl.selectObjectCtrl.OfType<OCIFolder>().FirstOrDefault();
-                if (folder != null)
-                {
-                    instance.Config.MainCameraFolder.AssignReference(folder);
-                }
-            });
+            // todo: remake this  working good
+            // var instance = new SceneConfigManager();
+            // form.AddButton("Set Selected Folder as Camera Folder", () =>
+            // {
+            //     var folder = Studio.Studio.Instance.treeNodeCtrl.selectObjectCtrl.OfType<OCIFolder>().FirstOrDefault();
+            //     if (folder != null)
+            //     {
+            //         instance.Config.MainCameraFolder.AssignReference(folder);
+            //     }
+            // });
 
             form.AddButton("Collide with Character Colliders", () =>
             {

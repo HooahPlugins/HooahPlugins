@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections;
-using HooahComponents;
-using HooahUtility.Model;
-using UniRx;
+﻿using HooahUtility.Model;
 using UnityEngine;
 #if AI || HS2
 using System.Collections.Generic;
-using AIChara;
 
 #endif
 
@@ -22,30 +17,27 @@ public class HijackLook : MonoBehaviour
 
     private EyeLookController _lastEyeLookCtrl;
 
-    private void Awake()
-    {
-    }
-
     private void OnDestroy()
     {
-        if (targetCharacter != null)
-            _updatePositions.Remove(targetCharacter.eyeLookCtrl);
+        if (!IsReferenceValid())
+            _updatePositions.Remove(TargetCharacter.eyeLookCtrl);
     }
 
     private void Update()
     {
-        if (targetCharacter == null) return;
+        if (!IsReferenceValid()) return;
         var p = transform.position;
-        _updatePositions[targetCharacter.eyeLookCtrl] = p;
+        _updatePositions[TargetCharacter.eyeLookCtrl] = p;
     }
 
-    
+
     protected override void OnChangeCharacterReference()
     {
-        if (_lastEyeLookCtrl != null && targetCharacter.eyeLookCtrl == null)
+        if (!IsReferenceValid()) return;
+        if (_lastEyeLookCtrl != null && TargetCharacter.eyeLookCtrl == null)
             _updatePositions.Remove(_lastEyeLookCtrl);
-        
-        _lastEyeLookCtrl = targetCharacter.eyeLookCtrl;
+
+        _lastEyeLookCtrl = TargetCharacter.eyeLookCtrl;
     }
 #endif
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using HooahUtility.AdvancedStudioUI.Constant;
 using HooahUtility.AdvancedStudioUI.Model.Class;
 using HooahUtility.Service;
 using HooahUtility.Utility;
@@ -12,6 +13,7 @@ using UnityEngine.UI;
 
 #if AI || HS2
 using KKAPI.Utilities;
+
 #else
 #endif
 
@@ -47,7 +49,7 @@ namespace AdvancedStudioUI
         {
             if (instance != null) return instance;
             AssetManager.TryMakeUIPrefab(
-                "colorpicker",
+                UIConstant.ColorPicker,
                 out var picker,
                 CanvasManager.Canvas.transform);
             instance = picker.GetComponent<ColorPickerControl>();
@@ -84,17 +86,17 @@ namespace AdvancedStudioUI
          */
         public Dictionary<PickerType, PickerData> Pickers = new Dictionary<PickerType, PickerData>
         {
-            {PickerType.Main, new PickerData {PickerType = PickerType.Main, Direction = PickerDirection.Universal}},
-            {PickerType.R, new PickerData {PickerType = PickerType.R, Direction = PickerDirection.Horizontal}},
-            {PickerType.G, new PickerData {PickerType = PickerType.G, Direction = PickerDirection.Horizontal}},
-            {PickerType.B, new PickerData {PickerType = PickerType.B, Direction = PickerDirection.Horizontal}},
+            { PickerType.Main, new PickerData { PickerType = PickerType.Main, Direction = PickerDirection.Universal } },
+            { PickerType.R, new PickerData { PickerType = PickerType.R, Direction = PickerDirection.Horizontal } },
+            { PickerType.G, new PickerData { PickerType = PickerType.G, Direction = PickerDirection.Horizontal } },
+            { PickerType.B, new PickerData { PickerType = PickerType.B, Direction = PickerDirection.Horizontal } },
             {
                 PickerType.A,
-                new PickerData {PickerType = PickerType.A, Direction = PickerDirection.Horizontal, IsAlpha = true}
+                new PickerData { PickerType = PickerType.A, Direction = PickerDirection.Horizontal, IsAlpha = true }
             },
-            {PickerType.H, new PickerData {PickerType = PickerType.H, Direction = PickerDirection.Horizontal}},
-            {PickerType.S, new PickerData {PickerType = PickerType.S, Direction = PickerDirection.Horizontal}},
-            {PickerType.V, new PickerData {PickerType = PickerType.V, Direction = PickerDirection.Horizontal}},
+            { PickerType.H, new PickerData { PickerType = PickerType.H, Direction = PickerDirection.Horizontal } },
+            { PickerType.S, new PickerData { PickerType = PickerType.S, Direction = PickerDirection.Horizontal } },
+            { PickerType.V, new PickerData { PickerType = PickerType.V, Direction = PickerDirection.Horizontal } },
             {
                 PickerType.Preview,
                 new PickerData
@@ -332,7 +334,7 @@ namespace AdvancedStudioUI
             {
                 case 0:
                 case 1:
-                    mode = (MainPickingMode) pickingMode;
+                    mode = (MainPickingMode)pickingMode;
                     break;
                 case 2:
                     mode = MainPickingMode.SV;

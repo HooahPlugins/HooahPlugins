@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using HooahUtility.Model;
 using HooahUtility.Serialization.Formatter;
+using HooahUtility.Serialization.StudioReference;
 using MessagePack;
 using UnityEngine;
 
@@ -76,18 +77,18 @@ namespace Utility
 
         public static byte[] Serialize(Type type, object value)
         {
-            var parameters = new[] {value, UnityHackResolver.Instance};
+            var parameters = new[] { value, UnityHackResolver.Instance };
             if (serializationMethodInfo.TryGetValue(type, out var method))
-                return (byte[]) method.Invoke(null, parameters);
+                return (byte[])method.Invoke(null, parameters);
 
             method = _serialize.MakeGenericMethod(type);
             serializationMethodInfo[type] = method;
-            return (byte[]) method.Invoke(null, parameters);
+            return (byte[])method.Invoke(null, parameters);
         }
 
         public static object Deserialize(Type type, byte[] bytes)
         {
-            var parameters = new object[] {bytes, UnityHackResolver.Instance};
+            var parameters = new object[] { bytes, UnityHackResolver.Instance };
             if (deserializationMethodInfo.TryGetValue(type, out var method))
                 return method.Invoke(null, parameters);
 
@@ -104,6 +105,7 @@ namespace Utility
                     switch (x.Value)
                     {
                         case FieldInfo fieldInfo:
+                            // if field have some special shits then ...
                             return new KeyValuePair<object, object>(x.Key,
                                 Serialize(fieldInfo.FieldType, fieldInfo.GetValue(component)));
                         case PropertyInfo propertyInfo:
@@ -125,12 +127,12 @@ namespace Utility
         {
             if (component == null) return;
             var serializableFields = GetAllSerializableFields(component);
-            
+
             foreach (var keyValuePair in MessagePackSerializer.Deserialize<Dictionary<object, object>>(bytes,
                 UnityHackResolver.Instance))
             {
                 if (!serializableFields.TryGetValue(keyValuePair.Key, out var memberInfo)) continue;
-                
+
                 if (version == 0)
                 {
                     switch (memberInfo)
@@ -158,6 +160,25 @@ namespace Utility
                     }
                 }
             }
+        }
+
+        public static bool TryCastMember<T>(this MemberInfo memberInfo, object reference, out T chaRef) where T : class
+        {
+            chaRef = default(T);
+
+            switch (memberInfo)
+            {
+                case FieldInfo fieldInfo:
+                    chaRef = fieldInfo.GetValue(reference) as T;
+                    break;
+                case PropertyInfo propertyInfo:
+                    chaRef = propertyInfo.GetValue(reference) as T;
+                    break;
+                default:
+                    return false;
+            }
+
+            return (chaRef != null);
         }
     }
 }

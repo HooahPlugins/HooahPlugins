@@ -1,20 +1,17 @@
 ﻿using System.Collections.Generic;
 using HooahUtility.Model;
-using HooahUtility.Model.Attribute;
 using UniRx;
 using UnityEngine;
 using IK = HooahComponents.Hooks.IK;
 #if AI || HS2
 using System;
 using System.Linq;
-using AIChara;
-using HooahComponents;
 using HooahUtility.Utility;
 using MessagePack;
 using RootMotion.FinalIK;
-using Studio;
 
 #endif
+
 #if AI || HS2
 public class IKAnchor : CharacterGimmickBase, IFormData
 #else
@@ -47,14 +44,15 @@ public class IKAnchor : MonoBehaviour, IFormData
 
     protected override void OnChangeCharacterReference()
     {
-        _ikGuideObjects = ObjectControlInfoUtility.GetIKTargets(targetOci)
+        if (!IsReferenceValid()) return;
+        _ikGuideObjects = ObjectControlInfoUtility.GetIKTargets(TargetOci)
             .ToDictionary(x => x.baseObject.name, x => x.targetObject);
         RenewWatch();
     }
 
     private void RenewWatch()
     {
-        _ik = targetOci.finalIK.solver;
+        _ik = TargetOci.finalIK.solver;
         _observ?.Dispose();
         _observ = IK.preSolver.Where(x => x != null && _ik == x)
             .TakeUntilDestroy(this)
@@ -80,7 +78,7 @@ public class IKAnchor : MonoBehaviour, IFormData
         if (useRotate) e.GetNode(solver).solverRotation = rt;
     }
 
-    private void ManipulateFeetsEffector(IKSolverFullBodyBiped solver, bool isLeft, Vector3 p, Vector3 r, Quaternion rt)
+    private void ManipulateFootEffector(IKSolverFullBodyBiped solver, bool isLeft, Vector3 p, Vector3 r, Quaternion rt)
     {
         var e = isLeft ? solver.leftFootEffector : solver.rightFootEffector;
         e.position = isLeft ? p + -r : p + r;
@@ -89,13 +87,13 @@ public class IKAnchor : MonoBehaviour, IFormData
 
     private void UpdatePosition()
     {
-        if (targetCharacter == null || _ikGuideObjects == null || _ikGuideObjects.Count == 0) return;
+        if (!IsReferenceValid() || _ikGuideObjects == null || _ikGuideObjects.Count == 0) return;
 
         var t = transform;
         var r = t.right * t.localScale.magnitude;
         var p = t.position;
         var rt = t.rotation;
-        var solver = targetCharacter.fullBodyIK.solver;
+        var solver = TargetCharacter.fullBodyIK.solver;
         switch (_bindingMethod)
         {
             case BindingMethod.None:
@@ -127,14 +125,14 @@ public class IKAnchor : MonoBehaviour, IFormData
                 ManipulateHandsEffector(solver, false, p, r, rt);
                 break;
             case BindingMethod.FootLR:
-                ManipulateFeetsEffector(solver, true, p, r, rt);
-                ManipulateFeetsEffector(solver, false, p, r, rt);
+                ManipulateFootEffector(solver, true, p, r, rt);
+                ManipulateFootEffector(solver, false, p, r, rt);
                 break;
             case BindingMethod.FootL:
-                ManipulateFeetsEffector(solver, true, p, Vector3.zero, rt);
+                ManipulateFootEffector(solver, true, p, Vector3.zero, rt);
                 break;
             case BindingMethod.FootR:
-                ManipulateFeetsEffector(solver, false, p, Vector3.zero, rt);
+                ManipulateFootEffector(solver, false, p, Vector3.zero, rt);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

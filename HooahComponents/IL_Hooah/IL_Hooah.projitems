@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DickPuller.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HijackLook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HijackNeck.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.KKAPI.HooahController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.IK.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.Serialization.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.SkinnedBones.cs" />
@@ -45,6 +46,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)StudioExtension\ExtendedStudioItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StudioExtension\MaterialPresetGroup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\StudioItemControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\ItemAdjustment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\PluginConstant.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\SkinnedBones.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StudioMacros.cs" />

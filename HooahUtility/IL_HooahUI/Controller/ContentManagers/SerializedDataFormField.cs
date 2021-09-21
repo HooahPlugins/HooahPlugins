@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using HooahUtility.AdvancedStudioUI;
+using HooahUtility.AdvancedStudioUI.Constant;
 using HooahUtility.Controller.Components;
 using HooahUtility.Model.Attribute;
+using HooahUtility.Serialization.StudioReference;
 using HooahUtility.Service;
 using MessagePack;
 using TMPro;
@@ -13,8 +14,10 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 #if AI || HS2
+using HooahUtility.Utility;
 using KKAPI.Utilities;
-
+using Studio;
+using Utility;
 #endif
 
 namespace HooahUtility.Controller.ContentManagers
@@ -24,19 +27,62 @@ namespace HooahUtility.Controller.ContentManagers
         public static void AddCheckField(SerializedDataForm form, MemberInfo memberInfo, object reference,
             object[] targets, Action pre = null, Action post = null)
         {
-            form.AddField<CheckComponent>("check", memberInfo, reference, targets, pre, post);
+            form.AddField<CheckComponent>(UIConstant.CheckboxField, memberInfo, reference, targets, pre, post);
+        }
+
+        // TODO: character reference
+        public static void AddCharacterReference(SerializedDataForm form, MemberInfo memberInfo, object reference,
+            object[] targets)
+        {
+#if HS2 || AI
+            var listSpinnerComponent = form.AddFieldComponent<ListSpinnerComponent>(UIConstant.ListSpinnerField);
+
+            listSpinnerComponent.CallbackSetValue = value =>
+            {
+                if (targets.Length > 1)
+                {
+                    foreach (var target in targets)
+                    {
+                        if (!memberInfo.TryCastMember<CharacterReference>(target, out var chaRef)) continue;
+                        chaRef.DicKey = value;
+                        listSpinnerComponent.SetText(chaRef.CharName);
+                    }
+                }
+                else
+                {
+                    if (!memberInfo.TryCastMember<CharacterReference>(reference, out var chaRef)) return;
+                    chaRef.DicKey = value;
+                    listSpinnerComponent.SetText(chaRef.CharName);
+                }
+            };
+            listSpinnerComponent.CallbackGetValue = () =>
+            {
+                if (memberInfo.TryCastMember<CharacterReference>(reference, out var chaRef))
+                    return chaRef.DicKey;
+                return -1;
+            };
+            listSpinnerComponent.CallbackGetNextValue = StudioReferenceUtility.GetNextTypeKey<OCIChar>;
+            listSpinnerComponent.CallbackGetPrevValue = StudioReferenceUtility.GetPrevTypeKey<OCIChar>;
+            listSpinnerComponent.Initialize();
+            listSpinnerComponent.SetTitle(memberInfo);
+
+            if (memberInfo.TryCastMember<CharacterReference>(reference, out var cr))
+                listSpinnerComponent.SetText(cr.CharName);
+            else
+                listSpinnerComponent.SetText("Not Assigned");
+#endif
         }
 
         public static void AddEnumDropdown(SerializedDataForm form, MemberInfo memberInfo, object reference,
             object[] targets, Action pre = null, Action post = null)
         {
-            form.AddField<DropdownComponent>("dropdown", memberInfo, reference, targets, pre, post);
+            form.AddField<DropdownComponent>(UIConstant.DropdownField, memberInfo, reference, targets, pre, post);
         }
 
         public static void AddTextField(SerializedDataForm form, MemberInfo memberInfo, object reference,
             object[] targets, Action pre = null, Action post = null)
         {
-            form.AddField<TextComponent>("input", memberInfo, reference, targets, pre, post);
+            form.AddField<TextComponent>(UIConstant.InputField, memberInfo, reference, targets, pre, post);
         }
 
         public static void AddNumericField(SerializedDataForm form, MemberInfo memberInfo, object reference,
@@ -49,16 +95,18 @@ namespace HooahUtility.Controller.ContentManagers
                 switch (customAttribute)
                 {
                     case NumberSpinnerAttribute ___:
-                        form.AddField<SpinnerComponent>("numspin", memberInfo, reference, targets, pre, post);
+                        form.AddField<SpinnerComponent>(UIConstant.NumberSpinnerField, memberInfo, reference, targets,
+                            pre, post);
                         return;
                     case RangeAttribute _:
                     case PropertyRangeAttribute __:
-                        form.AddField<SliderComponent>("slider", memberInfo, reference, targets, pre, post);
+                        form.AddField<SliderComponent>(UIConstant.SliderField, memberInfo, reference, targets, pre,
+                            post);
                         return;
                 }
             }
 
-            form.AddField<TextComponent>("input", memberInfo, reference, targets, pre, post);
+            form.AddField<TextComponent>(UIConstant.InputField, memberInfo, reference, targets, pre, post);
         }
 
         public static void AddVectorField(SerializedDataForm form, MemberInfo memberInfo, object reference,
@@ -69,7 +117,7 @@ namespace HooahUtility.Controller.ContentManagers
         public static void AddColorField(SerializedDataForm form, MemberInfo memberInfo, object reference,
             object[] targets, Action pre = null, Action post = null)
         {
-            form.AddField<ColorPickerComponent>("color", memberInfo, reference, targets, pre, post);
+            form.AddField<ColorPickerComponent>(UIConstant.ColorField, memberInfo, reference, targets, pre, post);
         }
 
         public static void AddPresetField(SerializedDataForm form, MemberInfo memberInfo, object reference,
@@ -81,7 +129,8 @@ namespace HooahUtility.Controller.ContentManagers
             object[] targets, Action pre = null, Action post = null)
         {
             // load predefined list if it requires fixed asset.
-            form.AddField<AssetSelectComponent>("extasset", memberInfo, reference, targets, pre, post);
+            form.AddField<AssetSelectComponent>(UIConstant.ExternalAssetWindow, memberInfo, reference, targets, pre,
+                post);
         }
 
         public List<GameObject> InitializedFields = new List<GameObject>();
@@ -117,6 +166,14 @@ namespace HooahUtility.Controller.ContentManagers
             return true;
         }
 
+        public T AddFieldComponent<T>(string assetKey)
+        {
+            if (!InstantiateBase(assetKey, out var clone)) return default(T);
+            var component = clone.GetComponent<T>();
+            InitializedFields.Add(clone);
+            return component;
+        }
+
         public T AddField<T>(string assetKey, MemberInfo info, object reference, object[] targets,
             Action pre = null, Action post = null)
             where T : FormComponentBase
@@ -150,7 +207,7 @@ namespace HooahUtility.Controller.ContentManagers
 
         public Button AddButton(string text, UnityAction callback)
         {
-            if (!InstantiateBase("button", out var clone)) return null;
+            if (!InstantiateBase(UIConstant.ButtonField, out var clone)) return null;
             var uiButton = clone.GetComponentInChildren<Button>();
             var uiText = clone.GetComponentInChildren<TMP_Text>();
             uiButton.onClick.AddListener(callback);
@@ -174,29 +231,30 @@ namespace HooahUtility.Controller.ContentManagers
         public void AddOptionButton(string buttonName, string[] options, UnityAction<bool[]> callback)
         {
             if (options == null || options.Length <= 0) return;
-            if (!InstantiateBase("btncmb", out var btn)) return;
+            if (!InstantiateBase(UIConstant.ButtonCombined, out var btn)) return;
             var btnComponent = btn.GetComponentInChildren<MultiOptionButtonComponent>();
             btnComponent.SetOptions(buttonName, options, callback);
         }
 
         private const float ButtonGroupMargin = 5f;
 
+
         public void AddButtonGroup(string groupName, params ButtonArgument[] buttons)
         {
             if (buttons == null) return;
             if (buttons.Length <= 0) return;
 
-            if (!InstantiateBase("label", out var label)) return;
+            if (!InstantiateBase(UIConstant.LabelComponent, out var label)) return;
             var text = label.GetComponentInChildren<TMP_Text>();
             if (text != null) text.text = groupName;
 
-            if (!InstantiateBase("btnbase", out var clone)) return;
+            if (!InstantiateBase(UIConstant.ButtonBaseComponent, out var clone)) return;
             var transform = clone.transform;
             var div = 1f / buttons.Length;
 
             for (var i = 0; i < buttons.Length; i++)
             {
-                if (!AssetManager.TryMakeUIPrefab("btn", out var element, transform)) continue;
+                if (!AssetManager.TryMakeUIPrefab(UIConstant.Button, out var element, transform)) continue;
 
                 var args = buttons[i];
                 var uiButton = element.GetComponent<Button>();
@@ -286,6 +344,9 @@ namespace HooahUtility.Controller.ContentManagers
                     break;
                 case var type when type == typeof(Texture) || type == typeof(Material):
                     AddExternalReferenceField(this, memberInfo, _reference, _targets, preAssign, postAssign);
+                    break;
+                case var type when type == typeof(CharacterReference):
+                    AddCharacterReference(this, memberInfo, _reference, _targets);
                     break;
                 // Studio Reference Proxy
                 // External Resource Parser

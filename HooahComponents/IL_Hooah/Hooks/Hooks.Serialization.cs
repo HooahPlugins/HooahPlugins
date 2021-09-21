@@ -6,14 +6,13 @@ using SerializationUtility = Utility.SerializationUtility;
 using ExtensibleSaveFormat;
 using HooahComponents.Configuration;
 using HooahUtility.Model;
-using HooahUtility.Serialization;
 using KKAPI.Studio.SaveLoad;
 using KKAPI.Utilities;
 using Studio;
-using Utility;
 #endif
 
 // TODO: Audit if this should be in the utilities.
+// TODO: also why this is in the hooah? what the fuck?
 namespace HooahComponents.Hooks
 {
     public static class Serialization
@@ -22,6 +21,7 @@ namespace HooahComponents.Hooks
         private const int ConfigDataVersion = 1; // config manager data version
         private const int NodeDataVersion = 1; // node data version
 
+        // the bruh moment
         public static string ConfigPath => Path.Combine(Path.GetFullPath("./UserData"), "Hooah", "config.dat");
 
         public class Controller : SceneCustomFunctionController
@@ -76,11 +76,7 @@ namespace HooahComponents.Hooks
                     bytesMap[x.Key.ToString()] = bytes;
                 }
 
-                SetExtendedData(new PluginData
-                {
-                    data = bytesMap,
-                    version = NodeDataVersion 
-                });
+                SetExtendedData(new PluginData { data = bytesMap, version = NodeDataVersion });
             }
         }
 
@@ -122,15 +118,25 @@ namespace HooahComponents.Hooks
             {
                 b.Write(ConfigDataVersion);
 
+                // todo: make the data serialization writer modular 
+
+                #region Write Configuration Data
+
                 var hooahConf = HooahConfigManger.Instance.SerializeConfig();
                 b.Write("HC");
                 b.Write(hooahConf.Length);
                 b.Write(hooahConf);
 
+                #endregion
+
+                #region Write Aura Data
+
                 var auraConf = AuraConfigManager.Instance.SerializeConfig();
                 b.Write("AU");
                 b.Write(auraConf.Length);
                 b.Write(auraConf);
+
+                #endregion
             }
         }
 #endif

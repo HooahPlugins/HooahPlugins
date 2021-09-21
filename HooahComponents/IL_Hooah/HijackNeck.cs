@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using HooahComponents;
 using HooahUtility.Model;
 using HooahUtility.Model.Attribute;
 using MessagePack;
 using UnityEngine;
 #if AI || HS2
-using System.Collections;
-using AIChara;
 
 #endif
+
 #if AI || HS2
 public class HijackNeck : CharacterGimmickBase, IFormData
 #else
@@ -22,7 +19,7 @@ public class HijackNeck : MonoBehaviour
 
     private NeckLookControllerVer2 _lastNeckLookCtrl;
 
-    [Key(0), PropertyRange(0.01f, 10f)]
+    [Key(10), PropertyRange(0.01f, 10f)]
     public float Rate
     {
         get => _rate;
@@ -36,21 +33,17 @@ public class HijackNeck : MonoBehaviour
 
     private float _rate;
 
-    private void Awake()
-    {
-    }
-
     private void OnDestroy()
     {
-        if (targetCharacter != null)
-            Release();
+        if (!IsReferenceValid()) return;
+        Release();
     }
 
     private void Update()
     {
-        if (targetCharacter == null) return;
+        if (!IsReferenceValid()) return;
         var p = transform.position;
-        _updatePositions[targetCharacter.neckLookCtrl] = p;
+        _updatePositions[TargetCharacter.neckLookCtrl] = p;
     }
 
     private void Release()
@@ -59,12 +52,14 @@ public class HijackNeck : MonoBehaviour
         _lastNeckLookCtrl.neckLookScript.neckTypeStates[1].leapSpeed = 2;
     }
 
+
     protected override void OnChangeCharacterReference()
     {
-        if (_lastNeckLookCtrl != null && targetCharacter.eyeLookCtrl == null)
+        if (!IsReferenceValid()) return;
+        if (_lastNeckLookCtrl != null && TargetCharacter.eyeLookCtrl == null)
             Release();
 
-        _lastNeckLookCtrl = targetCharacter.neckLookCtrl;
+        _lastNeckLookCtrl = TargetCharacter.neckLookCtrl;
     }
 #endif
 }

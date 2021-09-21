@@ -4,6 +4,7 @@ using HooahUtility.Controller.Components;
 using HooahUtility.Utility;
 using UnityEngine;
 #if AI || HS2
+using HooahUtility.AdvancedStudioUI.Constant;
 using Studio;
 
 #endif
@@ -71,18 +72,18 @@ namespace HooahComponents.Utility
         public static void InitializeMacroTab(StudioItemControl self, TabbedContentControl content)
         {
             var form = self.CreateTab("macro", "Macros");
-            form.AddField<SliderComponent>("slider", typeof(StudioMacros), "RandomizeRange");
+            form.AddField<SliderComponent>(UIConstant.SliderField, typeof(StudioMacros), "RandomizeRange");
             form.AddOptionButton(
                 "Object",
-                new[] {"+", "X", "Y", "Z"},
+                new[] { "+", "X", "Y", "Z" },
                 options => RandomizeRotation(options[0], options[1], options[2], options[3]));
             form.AddOptionButton(
                 "FK",
-                new[] {"+", "X", "Y", "Z"},
+                new[] { "+", "X", "Y", "Z" },
                 options => IterateFkAxis(options[0], options[1], options[2], options[3]));
             form.AddOptionButton(
                 "Color",
-                new[] {"R", "G", "B", "A"},
+                new[] { "R", "G", "B", "A" },
                 options => IterateRandomColor(options[0], options[1], options[2], options[3]));
         }
 #endif

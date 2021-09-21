@@ -1,52 +1,31 @@
-﻿#if AI || HS2
-using System;
-using System.Linq;
+﻿
+using UnityEngine;
+#if AI || HS2
 using AIChara;
-using HooahUtility.Model.Attribute;
-using HooahUtility.Utility;
+using HooahUtility.Serialization.StudioReference;
 using MessagePack;
 using Studio;
+using UniRx;
 #endif
-using UnityEngine;
 
 public abstract class CharacterGimmickBase : MonoBehaviour
 {
 #if AI || HS2
-    private int _characterIndex;
-    protected ChaControl targetCharacter;
-    protected OCIChar targetOci;
+    protected ChaControl TargetCharacter => (CharacterIndex?.ChaControl);
+    protected OCIChar TargetOci => (CharacterIndex?.Reference as OCIChar);
 
-    [Key(1), NumberSpinner]
-    public int CharacterIndex
+    [Key(1)] public CharacterReference CharacterIndex = new CharacterReference();
+
+    private void Start()
     {
-        get => _characterIndex;
-        set
-        {
-            var characters = Singleton<Studio.Studio>.Instance.dicObjectCtrl
-                .Select(x => x.Value)
-                .OfType<OCIChar>()
-                .ToArray();
+        this.ObserveEveryValueChanged(x => x.TargetOci)
+            .TakeUntilDestroy(this)
+            .Subscribe(_ => OnChangeCharacterReference());
+    }
 
-            try
-            {
-                if (characters.Length <= 0)
-                {
-                    _characterIndex = -1;
-                }
-                else
-                {
-                    _characterIndex = value % characters.Length;
-                    targetOci = characters[_characterIndex];
-                    targetCharacter = targetOci.charInfo;
-                    OnChangeCharacterReference();
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e);
-                _characterIndex = -2;
-            }
-        }
+    public virtual bool IsReferenceValid()
+    {
+        return TargetCharacter != null;
     }
 
     protected abstract void OnChangeCharacterReference();

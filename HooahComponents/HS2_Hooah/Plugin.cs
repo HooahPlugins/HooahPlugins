@@ -6,6 +6,7 @@ using HooahComponents.Configuration;
 using HooahComponents.Hooks;
 using HooahComponents.Utility;
 using KKAPI;
+using KKAPI.Chara;
 using KKAPI.Studio.SaveLoad;
 using UnityEngine; // using HooahUtility.Service;
 
@@ -32,6 +33,7 @@ namespace HooahComponents
             yield return UIIntegration.InitializeCoroutine();
             yield return new WaitUntil(() => UIIntegration.Loaded);
             StudioSaveLoadApi.RegisterExtraBehaviour<Serialization.Controller>(PluginConstant.GUID);
+            CharacterApi.RegisterExtraBehaviour<HooahCharacterController>(PluginConstant.GUID);
         }
         
         public static ManualLogSource HooahLogger { get; private set; }

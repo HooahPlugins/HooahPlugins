@@ -60,23 +60,21 @@ namespace HooahSmugFace.IL_HooahSmugFace.Data
 
         public static void CacheOriginalMesh(int key, CmpFace face)
         {
-            if (!OriginalVertexRegistry.ContainsKey(key))
-            {
-                OriginalVertexRegistry[key] = TargetMeshes(face)
-                    .Where(x => MeshToFace.ContainsKey(x.name))
-                    .ToDictionary(
-                        smr => MeshToFace[smr.name],
-                        smr =>
+            if (!OriginalVertexRegistry.ContainsKey(key)) return;
+            OriginalVertexRegistry[key] = TargetMeshes(face)
+                .Where(x => MeshToFace.ContainsKey(x.name))
+                .ToDictionary(
+                    smr => MeshToFace[smr.name],
+                    smr =>
+                    {
+                        Mesh sharedMesh;
+                        return new OriginalVertex()
                         {
-                            Mesh sharedMesh;
-                            return new OriginalVertex()
-                            {
-                                Position = (sharedMesh = smr.sharedMesh).vertices,
-                                Normal = sharedMesh.normals,
-                                Tangent = sharedMesh.tangents
-                            };
-                        });
-            }
+                            Position = (sharedMesh = smr.sharedMesh).vertices,
+                            Normal = sharedMesh.normals,
+                            Tangent = sharedMesh.tangents
+                        };
+                    });
         }
 
         public static bool TryGetData(int key, out List<FaceData> result)
@@ -123,7 +121,7 @@ namespace HooahSmugFace.IL_HooahSmugFace.Data
                 var count = reader.ReadInt32();
                 foreach (var _ in Enumerable.Range(0, count))
                 {
-                    var part = (FacePart) reader.ReadInt32();
+                    var part = (FacePart)reader.ReadInt32();
                     var array = new VertexArray
                     {
                         Offset = ReadVectorArray(reader),
