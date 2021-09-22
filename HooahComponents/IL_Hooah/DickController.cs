@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using HooahComponents;
 using HooahUtility.Model.Attribute;
+using KKAPI;
 using MessagePack;
 using UniRx;
 using Unity.Collections;
@@ -12,12 +12,10 @@ using UnityEngine;
 using UnityEngine.Jobs;
 using UnityEngine.Serialization;
 using Random = System.Random;
-using ReadOnlyAttribute = Unity.Collections.ReadOnlyAttribute;
 #if AI || HS2
 using AIChara;
 using Studio;
 using HooahUtility.Model;
-using HooahUtility.Model.Attribute;
 
 #elif UNITY_EDITOR
 using MyBox;
@@ -353,7 +351,7 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
 #if AI || HS2
         // Forgive me, father. I've sinned.
         // But for now, I think no one will spawn more than 100 dicks in a scene.
-        if (KKAPI.KoikatuAPI.GetCurrentGameMode() == KKAPI.GameMode.Studio)
+        if (KoikatuAPI.GetCurrentGameMode() == GameMode.Studio)
         {
             foreach (var ociChar in Studio.Studio.Instance.dicObjectCtrl.Values.OfType<OCIChar>())
                 CollideWithCharacter(ociChar.charInfo);
@@ -399,10 +397,11 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
 
     private bool CanUpdate() => !(_lazy || _disposed || _dickNavigator == null || !isActiveAndEnabled);
 
-    private void LateUpdate()
+    private void ProcessJobs()
     {
         if (!CanUpdate()) return;
-
+        UpdateNavigatorPosition();
+        CalculateUpdate();
         CompleteJobs();
 
         if (_shapeGraphs == null) return;
@@ -417,7 +416,6 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
         _pullHandle.Complete();
         _applyTransformJobHandle.Complete();
         if (_pullHandle.IsCompleted) _renderPullFactor = _factor[0];
-
         _applyTransformJob.Targets = _dickTransformTargetNative;
         _applyTransformJobHandle = _applyTransformJob.Schedule(_transformAccessArray, _moveHandle);
     }
@@ -441,6 +439,10 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
                 AssignNearestPullProxy();
             });
 
+        Observable.EveryEndOfFrame()
+            .TakeUntilDisable(this)
+            .Subscribe(_ => { ProcessJobs(); });
+
         _disposed = false;
     }
 
@@ -454,12 +456,6 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
         _lazy = false;
     }
 
-    private void Update()
-    {
-        if (!CanUpdate()) return;
-        UpdateNavigatorPosition();
-        CalculateUpdate();
-    }
 
     private void DisposeNativeJobAndArray()
     {
@@ -576,7 +572,7 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
         var segmentScale = benisScale / _dickTransformTargetNative.Length;
 
         _jobPosCalc.DickTransformTarget = _dickTransformTargetNative;
-        _jobPosCalc.Start = curveStart.transform.position;
+        _jobPosCalc.Start = _startPos;
         _jobPosCalc.End = _endPos;
         _jobPosCalc.Middle = _midPos;
         _jobPosCalc.Right = transform.right;
@@ -628,26 +624,10 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
     {
         try
         {
+            // the parenting transform should be good.
             _startPos = curveStart.transform.position;
-
             if (ReferenceEquals(null, _dickNavigator)) return;
-            var position = _dickNavigator.dickMidPoint.position;
-
-/*
-            if (false)
-            {
-                var benScale = transform.localScale.z;
-                var distFactor = Vector3.Distance(position, _startPos) / (dockDistance * 1.25f * benScale);
-                var lerpFactor = 1f - Mathf.Clamp(distFactor - 1f, 0f, 1f);
-                var up = curveStart.transform.up;
-                // Lerped smooth position nanora
-                _midPos = Vector3.Lerp(_startPos + up * (1f * benScale), position, lerpFactor);
-                _endPos = Vector3.Lerp(_startPos + up * (2f * benScale), _dickNavigator.dickEndPoint.position,
-                    lerpFactor);
-            }
-*/
-
-            _midPos = position;
+            _midPos = _dickNavigator.dickMidPoint.position;
             _endPos = _dickNavigator.dickEndPoint.position;
         }
         catch (MissingReferenceException)

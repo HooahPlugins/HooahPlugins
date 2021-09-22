@@ -68,6 +68,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Service\AssetManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\CanvasManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UIUtility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\CharacterUtility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\ColorPickerUtility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\ColorUtility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\ImageUtility.cs" />
