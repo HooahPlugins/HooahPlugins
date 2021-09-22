@@ -9,6 +9,7 @@ using System.Linq;
 using HooahUtility.Utility;
 using MessagePack;
 using RootMotion.FinalIK;
+using Utility;
 
 #endif
 
@@ -53,10 +54,9 @@ public class IKAnchor : MonoBehaviour, IFormData
     private void RenewWatch()
     {
         _ik = TargetOci.finalIK.solver;
+        // This is better.
         _observ?.Dispose();
-        _observ = IK.preSolver.Where(x => x != null && _ik == x)
-            .TakeUntilDestroy(this)
-            .Subscribe(x => { UpdatePosition(); });
+        _observ = CharacterUtility.ObservableIKPreSolve(this, _ik).Subscribe(_ => UpdatePosition());
     }
 
     private void ManipulateShoulderEffector(IKSolverFullBodyBiped solver, bool isLeft, Vector3 p, Vector3 r)
