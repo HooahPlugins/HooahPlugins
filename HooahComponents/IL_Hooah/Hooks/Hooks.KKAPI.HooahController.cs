@@ -1,5 +1,4 @@
 ﻿#if AI || HS2
-using AIChara;
 using KKAPI;
 using KKAPI.Chara;
 

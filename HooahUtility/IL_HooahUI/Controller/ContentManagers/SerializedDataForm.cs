@@ -65,13 +65,13 @@ namespace HooahUtility.Controller.ContentManagers
         public void SetTarget(object target)
         {
             _reference = target;
-            _targets = new[] {target};
+            _targets = new[] { target };
         }
 
         public void SetTargets(object target)
         {
             _reference = target;
-            _targets = new[] {target};
+            _targets = new[] { target };
         }
 
         public void SetTargets(object[] targets)
