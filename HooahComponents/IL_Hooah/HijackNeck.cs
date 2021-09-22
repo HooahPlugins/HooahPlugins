@@ -22,6 +22,7 @@ public class HijackNeck : MonoBehaviour
     [Key(10), PropertyRange(0.01f, 10f)]
     public float Rate
     {
+        // ReSharper disable once UnusedMember.Global
         get => _rate;
         set
         {
@@ -35,8 +36,9 @@ public class HijackNeck : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (!IsReferenceValid()) return;
-        Release();
+        var neckLookCtrl = TargetCharacter.neckLookCtrl;
+        if (IsReferenceValid() && _updatePositions.ContainsKey(neckLookCtrl))
+            _updatePositions.Remove(neckLookCtrl);
     }
 
     private void Update()
@@ -48,6 +50,7 @@ public class HijackNeck : MonoBehaviour
 
     private void Release()
     {
+        if (_lastNeckLookCtrl == null || !_updatePositions.ContainsKey(_lastNeckLookCtrl)) return;
         _updatePositions.Remove(_lastNeckLookCtrl);
         _lastNeckLookCtrl.neckLookScript.neckTypeStates[1].leapSpeed = 2;
     }
@@ -56,9 +59,7 @@ public class HijackNeck : MonoBehaviour
     protected override void OnChangeCharacterReference()
     {
         if (!IsReferenceValid()) return;
-        if (_lastNeckLookCtrl != null && TargetCharacter.eyeLookCtrl == null)
-            Release();
-
+        Release();
         _lastNeckLookCtrl = TargetCharacter.neckLookCtrl;
     }
 #endif

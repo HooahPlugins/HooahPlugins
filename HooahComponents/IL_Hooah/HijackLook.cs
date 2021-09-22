@@ -17,10 +17,17 @@ public class HijackLook : MonoBehaviour
 
     private EyeLookController _lastEyeLookCtrl;
 
+    private void Release()
+    {
+        if (_lastEyeLookCtrl != null && _updatePositions.ContainsKey(_lastEyeLookCtrl))
+            _updatePositions.Remove(_lastEyeLookCtrl);
+    }
+
     private void OnDestroy()
     {
-        if (!IsReferenceValid())
-            _updatePositions.Remove(TargetCharacter.eyeLookCtrl);
+        var eyeLookCtrl = TargetCharacter.eyeLookCtrl;
+        if (IsReferenceValid() && _updatePositions.ContainsKey(eyeLookCtrl))
+            _updatePositions.Remove(eyeLookCtrl);
     }
 
     private void Update()
@@ -34,9 +41,7 @@ public class HijackLook : MonoBehaviour
     protected override void OnChangeCharacterReference()
     {
         if (!IsReferenceValid()) return;
-        if (_lastEyeLookCtrl != null && TargetCharacter.eyeLookCtrl == null)
-            _updatePositions.Remove(_lastEyeLookCtrl);
-
+        Release();
         _lastEyeLookCtrl = TargetCharacter.eyeLookCtrl;
     }
 #endif
