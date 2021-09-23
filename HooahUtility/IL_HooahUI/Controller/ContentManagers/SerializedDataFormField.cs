@@ -29,49 +29,6 @@ namespace HooahUtility.Controller.ContentManagers
         {
             form.AddField<CheckComponent>(UIConstant.CheckboxField, memberInfo, reference, targets, pre, post);
         }
-
-        public static void AddCharacterReference(SerializedDataForm form, MemberInfo memberInfo, object reference,
-            object[] targets)
-        {
-#if HS2 || AI
-            var listSpinnerComponent = form.AddFieldComponent<ListSpinnerComponent>(UIConstant.ListSpinnerField);
-
-            listSpinnerComponent.CallbackSetValue = value =>
-            {
-                if (targets.Length > 1)
-                {
-                    foreach (var target in targets)
-                    {
-                        if (!memberInfo.TryCastMember<CharacterReference>(target, out var chaRef)) continue;
-                        chaRef.DicKey = value;
-                        listSpinnerComponent.SetText(chaRef.CharName);
-                    }
-                }
-                else
-                {
-                    if (!memberInfo.TryCastMember<CharacterReference>(reference, out var chaRef)) return;
-                    chaRef.DicKey = value;
-                    listSpinnerComponent.SetText(chaRef.CharName);
-                }
-            };
-            listSpinnerComponent.CallbackGetValue = () =>
-            {
-                if (memberInfo.TryCastMember<CharacterReference>(reference, out var chaRef))
-                    return chaRef.DicKey;
-                return -1;
-            };
-            listSpinnerComponent.CallbackGetNextValue = StudioReferenceUtility.GetNextTypeKey<OCIChar>;
-            listSpinnerComponent.CallbackGetPrevValue = StudioReferenceUtility.GetPrevTypeKey<OCIChar>;
-            listSpinnerComponent.Initialize();
-            listSpinnerComponent.SetTitle(memberInfo);
-
-            if (memberInfo.TryCastMember<CharacterReference>(reference, out var cr))
-                listSpinnerComponent.SetText(cr.CharName);
-            else
-                listSpinnerComponent.SetText("Not Assigned");
-#endif
-        }
-
         public static void AddEnumDropdown(SerializedDataForm form, MemberInfo memberInfo, object reference,
             object[] targets, Action pre = null, Action post = null)
         {
@@ -343,6 +300,9 @@ namespace HooahUtility.Controller.ContentManagers
                     break;
                 case var type when type == typeof(Texture) || type == typeof(Material):
                     AddExternalReferenceField(this, memberInfo, _reference, _targets, preAssign, postAssign);
+                    break;
+                case var type when type == typeof(CharacterReference):
+                    AddCharacterReference(this, memberInfo, _reference, _targets);
                     break;
                 case var type when type == typeof(CharacterReference):
                     AddCharacterReference(this, memberInfo, _reference, _targets);
