@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\SpinnerComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\Components\TextureSelectComponent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\ContentManagers\SerializedDataFormField.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controller\ContentManagers\SerializedDataFormListSpinner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\Controls\ColorPickerControl\ColorPickerClass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\Controls\ColorPickerControl\ColorPickerControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controller\Controls\ColorPickerControl\ColorPickerEvent.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\ChlidNodeReferenceResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\FKReferenceResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\IKReferenceResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\StudioObjectReference.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\StudioReference.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\TransformReferenceResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\AssetManager.cs" />
