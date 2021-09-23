@@ -30,6 +30,12 @@ namespace HooahComponents.Hooks
             protected override void OnSceneLoad(SceneOperationKind operation,
                 ReadOnlyDictionary<int, ObjectCtrlInfo> loadedItems)
             {
+                // todo: add import support
+                // todo: get dict key change
+                // todo: apply data.
+                // todo: add character specific setting data.
+                // todo: add item speic data...?
+
                 var extendedData = GetExtendedData();
                 if (extendedData == null) return;
                 foreach (var keyValuePair in extendedData.data)
@@ -109,7 +115,6 @@ namespace HooahComponents.Hooks
                 }
             }
         }
-
 
         public static void SaveAllConfigs()
         {
