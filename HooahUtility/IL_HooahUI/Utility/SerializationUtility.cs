@@ -168,7 +168,7 @@ namespace Utility
                     var msg =
                         $"Failed to deserialize some data from field {component.GetType().Name}::{memberInfo.Name}.";
 #if AI || HS2
-                    // todo: maybe add some detailed information or report later?
+                    // todo: Somehow this exception handling cannot catch the reflection and serialization exceptions. which is resulting some sort of strange mess ups. it's working for now at least.
                     HooahUtilityPlugin.Instance.Log.LogError(e);
                     HooahUtilityPlugin.Instance.Log.LogMessage(msg);
 #else

@@ -13,6 +13,12 @@ namespace HooahUtility.Utility
     public static class StudioReferenceUtility
     {
 #if AI || HS2
+        /// <summary>
+        /// Copy all serializable hooah component's data to same target component.
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <typeparam name="T"></typeparam>
         public static void CopyComponentData<T>(T from, T to) where T : IFormData
         {
             var fields = SerializationUtility.GetAllSerializableFields(from);
@@ -30,6 +36,11 @@ namespace HooahUtility.Utility
             }
         }
 
+        /// <summary>
+        /// Copy all serializable hooah component's data in the object to target object.
+        /// </summary>
+        /// <param name="srcInfo"></param>
+        /// <param name="targetInfo"></param>
         public static void CopyComponentsData(ObjectCtrlInfo srcInfo, ObjectCtrlInfo targetInfo)
         {
             GameObject srcGameObject = null;
@@ -65,6 +76,9 @@ namespace HooahUtility.Utility
             }
         }
 
+        /// <summary>
+        /// What things are change.
+        /// </summary>
         public struct KeyChange
         {
             public int From;
@@ -73,6 +87,11 @@ namespace HooahUtility.Utility
             public ObjectCtrlInfo ToOci;
         }
 
+        /// <summary>
+        /// To find what item's id has changed from last transaction.
+        /// Example: Import Scene, Duplicate Studio Items
+        /// </summary>
+        /// <returns></returns>
         public static IEnumerable<KeyChange> GetKeyChanges()
         {
             var std = Studio.Studio.Instance;
@@ -90,6 +109,12 @@ namespace HooahUtility.Utility
             }
         }
 
+        /// <summary>
+        /// To find what item's id has changed from last transaction.
+        /// This function will only find Item and lights.
+        /// Example: Import Scene, Duplicate Studio Items
+        /// </summary>
+        /// <returns></returns>
         public static IEnumerable<KeyChange> GetItemChanges()
         {
             return GetKeyChanges().Where(
@@ -97,8 +122,11 @@ namespace HooahUtility.Utility
             );
         }
 
-        // todo: update this shit when character is being added or removed.
-        // or just shit like that i guess
+        /// <summary>
+        /// To find certain type of things from the studio scene.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static KeyValuePair<int, T>[] GetOfType<T>() where T : ObjectCtrlInfo
         {
             return Studio.Studio.Instance.dicObjectCtrl
@@ -106,6 +134,12 @@ namespace HooahUtility.Utility
                 .ToArray() as KeyValuePair<int, T>[];
         }
 
+        /// <summary>
+        /// Get next entry of same type of item from the scene.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static int GetNextTypeKey<T>(int key) where T : ObjectCtrlInfo
         {
             var chars = Studio.Studio.Instance.dicObjectCtrl.Where(x => (x.Value is T)).ToArray();
@@ -118,6 +152,12 @@ namespace HooahUtility.Utility
                 .FirstOrDefault().Key;
         }
 
+        /// <summary>
+        /// Get previous entry of same type of item from the scene.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static int GetPrevTypeKey<T>(int key) where T : ObjectCtrlInfo
         {
             var chars = Studio.Studio.Instance.dicObjectCtrl.Where(x => (x.Value is T)).ToArray();

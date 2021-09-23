@@ -48,7 +48,6 @@ namespace HooahUtility.Serialization
             return instanceId;
         }
 
-        // TODO: combine
         static HooahSerializer()
         {
             foreach (var method in typeof(MessagePackSerializer).GetMethods())

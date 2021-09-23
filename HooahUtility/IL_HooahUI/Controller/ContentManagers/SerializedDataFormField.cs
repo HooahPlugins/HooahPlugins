@@ -29,6 +29,7 @@ namespace HooahUtility.Controller.ContentManagers
         {
             form.AddField<CheckComponent>(UIConstant.CheckboxField, memberInfo, reference, targets, pre, post);
         }
+
         public static void AddEnumDropdown(SerializedDataForm form, MemberInfo memberInfo, object reference,
             object[] targets, Action pre = null, Action post = null)
         {
@@ -304,8 +305,8 @@ namespace HooahUtility.Controller.ContentManagers
                 case var type when type == typeof(CharacterReference):
                     AddCharacterReference(this, memberInfo, _reference, _targets);
                     break;
-                case var type when type == typeof(CharacterReference):
-                    AddCharacterReference(this, memberInfo, _reference, _targets);
+                case var type when type == typeof(StudioObjectReference):
+                    AddStudioReference(this, memberInfo, _reference, _targets);
                     break;
                 // Studio Reference Proxy
                 // External Resource Parser

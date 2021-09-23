@@ -12,7 +12,7 @@ using Studio;
 #endif
 
 // TODO: Make the serialization process more modular
-//      Main serialization process will begin in the hooah utility.
+//       Main serialization process will begin in the hooah utility.
 // TODO: also why this is in the hooah? what the fuck?
 namespace HooahComponents.Hooks
 {

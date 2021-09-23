@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace HooahUtility.AdvancedStudioUI
 {
-    // todo: add ui builder or some sort of thing?
     public static class UIUtility
     {
         public static RectTransform ScaleAsGrid(GameObject t, int i, float div, float margin = 0)
