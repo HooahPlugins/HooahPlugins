@@ -78,6 +78,7 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
     // TODO: make dickmesh more modular..
     public SkinnedMeshRenderer dickMesh;
     public GameObject censoringObject;
+    private SkinnedMeshRenderer _censoringMesh;
     public Transform pullProxy;
     public Transform pullProxyRoot;
 
@@ -366,6 +367,8 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
         _jobPosCalc = new DickPositionCalcuationJob();
         _jobCalcPull = new DickPullCalculationJob();
 
+        if (censoringObject != null) _censoringMesh = censoringObject.GetComponent<SkinnedMeshRenderer>();
+
         MaterialRubberOpacity = 0f;
         MaterialProgress = 0.5f;
         MaterialBorderStrength = 0.4f;
@@ -406,8 +409,20 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
 
         if (_shapeGraphs == null) return;
         foreach (var vertexShapeGraph in _shapeGraphs)
-            dickMesh.SetBlendShapeWeight(vertexShapeGraph.index,
-                vertexShapeGraph.curve.Evaluate(_renderPullFactor) * 100);
+        {
+            var value = vertexShapeGraph.curve.Evaluate(_renderPullFactor) * 100;
+            try
+            {
+                dickMesh.SetBlendShapeWeight(vertexShapeGraph.index, value);
+                // assuming censoring object is using same mesh as dick mesh.
+                if (_censoringMesh != null)
+                    _censoringMesh.SetBlendShapeWeight(vertexShapeGraph.index, value);
+            }
+            catch (Exception e)
+            {
+                // do nothing
+            }
+        }
     }
 
     private void CompleteJobs()
