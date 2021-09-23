@@ -9,11 +9,13 @@ namespace HooahUtility
     [BepInPlugin(Constant.GUID, Constant.NAME, Constant.VERSION)]
     public class HooahUtilityPlugin : BaseUnityPlugin
     {
-        private static ManualLogSource _logger;
+        public static HooahUtilityPlugin Instance;
+        public ManualLogSource Log => this.Logger;
+
 
         private void Start()
         {
-            _logger = Logger;
+            Instance = this;
             Harmony.CreateAndPatchAll(typeof(HooahUtilityPlugin));
         }
     }

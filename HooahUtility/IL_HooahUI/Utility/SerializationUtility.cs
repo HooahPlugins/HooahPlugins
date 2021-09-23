@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using HooahUtility;
 using HooahUtility.Model;
 using HooahUtility.Serialization.Formatter;
 using HooahUtility.Serialization.StudioReference;
@@ -133,31 +134,47 @@ namespace Utility
             {
                 if (!serializableFields.TryGetValue(keyValuePair.Key, out var memberInfo)) continue;
 
-                if (version == 0)
+                try
                 {
-                    switch (memberInfo)
+                    if (version == 0)
                     {
-                        case FieldInfo fieldInfo:
-                            fieldInfo.SetValue(component, keyValuePair.Value);
-                            break;
-                        case PropertyInfo propertyInfo:
-                            propertyInfo.SetValue(component, keyValuePair.Value);
-                            break;
+                        switch (memberInfo)
+                        {
+                            case FieldInfo fieldInfo:
+                                fieldInfo.SetValue(component, keyValuePair.Value);
+                                break;
+                            case PropertyInfo propertyInfo:
+                                propertyInfo.SetValue(component, keyValuePair.Value);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        var valueBytes = keyValuePair.Value as byte[];
+
+                        switch (memberInfo)
+                        {
+                            case FieldInfo fieldInfo:
+                                fieldInfo.SetValue(component, Deserialize(fieldInfo.FieldType, valueBytes));
+                                break;
+                            case PropertyInfo propertyInfo:
+                                propertyInfo.SetValue(component, Deserialize(propertyInfo.PropertyType, valueBytes));
+                                break;
+                        }
                     }
                 }
-                else
+                catch (Exception e)
                 {
-                    var valueBytes = keyValuePair.Value as byte[];
-
-                    switch (memberInfo)
-                    {
-                        case FieldInfo fieldInfo:
-                            fieldInfo.SetValue(component, Deserialize(fieldInfo.FieldType, valueBytes));
-                            break;
-                        case PropertyInfo propertyInfo:
-                            propertyInfo.SetValue(component, Deserialize(propertyInfo.PropertyType, valueBytes));
-                            break;
-                    }
+                    var msg =
+                        $"Failed to deserialize some data from field {component.GetType().Name}::{memberInfo.Name}.";
+#if AI || HS2
+                    // todo: maybe add some detailed information or report later?
+                    HooahUtilityPlugin.Instance.Log.LogError(e);
+                    HooahUtilityPlugin.Instance.Log.LogMessage(msg);
+#else
+                    Debug.LogError(e);
+                    Debug.LogWarning(msg);
+#endif
                 }
             }
         }
