@@ -1,5 +1,6 @@
 ﻿#if AI || HS2
 using HarmonyLib;
+using HooahUtility.Utility;
 using Studio;
 #endif
 
@@ -50,8 +51,9 @@ namespace HooahComponents.Hooks
         public static void OnDuplicate(Studio.Studio __instance)
         {
             OnDeselectStudioItem();
-            // todo: add duplicate support.
-            //          1. utility: transfer data based on the messagepack keys.
+            // please work
+            foreach (var change in StudioReferenceUtility.GetItemChanges())
+                StudioReferenceUtility.CopyComponentsData(change.FromOci, change.ToOci);
         }
 
         [HarmonyPostfix, HarmonyPatch(typeof(SystemButtonCtrl), "OnSelectInitYes")]
