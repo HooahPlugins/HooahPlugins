@@ -90,7 +90,7 @@ public class IKAnchor : MonoBehaviour, IFormData
         if (!IsReferenceValid() || _ikGuideObjects == null || _ikGuideObjects.Count == 0) return;
 
         var t = transform;
-        var r = t.right * t.localScale.magnitude;
+        var r = t.right * t.localScale.x;
         var p = t.position;
         var rt = t.rotation;
         var solver = TargetCharacter.fullBodyIK.solver;
