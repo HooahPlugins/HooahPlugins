@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using HooahComponents;
 using HooahUtility.Model.Attribute;
-using KKAPI;
 using MessagePack;
 using UniRx;
 using Unity.Collections;
@@ -16,6 +15,7 @@ using Random = System.Random;
 using AIChara;
 using Studio;
 using HooahUtility.Model;
+using KKAPI;
 
 #elif UNITY_EDITOR
 using MyBox;
