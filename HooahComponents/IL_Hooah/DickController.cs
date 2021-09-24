@@ -11,12 +11,12 @@ using UnityEngine;
 using UnityEngine.Jobs;
 using UnityEngine.Serialization;
 using Random = System.Random;
+using ReadOnlyAttribute = Unity.Collections.ReadOnlyAttribute;
 #if AI || HS2
 using AIChara;
 using Studio;
 using HooahUtility.Model;
 using KKAPI;
-
 #elif UNITY_EDITOR
 using MyBox;
 #endif
