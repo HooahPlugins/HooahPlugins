@@ -59,10 +59,12 @@ namespace HooahUtility.Utility
             }
 
             if (srcGameObject == null || targetGameObject == null) return;
-
             var srcComponents = srcGameObject.GetComponents<IFormData>().ToArray();
+            
+            // ignore if there is no hooah utility data.
+            if (srcComponents.Length == 0) return;
+            
             var targetComponents = targetGameObject.GetComponents<IFormData>().ToArray();
-
             if (srcComponents.Length != targetComponents.Length) return;
             for (var i = 0; i < srcComponents.Length; i++)
             {
