@@ -45,12 +45,18 @@ namespace HooahUtility.Utility
         {
             GameObject srcGameObject = null;
             GameObject targetGameObject = null;
+
+
+            // Just in case...
+            if (srcInfo == null || targetInfo == null || srcInfo == targetInfo) return;
+
             // Just Items and Monika.
             if (srcInfo is OCIItem srcItemInfo && targetInfo is OCIItem targetItemInfo)
             {
-                srcGameObject = srcItemInfo.itemComponent.gameObject;
-                targetGameObject = targetItemInfo.itemComponent.gameObject;
+                srcGameObject = srcItemInfo.objectItem;
+                targetGameObject = targetItemInfo.objectItem;
             }
+
             // Volumetric lights
             else if (srcInfo is OCILight srcLightInfo && targetInfo is OCILight targetLightInfo)
             {
@@ -58,14 +64,19 @@ namespace HooahUtility.Utility
                 targetGameObject = targetLightInfo.objectLight;
             }
 
-            if (srcGameObject == null || targetGameObject == null) return;
+
+            if (srcGameObject == null || targetGameObject == null || srcGameObject == targetGameObject) return;
             var srcComponents = srcGameObject.GetComponents<IFormData>().ToArray();
-            
-            // ignore if there is no hooah utility data.
-            if (srcComponents.Length == 0) return;
-            
             var targetComponents = targetGameObject.GetComponents<IFormData>().ToArray();
-            if (srcComponents.Length != targetComponents.Length) return;
+
+            if (
+                // ignore if there is no hooah utility data.
+                srcComponents.Length == 0 ||
+                targetComponents.Length == 0 ||
+                // ignore if target component is slightly different.
+                srcComponents.Length != targetComponents.Length
+            ) return;
+
             for (var i = 0; i < srcComponents.Length; i++)
             {
                 var srcComponent = srcComponents[i];
