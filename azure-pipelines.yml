@@ -6,7 +6,7 @@
 trigger:
   tags:
     include:
-    - v*
+    - 202*
 
 pool:
   vmImage: 'windows-latest'
@@ -42,10 +42,12 @@ steps:
     action: 'create'
     target: '$(Build.SourceVersion)'
     tagSource: 'gitTag'
-    tagPattern: 'v*'
-    title: 'IL_Hooah Release $(Build.SourceVersion)'
+    tagPattern: '202*'
+    title: 'HooahPlugins Release $(Build.SourceVersion)'
     assets: |
       AI_Hooah.dll
       HS2_Hooah.dll
+      AI_HooahUtility.dll
+      HS2_HooahUtility.dll
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
