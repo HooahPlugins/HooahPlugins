@@ -80,7 +80,7 @@
     <Import Project="..\IL_Hooah\IL_Hooah.projitems" Label="Shared" />
     <PropertyGroup>
         <PostBuildEvent>
-            call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(TargetDir)\final" "$(ProjectName)"
+            call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(SolutionDir)\final" "$(ProjectName)"
             call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(HS2Path)" "$(ProjectName)"
         </PostBuildEvent>
     </PropertyGroup>
