@@ -37,7 +37,7 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Aura2_Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\..\external\Proprietary\Aura_Core.dll</HintPath>
+          <HintPath>..\..\external\Proprietary\Aura2_Core.dll</HintPath>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
@@ -60,7 +60,7 @@
         <PackageReference Include="IllusionModdingAPI.HS2API" Version="1.20.3" />
         <PackageReference Include="ExtensibleSaveFormat.HoneySelect2" Version="16.3.0" />
         <Reference Include="UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>external/hs2/UnityEngine.ParticleSystemModule.dll</HintPath>
+            <HintPath>..\..\external\hs2/UnityEngine.ParticleSystemModule.dll</HintPath>
         </Reference>
     </ItemGroup>
     <ItemGroup>
