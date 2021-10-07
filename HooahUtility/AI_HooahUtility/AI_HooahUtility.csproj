@@ -65,6 +65,7 @@
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <PropertyGroup>
         <PostBuildEvent>
+            mkdir "$(SolutionDir)\final"
             call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(SolutionDir)\final" "$(ProjectName)"
             call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(AIPath)" "$(ProjectName)"
         </PostBuildEvent>

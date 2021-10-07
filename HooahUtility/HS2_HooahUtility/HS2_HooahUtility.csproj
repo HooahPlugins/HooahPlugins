@@ -68,7 +68,8 @@
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <PropertyGroup>
         <PostBuildEvent>
-            call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(SolutionDir)\final" "$(ProjectName)"
+            mkdir "$(SolutionDir)\final"
+            call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(SolutionDir)/final" "$(ProjectName)"
             call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(HS2Path)" "$(ProjectName)"
         </PostBuildEvent>
     </PropertyGroup>

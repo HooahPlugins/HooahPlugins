@@ -84,6 +84,7 @@
     <Import Project="..\IL_Hooah\IL_Hooah.projitems" Label="Shared" />
     <PropertyGroup>
         <PostBuildEvent>
+            mkdir "$(SolutionDir)\final"
             call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(SolutionDir)\final" "$(ProjectName)"
             call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(AIPath)" "$(ProjectName)"
         </PostBuildEvent>
