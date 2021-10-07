@@ -51,3 +51,9 @@ steps:
 #      HS2_HooahUtility.dll
 #    changeLogCompareToRelease: 'lastFullRelease'
 #    changeLogType: 'commitBased'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: './final'
+    ArtifactName: 'build-result'
+    publishLocation: 'Container'
