@@ -1,9 +1,3 @@
-
-trigger:
-  tags:
-    include:
-    - 202*
-
 pool:
   vmImage: 'windows-latest'
 
@@ -12,44 +6,52 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-steps:
-- task: NuGetToolInstaller@1
+jobs: 
+- job: Build
+  displayName: Create Binary
+  steps:
+  - task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: '$(solution)'
-    feedsToUse: 'config'
-    nugetConfigPath: './nuget.config'
+  - task: NuGetCommand@2
+    inputs:
+      command: 'restore'
+      restoreSolution: '$(solution)'
+      feedsToUse: 'config'
+      nugetConfigPath: './nuget.config'
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:SkipInvalidConfigurations=true'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-    msbuildArchitecture: 'x64'
-    createLogFile: true
+  - task: VSBuild@1
+    inputs:
+      solution: '$(solution)'
+      msbuildArgs: '/p:SkipInvalidConfigurations=true'
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
+      msbuildArchitecture: 'x64'
+      createLogFile: true
 
-#- task: GitHubRelease@1
-#  inputs:
-#    gitHubConnection: 'Azure Automatic Build Setup'
-#    repositoryName: 'hooh-hooah/IL_Hooah'
-#    action: 'create'
-#    target: '$(Build.SourceVersion)'
-#    tagSource: 'gitTag'
-#    tagPattern: '202*'
-#    title: 'HooahPlugins Release $(Build.SourceVersion)'
-#    assets: |
-#      AI_Hooah.dll
-#      HS2_Hooah.dll
-#      AI_HooahUtility.dll
-#      HS2_HooahUtility.dll
-#    changeLogCompareToRelease: 'lastFullRelease'
-#    changeLogType: 'commitBased'
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: './final'
+      artifact: 'binary'
+      publishLocation: 'pipeline'
 
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: './final'
-    artifact: 'binary'
-    publishLocation: 'pipeline'
+- job: Publish
+  condition: and(contains(variables['build.sourceBranch'], 'refs/tags/202'), succeeded())
+  steps:
+  - task: GitHubRelease@1
+    inputs:
+      gitHubConnection: 'Azure Automatic Build Setup'
+      repositoryName: 'hooh-hooah/IL_Hooah'
+      action: 'create'
+      target: '$(Build.SourceVersion)'
+      tagSource: 'gitTag'
+      tagPattern: '202*'
+      title: 'HooahPlugins Release $(Build.SourceVersion)'
+      assets: |
+        AI_Hooah.dll
+        HS2_Hooah.dll
+        AI_HooahUtility.dll
+        HS2_HooahUtility.dll
+      changeLogCompareToRelease: 'lastFullRelease'
+      changeLogType: 'commitBased'
+
+
