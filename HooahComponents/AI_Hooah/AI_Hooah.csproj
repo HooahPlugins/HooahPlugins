@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{FA13AD0A-6D7C-4FC8-944E-D90E1487FE2A}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>HooahComponents</RootNamespace>
+        <AssemblyName>HooahComponents</AssemblyName>
+        <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+        <DefineConstants>AI</DefineConstants>
+        <FileAlignment>512</FileAlignment>
+        <SignAssembly>false</SignAssembly>
+        <AssemblyOriginatorKeyFile>AI_Hooah.snk</AssemblyOriginatorKeyFile>
+        <LangVersion>7.3</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE;AI;UNITY_POST_PROCESSING_STACK_V2;CROSS_PLATFORM_INPUT;AURA_IN_PROJECT;ODIN_INSPECTOR;ODIN_INSPECTOR_3;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE;AI;UNITY_POST_PROCESSING_STACK_V2;CROSS_PLATFORM_INPUT;AURA_IN_PROJECT;ODIN_INSPECTOR;ODIN_INSPECTOR_3;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Aura2_Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\external\Proprietary\Aura_Core.dll</HintPath>
+        </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Xml" />
+        <Reference Include="System.Xml.Linq" />
+        <PackageReference Include="ExtensibleSaveFormat.AIGirl" Version="16.3.0" />
+        <PackageReference Include="IllusionLibs.AIGirl.Assembly-CSharp" Version="2020.5.29.4" />
+        <PackageReference Include="IllusionLibs.AIGirl.Assembly-CSharp-firstpass" Version="2020.5.29.4" />
+        <PackageReference Include="IllusionLibs.AIGirl.Sirenix.Serialization" Version="2020.5.29.4" />
+        <PackageReference Include="IllusionLibs.AIGirl.UniRx" Version="2020.5.29.4" />
+        <PackageReference Include="IllusionLibs.AIGirl.Unity.Postprocessing.Runtime" Version="2018.2.21.4" />
+        <PackageReference Include="IllusionLibs.AIGirl.Unity.TextMeshPro" Version="2018.2.21.4" />
+        <PackageReference Include="IllusionLibs.AIGirl.UnityEngine.AnimationModule" Version="2018.2.21.4" />
+        <PackageReference Include="IllusionLibs.AIGirl.UnityEngine.AssetBundleModule" Version="2018.2.21.4" />
+        <PackageReference Include="IllusionLibs.AIGirl.UnityEngine.AudioModule" Version="2018.2.21.4" />
+        <PackageReference Include="IllusionLibs.AIGirl.UnityEngine.CoreModule" Version="2018.2.21.4" />
+        <PackageReference Include="IllusionLibs.AIGirl.UnityEngine.PhysicsModule" Version="2018.2.21.4" />
+        <PackageReference Include="IllusionLibs.BepInEx" Version="5.4.13" />
+        <PackageReference Include="IllusionLibs.BepInEx.Harmony" Version="2.5.2" />
+        <PackageReference Include="IllusionModdingAPI.AIAPI" Version="1.20.3" />
+        <PackageReference Include="ExtensibleSaveFormat.AIGirl" Version="16.3.0" />
+        <Reference Include="UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>external/ai/UnityEngine.ParticleSystemModule.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Plugin.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="README.md" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="packages.config" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\HooahUtility\AI_HooahUtility\AI_HooahUtility.csproj">
+            <Project>{cb2c4ed7-1d4d-4aac-8fd0-a87a122152f0}</Project>
+            <Name>AI_HooahUtility</Name>
+        </ProjectReference>
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <Import Project="..\IL_Hooah\IL_Hooah.projitems" Label="Shared" />
+    <PropertyGroup>
+        <PostBuildEvent>
+            call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(TargetDir)\final" "$(ProjectName)"
+            call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(AIPath)" "$(ProjectName)"
+        </PostBuildEvent>
+    </PropertyGroup>
+</Project>
