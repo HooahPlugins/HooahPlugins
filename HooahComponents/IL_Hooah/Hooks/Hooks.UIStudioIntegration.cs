@@ -1,4 +1,5 @@
-﻿#if AI || HS2
+﻿using System.Diagnostics.CodeAnalysis;
+#if AI || HS2
 using HarmonyLib;
 using HooahUtility.Utility;
 using Studio;
@@ -8,6 +9,7 @@ using Studio;
 namespace HooahComponents.Hooks
 {
     // Collection of Game Intergration hooks and harmony hooks
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public partial class Hooks
     {
 #if AI || HS2
@@ -48,13 +50,7 @@ namespace HooahComponents.Hooks
         public static void OnAddRoute(Studio.Studio __instance) => OnCreateItem();
 
         [HarmonyPostfix, HarmonyPatch(typeof(Studio.Studio), nameof(Studio.Studio.Duplicate))]
-        public static void OnDuplicate(Studio.Studio __instance)
-        {
-            OnDeselectStudioItem();
-            // please work
-            foreach (var change in StudioReferenceUtility.GetItemChanges())
-                StudioReferenceUtility.CopyComponentsData(change.FromOci, change.ToOci);
-        }
+        public static void OnDuplicate(Studio.Studio __instance) => OnDeselectStudioItem();
 
         [HarmonyPostfix, HarmonyPatch(typeof(SystemButtonCtrl), "OnSelectInitYes")]
         public static void OnResetScene() // Init

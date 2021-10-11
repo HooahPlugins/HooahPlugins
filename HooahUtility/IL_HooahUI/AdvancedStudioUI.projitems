@@ -64,6 +64,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\ChlidNodeReferenceResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\FKReferenceResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\IKReferenceResolver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\IStudioReference.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\StudioObjectReference.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\StudioReference.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\StudioReference\TransformReferenceResolver.cs" />

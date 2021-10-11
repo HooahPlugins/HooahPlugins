@@ -5,7 +5,7 @@ using System.IO;
 using SerializationUtility = Utility.SerializationUtility;
 using ExtensibleSaveFormat;
 using HooahComponents.Configuration;
-using HooahUtility.Model;
+using HooahUtility.Utility;
 using KKAPI.Studio.SaveLoad;
 using KKAPI.Utilities;
 using Studio;
@@ -27,56 +27,36 @@ namespace HooahComponents.Hooks
 
         public class Controller : SceneCustomFunctionController
         {
+            protected override void OnObjectsCopied(ReadOnlyDictionary<int, ObjectCtrlInfo> copiedItems)
+            {
+                foreach (var objectCtrlInfo in copiedItems)
+                    if (Studio.Studio.Instance.dicObjectCtrl.TryGetValue(objectCtrlInfo.Key, out var src))
+                        StudioReferenceUtility.CopyComponentsData(src, objectCtrlInfo.Value);
+            }
+
             protected override void OnSceneLoad(SceneOperationKind operation,
                 ReadOnlyDictionary<int, ObjectCtrlInfo> loadedItems)
             {
-                // todo: add import support
-                // todo: get dict key change
-                // todo: apply data.
-                // todo: add character specific setting data.
-                // todo: add item speic data...?
-
                 var extendedData = GetExtendedData();
                 if (extendedData == null) return;
                 foreach (var keyValuePair in extendedData.data)
                 {
-                    if (loadedItems.TryGetValue(Convert.ToInt32(keyValuePair.Key), out var objectCtrlInfo))
-                    {
-                        switch (objectCtrlInfo)
-                        {
-                            case OCIItem ociItem:
-                                SerializationUtility.DeserializeAndApply(
-                                    SerializationUtility.GetSerializableComponent(ociItem.objectItem),
-                                    keyValuePair.Value as byte[], extendedData.version);
-                                break;
-                            case OCILight ociLight:
-                                SerializationUtility.DeserializeAndApply(
-                                    SerializationUtility.GetSerializableComponent(ociLight.objectLight)
-                                    , keyValuePair.Value as byte[], extendedData.version);
-                                break;
-                        }
-                    }
+                    if (!loadedItems.TryGetValue(Convert.ToInt32(keyValuePair.Key), out var objectCtrlInfo)) continue;
+                    if (!StudioReferenceUtility.TryGetOciEndNodeGameObject(objectCtrlInfo, out var target)) continue;
+                    SerializationUtility.DeserializeAndApply(
+                        SerializationUtility.GetSerializableComponent(target), keyValuePair.Value as byte[],
+                        extendedData.version);
                 }
             }
 
             protected override void OnSceneSave()
             {
-                Dictionary<string, object> bytesMap = new Dictionary<string, object>();
+                var bytesMap = new Dictionary<string, object>();
 
                 foreach (var x in Studio.Studio.Instance.dicObjectCtrl)
                 {
-                    IFormData comp = null;
-
-                    switch (x.Value)
-                    {
-                        case OCIItem ociItem:
-                            comp = SerializationUtility.GetSerializableComponent(ociItem.objectItem);
-                            break;
-                        case OCILight ociLight:
-                            comp = SerializationUtility.GetSerializableComponent(ociLight.objectLight);
-                            break;
-                    }
-
+                    if (!StudioReferenceUtility.TryGetOciEndNodeGameObject(x.Value, out var refObject)) continue;
+                    var comp = SerializationUtility.GetSerializableComponent(refObject);
                     if (comp == null) continue;
                     var bytes = SerializationUtility.GetSerializedBytes(comp);
                     if (bytes == null) continue;

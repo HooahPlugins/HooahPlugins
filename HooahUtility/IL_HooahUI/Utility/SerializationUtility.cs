@@ -73,30 +73,31 @@ namespace Utility
             return fields;
         }
 
-        public static Dictionary<Type, MethodInfo> serializationMethodInfo = new Dictionary<Type, MethodInfo>();
-        public static Dictionary<Type, MethodInfo> deserializationMethodInfo = new Dictionary<Type, MethodInfo>();
+        public static Dictionary<Type, MethodInfo> SerializationMethodInfo = new Dictionary<Type, MethodInfo>();
+        public static Dictionary<Type, MethodInfo> DeserializationMethodInfo = new Dictionary<Type, MethodInfo>();
 
         public static byte[] Serialize(Type type, object value)
         {
             var parameters = new[] { value, UnityHackResolver.Instance };
-            if (serializationMethodInfo.TryGetValue(type, out var method))
+            if (SerializationMethodInfo.TryGetValue(type, out var method))
                 return (byte[])method.Invoke(null, parameters);
 
             method = _serialize.MakeGenericMethod(type);
-            serializationMethodInfo[type] = method;
+            SerializationMethodInfo[type] = method;
             return (byte[])method.Invoke(null, parameters);
         }
 
         public static object Deserialize(Type type, byte[] bytes)
         {
             var parameters = new object[] { bytes, UnityHackResolver.Instance };
-            if (deserializationMethodInfo.TryGetValue(type, out var method))
+            if (DeserializationMethodInfo.TryGetValue(type, out var method))
                 return method.Invoke(null, parameters);
 
             method = _deserialize.MakeGenericMethod(type);
-            deserializationMethodInfo[type] = method;
+            DeserializationMethodInfo[type] = method;
             return method.Invoke(null, parameters);
         }
+
 
         public static Dictionary<object, object> GetSerializedData<T>(T component) where T : IFormData =>
             component == null
@@ -196,6 +197,37 @@ namespace Utility
             }
 
             return (chaRef != null);
+        }
+
+        public static bool TryGetMemberValue(MemberInfo memberInfo, object instance, out object value)
+        {
+            switch (memberInfo)
+            {
+                case PropertyInfo propertyInfo:
+                    value = propertyInfo.GetValue(instance);
+                    return true;
+                case FieldInfo fieldInfo:
+                    value = fieldInfo.GetValue(instance);
+                    return true;
+                default:
+                    value = default;
+                    return false;
+            }
+        }
+
+        public static void TrySetMemberValue(MemberInfo memberInfo, object instance, object value)
+        {
+            switch (memberInfo)
+            {
+                case PropertyInfo propertyInfo:
+                    propertyInfo.SetValue(instance, value);
+                    return;
+                case FieldInfo fieldInfo:
+                    fieldInfo.SetValue(instance, value);
+                    return;
+                default:
+                    return;
+            }
         }
     }
 }

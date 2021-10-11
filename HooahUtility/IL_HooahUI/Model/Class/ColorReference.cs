@@ -6,7 +6,7 @@ namespace HooahUtility.AdvancedStudioUI.Model.Class
     public class ColorReference
     {
         public Action<Color> onColorChange;
-        
+
         private Color _color;
 
         public Color TargetColor
@@ -20,6 +20,7 @@ namespace HooahUtility.AdvancedStudioUI.Model.Class
         }
 
         private Vector3 _hsv;
+
         public Vector3 TargetHSV
         {
             get => _hsv;
@@ -29,7 +30,7 @@ namespace HooahUtility.AdvancedStudioUI.Model.Class
                 UpdateColor();
             }
         }
-        
+
         public float R => _color.r;
         public float G => _color.g;
         public float B => _color.b;

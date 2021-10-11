@@ -2,7 +2,6 @@
 using HooahUtility.Model;
 using UniRx;
 using UnityEngine;
-using IK = HooahComponents.Hooks.IK;
 #if AI || HS2
 using System;
 using System.Linq;
@@ -25,6 +24,7 @@ public class IKAnchor : MonoBehaviour, IFormData
         None, Torso, Pelvis, Hip, Waist,
         HandL, HandR, HandLR, FootLR, FootL,
         FootR
+        //, ElbowLR, ElbowL, ElbowR, KneeLR, KneeL, KneeR
     }
 
     private IKSolverFullBodyBiped _ik;
@@ -40,6 +40,7 @@ public class IKAnchor : MonoBehaviour, IFormData
     }
 
     [Key(2)] public bool useRotate;
+    [Key(10)] public bool activated = true;
     private IDisposable _observ;
 
 
@@ -85,9 +86,15 @@ public class IKAnchor : MonoBehaviour, IFormData
         if (useRotate) e.GetNode(solver).solverRotation = rt;
     }
 
+    // private void ManipulateElbowEffector(IKSolverFullBodyBiped solver, bool isLeft, Vector3 p, Vector3 r, Quaternion rt)
+    // {
+    //     var constraint = isLeft ? solver.leftArmChain.bendConstraint : solver.rightArmChain.bendConstraint;
+    //     constraint.direction = constraint.bone1.transform.InverseTransformVector(isLeft ? p + -r : p + r);
+    // }
+
     private void UpdatePosition()
     {
-        if (!IsReferenceValid() || _ikGuideObjects == null || _ikGuideObjects.Count == 0) return;
+        if (!IsReferenceValid() || _ikGuideObjects == null || _ikGuideObjects.Count == 0 || !activated) return;
 
         var t = transform;
         var r = t.right * t.localScale.x;
@@ -134,6 +141,16 @@ public class IKAnchor : MonoBehaviour, IFormData
             case BindingMethod.FootR:
                 ManipulateFootEffector(solver, false, p, Vector3.zero, rt);
                 break;
+            // case BindingMethod.ElbowLR:
+            //     ManipulateElbowEffector(solver, true, p, Vector3.zero, rt);
+            //     ManipulateElbowEffector(solver, false, p, Vector3.zero, rt);
+            //     break;
+            // case BindingMethod.ElbowL:
+            //     ManipulateElbowEffector(solver, true, p, Vector3.zero, rt);
+            //     break;
+            // case BindingMethod.ElbowR:
+            //     ManipulateElbowEffector(solver, false, p, Vector3.zero, rt);
+            //     break;
             default:
                 throw new ArgumentOutOfRangeException();
         }

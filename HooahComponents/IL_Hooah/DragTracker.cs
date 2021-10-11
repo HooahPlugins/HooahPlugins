@@ -1,12 +1,8 @@
-﻿using System;
-using HooahComponents;
+﻿using HooahComponents;
 using MessagePack;
 using UniRx;
 using UnityEngine;
-using UnityEngine.Experimental.PlayerLoop;
-using UnityEngine.Serialization;
 #if AI || HS2
-using HooahComponents;
 using HooahUtility.Model;
 
 public class DragTracker : ChannelTrackerBase, IFormData

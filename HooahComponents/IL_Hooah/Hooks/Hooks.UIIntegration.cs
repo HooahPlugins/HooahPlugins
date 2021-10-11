@@ -2,6 +2,7 @@
 using System.Linq;
 using AdvancedStudioUI;
 using HooahUtility.Model;
+using HooahUtility.Utility;
 using Studio;
 
 #endif
@@ -45,19 +46,8 @@ namespace HooahComponents.Hooks
         {
             if (!CheckStudioInstance(out var instance)) return;
             var selectedObjects = instance.treeNodeCtrl.selectObjectCtrl
-                .Select(x =>
-                {
-                    switch (x)
-                    {
-                        case OCIItem item:
-                            return item.objectItem;
-                        case OCILight light:
-                            return light.objectLight;
-                        default:
-                            return null;
-                    }
-                }).Where(x => x != null).ToArray();
-
+                .Select(StudioReferenceUtility.GetOciEndNodeGameObject)
+                .Where(x => x != null).ToArray();
 
             if (!StudioItemControl.TryGetInstance(out var itemControl)) return;
             itemControl.ClearForm();

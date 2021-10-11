@@ -1,5 +1,8 @@
-﻿namespace HooahComponents.Utility
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace HooahComponents.Utility
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public static class PluginConstant
     {
         public const string GUID = "com.hooh.hooah";

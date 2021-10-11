@@ -92,14 +92,8 @@ public static class SkinnedAccessoryHook
 
     private static void ProcessForSkinnedAccessory(ChaControl chaControl, CmpAccessory accessory)
     {
-        if (accessory == null)
-        {
-#if DEBUG
-            throw new Exception($"Failed to find Accessory. Component");
-#else
-            return;
-#endif
-        }
+        // This exception is too common. Suppressing the error message.
+        if (accessory == null) return;
 
         var gameObject = accessory.gameObject;
         if (gameObject == null)

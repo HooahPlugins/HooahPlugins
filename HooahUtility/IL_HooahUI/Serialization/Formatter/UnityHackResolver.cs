@@ -5,39 +5,38 @@ using MessagePack.Unity;
 
 namespace HooahUtility.Serialization.Formatter
 {
-  public class UnityHackResolver : IFormatterResolver
-  {
-    public static IFormatterResolver Instance = (IFormatterResolver) new UnityHackResolver();
-    private static readonly IFormatterResolver[] resolvers = new IFormatterResolver[]
+    public class UnityHackResolver : IFormatterResolver
     {
-      UnityObjectResolver.Instance,
-      UnityResolver.Instance,
-      DynamicGenericResolver.Instance, 
-      StandardResolver.Instance
-    };
+        public static IFormatterResolver Instance = new UnityHackResolver();
 
-    private UnityHackResolver()
-    {
-    }
-
-    public IMessagePackFormatter<T> GetFormatter<T>() => UnityHackResolver.FormatterCache<T>.formatter;
-
-    private static class FormatterCache<T>
-    {
-      public static readonly IMessagePackFormatter<T> formatter;
-
-      static FormatterCache()
-      {
-        foreach (IFormatterResolver resolver in UnityHackResolver.resolvers)
+        private static readonly IFormatterResolver[] Resolvers =
         {
-          IMessagePackFormatter<T> formatter = resolver.GetFormatter<T>();
-          if (formatter != null)
-          {
-            UnityHackResolver.FormatterCache<T>.formatter = formatter;
-            break;
-          }
+            UnityObjectResolver.Instance,
+            UnityResolver.Instance,
+            DynamicGenericResolver.Instance,
+            StandardResolver.Instance
+        };
+
+        private UnityHackResolver()
+        {
         }
-      }
+
+        public IMessagePackFormatter<T> GetFormatter<T>() => FormatterCache<T>.Formatter;
+
+        private static class FormatterCache<T>
+        {
+            public static readonly IMessagePackFormatter<T> Formatter;
+
+            static FormatterCache()
+            {
+                foreach (IFormatterResolver resolver in Resolvers)
+                {
+                    var formatter = resolver.GetFormatter<T>();
+                    if (formatter == null) continue;
+                    Formatter = formatter;
+                    break;
+                }
+            }
+        }
     }
-  }
 }
