@@ -5,7 +5,6 @@ using System.IO;
 using SerializationUtility = Utility.SerializationUtility;
 using ExtensibleSaveFormat;
 using HooahComponents.Configuration;
-using HooahUtility.Model;
 using HooahUtility.Utility;
 using KKAPI.Studio.SaveLoad;
 using KKAPI.Utilities;
@@ -28,6 +27,13 @@ namespace HooahComponents.Hooks
 
         public class Controller : SceneCustomFunctionController
         {
+            protected override void OnObjectsCopied(ReadOnlyDictionary<int, ObjectCtrlInfo> copiedItems)
+            {
+                foreach (var objectCtrlInfo in copiedItems)
+                    if (Studio.Studio.Instance.dicObjectCtrl.TryGetValue(objectCtrlInfo.Key, out var src))
+                        StudioReferenceUtility.CopyComponentsData(src, objectCtrlInfo.Value);
+            }
+
             protected override void OnSceneLoad(SceneOperationKind operation,
                 ReadOnlyDictionary<int, ObjectCtrlInfo> loadedItems)
             {
@@ -41,8 +47,10 @@ namespace HooahComponents.Hooks
                 if (extendedData == null) return;
                 foreach (var keyValuePair in extendedData.data)
                 {
-                    if (!loadedItems.TryGetValue(Convert.ToInt32(keyValuePair.Key), out var objectCtrlInfo)) continue;
-                    if (!StudioReferenceUtility.TryGetOciEndNodeGameObject(objectCtrlInfo, out var target)) continue;
+                    if (!loadedItems.TryGetValue(Convert.ToInt32(keyValuePair.Key), out var objectCtrlInfo))
+                        continue;
+                    if (!StudioReferenceUtility.TryGetOciEndNodeGameObject(objectCtrlInfo, out var target))
+                        continue;
                     SerializationUtility.DeserializeAndApply(
                         SerializationUtility.GetSerializableComponent(target), keyValuePair.Value as byte[],
                         extendedData.version);

@@ -1,5 +1,4 @@
-﻿
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 #if AI || HS2
 using HarmonyLib;
 using HooahUtility.Utility;
@@ -51,13 +50,7 @@ namespace HooahComponents.Hooks
         public static void OnAddRoute(Studio.Studio __instance) => OnCreateItem();
 
         [HarmonyPostfix, HarmonyPatch(typeof(Studio.Studio), nameof(Studio.Studio.Duplicate))]
-        public static void OnDuplicate(Studio.Studio __instance)
-        {
-            OnDeselectStudioItem();
-            // please work
-            foreach (var change in StudioReferenceUtility.GetItemChanges())
-                StudioReferenceUtility.CopyComponentsData(change.FromOci, change.ToOci);
-        }
+        public static void OnDuplicate(Studio.Studio __instance) => OnDeselectStudioItem();
 
         [HarmonyPostfix, HarmonyPatch(typeof(SystemButtonCtrl), "OnSelectInitYes")]
         public static void OnResetScene() // Init

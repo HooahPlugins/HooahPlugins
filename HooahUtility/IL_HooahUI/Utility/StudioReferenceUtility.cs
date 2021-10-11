@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Object = UnityEngine.Object;
 #if AI || HS2
 using HooahUtility.Model;
 using Studio;
@@ -35,12 +33,6 @@ namespace HooahUtility.Utility
                 default:
                     return null;
             }
-        }
-
-        public static bool TryGetOciGameObject(ObjectCtrlInfo objectCtrlInfo, out GameObject gameObject)
-        {
-            gameObject = GetOciGameObject(objectCtrlInfo);
-            return gameObject != null;
         }
 
         public static GameObject GetOciEndNodeGameObject(ObjectCtrlInfo objectCtrlInfo)
@@ -95,8 +87,10 @@ namespace HooahUtility.Utility
         public static void CopyComponentsData(ObjectCtrlInfo srcInfo, ObjectCtrlInfo targetInfo)
         {
             // Just in case...
-            if (srcInfo == null || targetInfo == null || srcInfo == targetInfo) return;
             if (
+                ReferenceEquals(srcInfo, null) ||
+                ReferenceEquals(targetInfo, null) ||
+                srcInfo == targetInfo ||
                 !TryGetOciEndNodeGameObject(srcInfo, out var srcGameObject) ||
                 !TryGetOciEndNodeGameObject(targetInfo, out var targetGameObject) ||
                 srcGameObject == targetGameObject
@@ -119,52 +113,6 @@ namespace HooahUtility.Utility
                 if (srcComponent.GetType() == targetComponent.GetType())
                     CopyComponentData(srcComponent, targetComponent);
             }
-        }
-
-        /// <summary>
-        /// What things are change.
-        /// </summary>
-        public struct KeyChange
-        {
-            public int From;
-            public int To;
-            public ObjectCtrlInfo FromOci;
-            public ObjectCtrlInfo ToOci;
-        }
-
-        /// <summary>
-        /// To find what item's id has changed from last transaction.
-        /// Example: Import Scene, Duplicate Studio Items
-        /// </summary>
-        /// <returns></returns>
-        public static IEnumerable<KeyChange> GetKeyChanges()
-        {
-            var std = Studio.Studio.Instance;
-            var dict = std.dicObjectCtrl;
-            foreach (var entries in std.sceneInfo.dicChangeKey
-                .Where(x => dict.ContainsKey(x.Value) && dict.ContainsKey(x.Key)))
-            {
-                yield return new KeyChange()
-                {
-                    From = entries.Value,
-                    To = entries.Key,
-                    FromOci = dict[entries.Value],
-                    ToOci = dict[entries.Key]
-                };
-            }
-        }
-
-        /// <summary>
-        /// To find what item's id has changed from last transaction.
-        /// This function will only find Item and lights.
-        /// Example: Import Scene, Duplicate Studio Items
-        /// </summary>
-        /// <returns></returns>
-        public static IEnumerable<KeyChange> GetItemChanges()
-        {
-            return GetKeyChanges().Where(
-                x => (x.FromOci is OCIItem && x.ToOci is OCIItem) || (x.FromOci is OCILight && x.ToOci is OCILight)
-            );
         }
 
         /// <summary>
