@@ -4,7 +4,6 @@ using Object = UnityEngine.Object;
 #if AI || HS2
 using KKAPI.Utilities;
 using System.Reflection;
-
 #else
 using System.IO;
 #endif
