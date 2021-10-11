@@ -2,6 +2,7 @@
 using MessagePack;
 using UnityEngine;
 #if HS2 || AI
+using HooahUtility.Utility;
 using Studio;
 #endif
 
@@ -20,26 +21,9 @@ namespace HooahUtility.Serialization.StudioReference
         [IgnoreMember]
         public Transform ReferenceTransform => ReferenceEquals(null, Reference) ? GetRootTransform(Reference) : null;
 
-        private Transform GetRootTransform(ObjectCtrlInfo objectCtrlInfo)
-        {
-            switch (objectCtrlInfo)
-            {
-                case OCIChar ociChar:
-                    return ociChar.charInfo.gameObject.transform;
-                case OCILight ociLight:
-                    return ociLight.objectLight.transform;
-                case OCIItem ociItem:
-                    return ociItem.objectItem.transform;
-                case OCIFolder ociFolder:
-                    return ociFolder.objectItem.transform;
-                case OCICamera ociCamera:
-                    return ociCamera.objectItem.transform;
-                case OCIRoute ociRoute:
-                    return ociRoute.objectItem.transform;
-                default:
-                    return null;
-            }
-        }
+        [CanBeNull]
+        private Transform GetRootTransform(ObjectCtrlInfo objectCtrlInfo) =>
+            StudioReferenceUtility.GetOciGameObject(objectCtrlInfo)?.transform;
 
         public void OnBeforeSerialize()
         {

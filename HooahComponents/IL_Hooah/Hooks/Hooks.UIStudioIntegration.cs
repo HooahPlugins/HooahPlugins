@@ -1,4 +1,6 @@
-﻿#if AI || HS2
+﻿
+using System.Diagnostics.CodeAnalysis;
+#if AI || HS2
 using HarmonyLib;
 using HooahUtility.Utility;
 using Studio;
@@ -8,6 +10,7 @@ using Studio;
 namespace HooahComponents.Hooks
 {
     // Collection of Game Intergration hooks and harmony hooks
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public partial class Hooks
     {
 #if AI || HS2

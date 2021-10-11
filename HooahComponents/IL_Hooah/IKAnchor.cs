@@ -2,7 +2,6 @@
 using HooahUtility.Model;
 using UniRx;
 using UnityEngine;
-using IK = HooahComponents.Hooks.IK;
 #if AI || HS2
 using System;
 using System.Linq;

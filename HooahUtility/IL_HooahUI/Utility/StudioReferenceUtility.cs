@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Object = UnityEngine.Object;
 #if AI || HS2
 using HooahUtility.Model;
 using Studio;
@@ -12,6 +14,54 @@ namespace HooahUtility.Utility
     public static class StudioReferenceUtility
     {
 #if AI || HS2
+        public static GameObject GetOciGameObject(ObjectCtrlInfo objectCtrlInfo)
+        {
+            switch (objectCtrlInfo)
+            {
+                case OCICamera ociCamera:
+                    return ociCamera.objectItem;
+                case OCIChar ociChar:
+                    return ociChar.charInfo.gameObject;
+                case OCIFolder ociFolder:
+                    return ociFolder.objectItem;
+                case OCIItem ociItem:
+                    return ociItem.objectItem;
+                case OCILight ociLight:
+                    return ociLight.objectLight;
+                case OCIRoute ociRoute:
+                    return ociRoute.objectItem;
+                case OCIRoutePoint ociRoutePoint:
+                    return ociRoutePoint.objectItem;
+                default:
+                    return null;
+            }
+        }
+
+        public static bool TryGetOciGameObject(ObjectCtrlInfo objectCtrlInfo, out GameObject gameObject)
+        {
+            gameObject = GetOciGameObject(objectCtrlInfo);
+            return gameObject != null;
+        }
+
+        public static GameObject GetOciEndNodeGameObject(ObjectCtrlInfo objectCtrlInfo)
+        {
+            switch (objectCtrlInfo)
+            {
+                case OCIItem ociItem:
+                    return ociItem.objectItem;
+                case OCILight ociLight:
+                    return ociLight.objectLight;
+                default:
+                    return null;
+            }
+        }
+
+        public static bool TryGetOciEndNodeGameObject(ObjectCtrlInfo objectCtrlInfo, out GameObject gameObject)
+        {
+            gameObject = GetOciEndNodeGameObject(objectCtrlInfo);
+            return gameObject != null;
+        }
+
         /// <summary>
         /// Copy all serializable hooah component's data to same target component.
         /// </summary>
@@ -44,29 +94,13 @@ namespace HooahUtility.Utility
         /// <param name="targetInfo"></param>
         public static void CopyComponentsData(ObjectCtrlInfo srcInfo, ObjectCtrlInfo targetInfo)
         {
-            GameObject srcGameObject = null;
-            GameObject targetGameObject = null;
-
-
             // Just in case...
             if (srcInfo == null || targetInfo == null || srcInfo == targetInfo) return;
-
-            // Just Items and Monika.
-            if (srcInfo is OCIItem srcItemInfo && targetInfo is OCIItem targetItemInfo)
-            {
-                srcGameObject = srcItemInfo.objectItem;
-                targetGameObject = targetItemInfo.objectItem;
-            }
-
-            // Volumetric lights
-            else if (srcInfo is OCILight srcLightInfo && targetInfo is OCILight targetLightInfo)
-            {
-                srcGameObject = srcLightInfo.objectLight;
-                targetGameObject = targetLightInfo.objectLight;
-            }
-
-
-            if (srcGameObject == null || targetGameObject == null || srcGameObject == targetGameObject) return;
+            if (
+                !TryGetOciEndNodeGameObject(srcInfo, out var srcGameObject) ||
+                !TryGetOciEndNodeGameObject(targetInfo, out var targetGameObject) ||
+                srcGameObject == targetGameObject
+            ) return;
             var srcComponents = srcGameObject.GetComponents<IFormData>().ToArray();
             var targetComponents = targetGameObject.GetComponents<IFormData>().ToArray();
 
