@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{86835b6d-753c-4ed5-9241-7866dc5ca3e9}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>HooahUtility</RootNamespace>
+        <AssemblyName>HooahUtility</AssemblyName>
+        <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+        <Deterministic>true</Deterministic>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>TRACE;DEBUG;HS2</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE;HS2</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="Plugin.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="packages.config" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="ExtensibleSaveFormat.HoneySelect2" Version="16.4.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="IllusionLibs.HoneySelect2.Assembly-CSharp" Version="2020.5.29.4" />
+        <PackageReference Include="IllusionLibs.HoneySelect2.Assembly-CSharp-firstpass" Version="2020.5.29.4" />
+        <PackageReference Include="IllusionLibs.HoneySelect2.IL" Version="2020.5.29.4" />
+        <PackageReference Include="IllusionLibs.HoneySelect2.UniRx" Version="2020.5.29.4" />
+        <PackageReference Include="IllusionLibs.HoneySelect2.Unity.TextMeshPro" Version="2018.4.11.4" />
+        <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.AnimationModule" Version="2018.4.11.4" />
+        <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.AssetBundleModule" Version="2018.4.11.4" />
+        <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.AudioModule" Version="2018.4.11.4" />
+        <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.CoreModule" Version="2018.4.11.4" />
+        <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.ImageConversionModule" Version="2018.4.11.4" />
+        <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.PhysicsModule" Version="2018.4.11.4" />
+        <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.UI" Version="2018.4.11.4" />
+        <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.UIModule" Version="2018.4.11.4" />
+        <PackageReference Include="IllusionLibs.BepInEx" Version="5.4.13" />
+        <PackageReference Include="IllusionLibs.BepInEx.Harmony" Version="2.5.2" />
+        <PackageReference Include="IllusionModdingAPI.HS2API" Version="1.20.3" />
+        <Reference Include="System" />
+        <Reference Include="System.Xml" />
+        <Reference Include="System.Xml.Linq" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <PropertyGroup>
+        <PostBuildEvent>
+            mkdir "$(SolutionDir)\final"
+            call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(SolutionDir)\final" "$(ProjectName)"
+            call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(HS2Path)" "$(ProjectName)"
+        </PostBuildEvent>
+    </PropertyGroup>
+    <Import Project="..\IL_HooahUI\AdvancedStudioUI.projitems" Label="Shared" />
+</Project>

@@ -1,3 +1,5 @@
+> Repository is being setup. Please be patient.
+
 # Hooah Plugins 
 
 [![Build Status](https://dev.azure.com/hooh-hooah/hooh-hooah/_apis/build/status/HooahPlugins.HooahPlugins)](https://dev.azure.com/hooh-hooah/hooh-hooah/_build/latest?definitionId=2)

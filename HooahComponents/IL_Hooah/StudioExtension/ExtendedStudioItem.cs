@@ -7,6 +7,32 @@ using UnityEngine;
 
 namespace HooahComponents.StudioExtension
 {
+    // also this will require more attachment points
+    //      character / item
+    //         + add attachment point
+    //          
+    // The option should be tree structure?
+    // etc
+    // if i make a gun studio item
+    //      rails
+    //          attachments
+    //      guard
+    //          asdflkjj
+    //      barrel
+    //          suppressor
+    // Notable multi option concerns
+    //  * attachment transform change based on the option
+    //  * option dependency
+    //      * certain option or option group requires certain option or option group to be activated
+    //      * certain option or option group requires certain option or option group to be deactiated
+    // 
+    // material preset
+    //      list of custom materials
+    //      load the asset by the demand.
+    //      the material preset definition will be stored as csv or json... even yaml.
+    //      but well using yaml is easier.
+
+
     [Serializable, MessagePackObject()]
     public struct StudioOptionDependency
     {
@@ -62,7 +88,6 @@ namespace HooahComponents.StudioExtension
 
         public void GenerateStateData()
         {
-            
         }
 
         public new void OnAfterDeserialize()

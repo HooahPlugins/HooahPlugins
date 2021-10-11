@@ -12,6 +12,7 @@ using HooahUtility.Serialization.Attributes;
 using HooahUtility.Serialization.Formatter;
 using MessagePack;
 using UnityEngine;
+using Utility;
 using Object = UnityEngine.Object;
 
 namespace HooahUtility.Serialization
@@ -76,33 +77,8 @@ namespace HooahUtility.Serialization
             }
         }
 
-        private static MethodInfo GetGenericSerialize(Type t)
-        {
-            MethodInfo methodInfo1;
-            if (_serializeGenericCache.TryGetValue(t, out methodInfo1))
-                return methodInfo1;
-            var methodInfo2 = _serialize.MakeGenericMethod(t);
-            _serializeGenericCache[t] = methodInfo2;
-            return methodInfo2;
-        }
-
-        private static MethodInfo GetGenericDeserialize(Type t)
-        {
-            MethodInfo methodInfo1;
-            if (_deserializeGenericCache.TryGetValue(t, out methodInfo1))
-                return methodInfo1;
-            var methodInfo2 = _deserialize.MakeGenericMethod(t);
-            _deserializeGenericCache[t] = methodInfo2;
-            return methodInfo2;
-        }
-
         private static byte[] SerializeType(FieldInfo fieldInfo, object instance) =>
-            GetGenericSerialize(fieldInfo.FieldType)
-                .Invoke(null, new object[2]
-                {
-                    fieldInfo.GetValue(instance),
-                    UnityHackResolver.Instance
-                }) as byte[];
+            SerializationUtility.Serialize(fieldInfo.FieldType, fieldInfo.GetValue(instance));
 
         private IEnumerable<FieldInfo> GetTypeFields() =>
             GetType().GetFields().Where(
@@ -116,9 +92,7 @@ namespace HooahUtility.Serialization
             try
             {
                 serializedData = MessagePackSerializer.Serialize(GetTypeFields()
-                    .ToDictionary(x => x.Name,
-                        fieldInfo =>
-                            SerializeType(fieldInfo, this)));
+                    .ToDictionary(x => x.Name, fieldInfo => SerializeType(fieldInfo, this)));
             }
             finally
             {
@@ -128,6 +102,7 @@ namespace HooahUtility.Serialization
 
         public void OnBeforeSerialize() => Serialize();
 
+
         public void DeserializeData()
         {
             if (serializedData == null || serializedData.Length == 0)
@@ -135,22 +110,14 @@ namespace HooahUtility.Serialization
             var dictionary =
                 MessagePackSerializer.Deserialize<Dictionary<string, byte[]>>(serializedData,
                     UnityHackResolver.Instance);
-            if (dictionary == null)
-                return;
+            if (dictionary == null) return;
             UnityObjectFormatter.Context = this;
             try
             {
                 foreach (var typeField in GetTypeFields())
                 {
-                    byte[] numArray;
-                    if (!dictionary.TryGetValue(typeField.Name, out numArray)) continue;
-                    var obj = GetGenericDeserialize(typeField.FieldType).Invoke(null,
-                        new object[]
-                        {
-                            numArray,
-                            UnityHackResolver.Instance
-                        });
-                    typeField.SetValue(this, obj);
+                    if (!dictionary.TryGetValue(typeField.Name, out var data)) continue;
+                    typeField.SetValue(this, SerializationUtility.Deserialize(typeField.FieldType, data));
                 }
             }
             finally

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 #if AI || HS2
 using HooahUtility.Model;
 using Studio;
@@ -16,23 +15,25 @@ namespace HooahUtility.Utility
         /// <summary>
         /// Copy all serializable hooah component's data to same target component.
         /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
+        /// <param name="srcInstance"></param>
+        /// <param name="targetInstance"></param>
         /// <typeparam name="T"></typeparam>
-        public static void CopyComponentData<T>(T from, T to) where T : IFormData
+        public static void CopyComponentData<T>(T srcInstance, T targetInstance) where T : IFormData
         {
-            var fields = SerializationUtility.GetAllSerializableFields(from);
-            foreach (var keyValuePair in fields)
+            foreach (var memberInfo in SerializationUtility.GetAllSerializableFields(srcInstance).Values)
             {
-                switch (keyValuePair.Value)
-                {
-                    case PropertyInfo propertyInfo:
-                        propertyInfo.SetValue(to, propertyInfo.GetValue(from));
-                        break;
-                    case FieldInfo fieldInfo:
-                        fieldInfo.SetValue(to, fieldInfo.GetValue(from));
-                        break;
-                }
+                if (!SerializationUtility.TryGetMemberValue(memberInfo, srcInstance, out var value)) continue;
+                var type = value.GetType();
+
+                // to not even try to copy unity objects
+                if (!type.IsPrimitive && !type.IsAssignableFrom(typeof(Object)))
+                    SerializationUtility.TrySetMemberValue(
+                        memberInfo,
+                        targetInstance,
+                        SerializationUtility.Deserialize(type, SerializationUtility.Serialize(type, value))
+                    );
+                else
+                    SerializationUtility.TrySetMemberValue(memberInfo, targetInstance, value);
             }
         }
 
@@ -82,10 +83,7 @@ namespace HooahUtility.Utility
                 var srcComponent = srcComponents[i];
                 var targetComponent = targetComponents[i];
                 if (srcComponent.GetType() == targetComponent.GetType())
-                {
-                    // yes, it is same. it is time to merge.
                     CopyComponentData(srcComponent, targetComponent);
-                }
             }
         }
 

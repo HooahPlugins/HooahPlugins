@@ -79,4 +79,9 @@ crashlytics-build.properties
 .idea
 .git
 *.zip
+<<<<<<< Updated upstream
 *.rar
+=======
+*.rar
+/final
+>>>>>>> Stashed changes
