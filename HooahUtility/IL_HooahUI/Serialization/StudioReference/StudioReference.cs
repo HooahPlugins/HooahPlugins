@@ -1,7 +1,7 @@
-﻿using JetBrains.Annotations;
-using MessagePack;
-using UnityEngine;
+﻿using MessagePack;
 #if HS2 || AI
+using UnityEngine;
+using JetBrains.Annotations;
 using HooahUtility.Utility;
 using Studio;
 #endif
@@ -31,8 +31,6 @@ namespace HooahUtility.Serialization.StudioReference
 
         public void OnAfterDeserialize()
         {
-            // create some import key index adjustment.
-            // if the last import key references has some shit then good
         }
 #else
         public void OnBeforeSerialize()

@@ -37,20 +37,12 @@ namespace HooahComponents.Hooks
             protected override void OnSceneLoad(SceneOperationKind operation,
                 ReadOnlyDictionary<int, ObjectCtrlInfo> loadedItems)
             {
-                // todo: add import support
-                // todo: get dict key change
-                // todo: apply data.
-                // todo: add character specific setting data.
-                // todo: add item speic data...?
-
                 var extendedData = GetExtendedData();
                 if (extendedData == null) return;
                 foreach (var keyValuePair in extendedData.data)
                 {
-                    if (!loadedItems.TryGetValue(Convert.ToInt32(keyValuePair.Key), out var objectCtrlInfo))
-                        continue;
-                    if (!StudioReferenceUtility.TryGetOciEndNodeGameObject(objectCtrlInfo, out var target))
-                        continue;
+                    if (!loadedItems.TryGetValue(Convert.ToInt32(keyValuePair.Key), out var objectCtrlInfo)) continue;
+                    if (!StudioReferenceUtility.TryGetOciEndNodeGameObject(objectCtrlInfo, out var target)) continue;
                     SerializationUtility.DeserializeAndApply(
                         SerializationUtility.GetSerializableComponent(target), keyValuePair.Value as byte[],
                         extendedData.version);
