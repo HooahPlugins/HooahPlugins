@@ -34,7 +34,7 @@ namespace HooahUtility.Serialization.Formatter
 
             var instanceID = MessagePackBinary.ReadInt32(bytes, offset, out readSize);
             Object reference;
-            return (T) (UnityObjectFormatter.Context.TryGetReference(instanceID, out reference)
+            return (T)(UnityObjectFormatter.Context.TryGetReference(instanceID, out reference)
                 ? Convert.ChangeType(reference, typeof(T))
                 : null);
         }

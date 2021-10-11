@@ -1,6 +1,5 @@
 ﻿using MessagePack;
 using UnityEngine;
-
 #if HS2 || AI
 using Studio;
 #endif
