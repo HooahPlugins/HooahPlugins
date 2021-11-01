@@ -59,6 +59,9 @@ MonoBehaviour:
   - id: listspin
     prefab: {fileID: 6974362905202252612, guid: 0de46293225acfc4ca090fe416600a4c,
       type: 3}
+  - id: vector3
+    prefab: {fileID: 3398722352249205392, guid: 366a596bf8d524c45b9c0f1ec4a10963,
+      type: 3}
   compID:
   - slider
   - input
@@ -76,6 +79,7 @@ MonoBehaviour:
   - refasset
   - numspin
   - listspin
+  - vector3
   compPrefab:
   - {fileID: 852732874750802316, guid: 56cc7c15bb5feed43a1ff96ac9abad5c, type: 3}
   - {fileID: 5935678234021271584, guid: d9a92a6f59be97346a12356204283696, type: 3}
@@ -93,3 +97,4 @@ MonoBehaviour:
   - {fileID: 5937763779231478682, guid: 9aa89fd636eb43d45bb902ca93e942c1, type: 3}
   - {fileID: 6974362905202252612, guid: d9b3e2d6df3195140921d72bfc7805cc, type: 3}
   - {fileID: 6974362905202252612, guid: 0de46293225acfc4ca090fe416600a4c, type: 3}
+  - {fileID: 3398722352249205392, guid: 366a596bf8d524c45b9c0f1ec4a10963, type: 3}

@@ -9,6 +9,9 @@
     <Import_RootNamespace>IL_Hooah</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Architect\ArchitectMeshGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Architect\ArchitectMeshObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Architect\WallMesh.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ChannelTarget.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ChannelTrackerBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ChannelTrackerGimmickBase.cs" />
@@ -55,5 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Architect\ArchitectMeshGroup.cs.meta" />
+    <Content Include="$(MSBuildThisFileDirectory)Architect\ArchitectMeshObject.cs.meta" />
+    <Content Include="$(MSBuildThisFileDirectory)Architect\WallMesh.cs.meta" />
   </ItemGroup>
 </Project>
