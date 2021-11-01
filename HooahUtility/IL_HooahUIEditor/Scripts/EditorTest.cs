@@ -32,6 +32,7 @@ public class EditorTest : MonoBehaviour, IFormData
     public Light light;
     [Key(9)] public bool checkValue;
     private Color _color = Color.white;
+    [Key(20)] public Vector3 vectorValue;
 
     [Key(10)]
     public Color Color

@@ -17,5 +17,6 @@
         public const string ButtonCombined = "btncmb";
         public const string LabelComponent = "label";
         public const string ButtonBaseComponent = "btnbase";
+        public const string Vector3Field = "vector3";
     }
 }

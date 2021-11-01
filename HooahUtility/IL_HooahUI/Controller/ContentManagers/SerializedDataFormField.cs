@@ -69,6 +69,7 @@ namespace HooahUtility.Controller.ContentManagers
         public static void AddVectorField(SerializedDataForm form, MemberInfo memberInfo, object reference,
             object[] targets, Action pre = null, Action post = null)
         {
+            form.AddField<Vector3Component>(UIConstant.Vector3Field, memberInfo, reference, targets, pre, post);
         }
 
         public static void AddColorField(SerializedDataForm form, MemberInfo memberInfo, object reference,
