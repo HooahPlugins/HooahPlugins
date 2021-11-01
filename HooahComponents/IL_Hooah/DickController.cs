@@ -17,6 +17,7 @@ using AIChara;
 using Studio;
 using HooahUtility.Model;
 using KKAPI;
+
 #elif UNITY_EDITOR
 using MyBox;
 #endif
@@ -601,9 +602,10 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
 
         // var total = Mathf.Max(0, rightLength - (benisScale / dickChains.Length)*transform.localScale.z);
         var threshold = (segmentScale * (_dickTransformTargetNative.Length - 1));
-        var insertFactor = Math.Min(1, Math.Max(0, threshold - Mathf.Max(0, _leftLength)));
-        var fullFactor = Math.Min(1, Math.Max(0, insertFactor / Mathf.Max(0.00001f, _rightLength)));
-        _dickNavigator.factor = fullFactor;
+        var llen = Math.Max(0, threshold - Mathf.Max(0, _leftLength));
+        var shit = Math.Max(0, llen / Mathf.Max(0.00001f, _rightLength));
+        _dickNavigator.IntegrationFactor = Math.Min(1, shit);
+        _dickNavigator.IntegrationFactorUncap = shit;
 
         return _jobPosCalc.Schedule(_dickTransformTargetNative.Length, 1);
     }
@@ -631,7 +633,7 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
     private void ReleaseDickNavigator()
     {
         if (_dickNavigator == null) return;
-        _dickNavigator.factor = 0f;
+        _dickNavigator.IntegrationFactor = 0f;
         _dickNavigator = null;
     }
 

@@ -13,7 +13,7 @@ public class DickNavigatorIntegration : MonoBehaviour
     void Update()
     {
         if (navigator == null || renderer == null || curves == null || indices == null) return;
-        var f = navigator.factor;
+        var f = navigator.IntegrationFactor;
         for (var i = 0; i < curves.Length; i++)
         {
             var animationCurve = curves[i];
