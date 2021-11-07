@@ -105,6 +105,13 @@ namespace AdvancedStudioUI
                 return;
             }
 
+            // todo: multi structure form initialization
+            //       1. group by the form class type
+            //       2. link targets and class type menu***
+            //       3. initialize forms item by item (with separator)
+            //       4. apply and release patch
+            //       5. create object pool to prevent loading things again and again
+            //       6. initialize the pool based on the type group
             var formDataComponents = gameObjects.SelectMany(x => x.GetComponentsInChildren<IFormData>()).ToArray();
             var targetFormDataComponent = formDataComponents.FirstOrDefault();
             if (targetFormDataComponent == null) return;
