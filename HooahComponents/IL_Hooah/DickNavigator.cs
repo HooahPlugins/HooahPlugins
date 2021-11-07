@@ -82,7 +82,7 @@ public class DickNavigator : MonoBehaviour
 
     #region Pregmod Integraiton Context
 
-    private const string IntegrationID = "hooah DN Integration";
+    private const string IntegrationID = "hooah_DN_Integration";
     private float _lastMorphValue;
 
     private static bool IsPmIntegrationValid() =>
