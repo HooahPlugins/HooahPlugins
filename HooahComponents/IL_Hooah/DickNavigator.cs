@@ -24,13 +24,16 @@ public class DickNavigator : MonoBehaviour
     [NonSerialized] public float IntegrationFactor;
     [NonSerialized] public float IntegrationFactorUncap;
 
-    [Header("Pregmod Offset"), Key(0), Range(0f, 1f)]
+
+    [Header("Pregmod Offset"), Key(10)] public bool pmiEnabled = false;
+
+    [Header("Bulge Start Depth"), Key(0), Range(0f, 1f)]
     public float pmiOffset = 0.5f;
 
-    [Header("Pregmod Divider"), Key(1), Range(0.1f, 1)]
+    [Header("Bulge Sensitivity"), Key(1), Range(0.1f, 4f)]
     public float pmiDepth = 0.2f;
 
-    [Header("Pregmod Multiplier"), Key(2), Range(0.01f, 100f)]
+    [Header("Bulge Multiplier"), Key(2), Range(0.01f, 100f)]
     public float pmiInflationMultiplier = 30f;
 
     private void Start()
@@ -51,6 +54,7 @@ public class DickNavigator : MonoBehaviour
         Gizmos.DrawSphere(dickEndPoint.transform.position, .1f);
     }
 #else
+
     #region Reflection Type Reference
 
     private static readonly Type PregPlusControllerType;
@@ -78,7 +82,6 @@ public class DickNavigator : MonoBehaviour
 
     #region Pregmod Integraiton Context
 
-
     private const string IntegrationID = "hooah DN Integration";
     private float _lastMorphValue;
 
@@ -94,15 +97,21 @@ public class DickNavigator : MonoBehaviour
 
     private void LateUpdate()
     {
-        // poll it if shit bad
+        if (pmiEnabled) return;
         if (!IsPmIntegrationValid() || _pregmodController == null) return;
+        
+        #region Insertion Intensity
         var value = Mathf.Min(1, Mathf.Max(0, IntegrationFactorUncap - pmiOffset) / pmiDepth) * pmiInflationMultiplier;
         if (Math.Abs(_lastMorphValue - value) < 0.01f) return;
+        #endregion
+        
+        #region Pregmod Integration
         var infConfig = PregPlugControllerDataField.GetValue(_pregmodController);
         PregPlusInflationField.SetValue(infConfig, value);
         _lastMorphValue = value;
         var flags = MeshInflateTypeConstructor.Invoke(new[] { _pregmodController, null, null, null, null, null, null });
         MeshInflateMethod.Invoke(_pregmodController, new[] { flags, IntegrationID });
+        #endregion
     }
 
 
