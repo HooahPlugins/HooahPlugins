@@ -24,7 +24,8 @@ public class DickNavigator : MonoBehaviour
     [NonSerialized] public float IntegrationFactor;
     [NonSerialized] public float IntegrationFactorUncap;
 
-    [Header("Enabled"), Key(10)] public bool pmiEnabled;
+    [Header("Enable Pregmod Integration"), Key(10)]
+    public bool pmiEnabled;
 
     [Header("Bulge Start Depth"), Key(0), Range(0f, 1f)]
     public float pmiOffset = 0.5f;
