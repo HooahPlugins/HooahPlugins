@@ -24,8 +24,7 @@ public class DickNavigator : MonoBehaviour
     [NonSerialized] public float IntegrationFactor;
     [NonSerialized] public float IntegrationFactorUncap;
 
-
-    [Header("Pregmod Offset"), Key(10)] public bool pmiEnabled = false;
+    [Header("Enabled"), Key(10)] public bool pmiEnabled;
 
     [Header("Bulge Start Depth"), Key(0), Range(0f, 1f)]
     public float pmiOffset = 0.5f;
@@ -99,18 +98,22 @@ public class DickNavigator : MonoBehaviour
     {
         if (pmiEnabled) return;
         if (!IsPmIntegrationValid() || _pregmodController == null) return;
-        
+
         #region Insertion Intensity
+
         var value = Mathf.Min(1, Mathf.Max(0, IntegrationFactorUncap - pmiOffset) / pmiDepth) * pmiInflationMultiplier;
         if (Math.Abs(_lastMorphValue - value) < 0.01f) return;
+
         #endregion
-        
+
         #region Pregmod Integration
+
         var infConfig = PregPlugControllerDataField.GetValue(_pregmodController);
         PregPlusInflationField.SetValue(infConfig, value);
         _lastMorphValue = value;
         var flags = MeshInflateTypeConstructor.Invoke(new[] { _pregmodController, null, null, null, null, null, null });
         MeshInflateMethod.Invoke(_pregmodController, new[] { flags, IntegrationID });
+
         #endregion
     }
 
