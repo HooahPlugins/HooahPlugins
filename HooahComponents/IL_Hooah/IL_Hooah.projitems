@@ -37,6 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)LookAtIt.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LookAtMe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Modules\Render\RenderContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MonitorController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ParticleController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RailedTracker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DragTracker.cs" />
