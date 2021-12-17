@@ -72,6 +72,7 @@ public class MonitorController : MonoBehaviour
 
     public void PlayVideo(string u)
     {
+        _videoPlayer.Stop();
         url = u;
         _videoPlayer.url = u;
         _videoPlayer.Play();
