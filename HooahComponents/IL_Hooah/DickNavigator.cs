@@ -5,6 +5,7 @@ using System.Reflection;
 using UnityEngine;
 using MessagePack;
 #if AI || HS2
+using HooahUtility.Model.Attribute;
 using HarmonyLib;
 using HooahUtility.Model;
 #endif
@@ -24,16 +25,16 @@ public class DickNavigator : MonoBehaviour
     [NonSerialized] public float IntegrationFactor;
     [NonSerialized] public float IntegrationFactorUncap;
 
-    [Header("Enable Pregmod Integration"), Key(10)]
+    [FieldName("Enable Pregmod Integration"), Key(10)]
     public bool pmiEnabled;
 
-    [Header("Bulge Start Depth"), Key(0), Range(0f, 1f)]
+    [FieldName("Bulge Start Depth"), Key(0), Range(0f, 1f)]
     public float pmiOffset = 0.5f;
 
-    [Header("Bulge Sensitivity"), Key(1), Range(0.1f, 4f)]
+    [FieldName("Bulge Sensitivity"), Key(1), Range(0.1f, 4f)]
     public float pmiDepth = 0.2f;
 
-    [Header("Bulge Multiplier"), Key(2), Range(0.01f, 100f)]
+    [FieldName("Bulge Multiplier"), Key(2), Range(0.01f, 100f)]
     public float pmiInflationMultiplier = 30f;
 
     private void Start()
