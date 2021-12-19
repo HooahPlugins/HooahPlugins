@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -12,6 +14,8 @@ using KKAPI.Utilities;
 using MessagePack;
 #endif
 
+// todo: find a way to unscrew the unity native video issue
+//       (the game crashes when the video has audio track...)
 #if AI || HS2
 public class MonitorController : MonoBehaviour, IFormData
 #else
@@ -44,8 +48,19 @@ public class MonitorController : MonoBehaviour
         _videoPlayer.targetMaterialRenderer = GetComponent<Renderer>();
         if (_videoPlayer.targetMaterialRenderer == null)
             _videoPlayer.targetMaterialRenderer = GetComponentInChildren<Renderer>();
-        _videoPlayer.audioOutputMode = VideoAudioOutputMode.Direct;
         _videoPlayer.targetMaterialRenderer.material.SetTexture(materialShaderProperty, _renderTexture);
+        _videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
+        _videoPlayer.errorReceived += (source, message) =>
+        {
+            // todo: should i do something?
+            Debugger.Break();
+        };
+        _videoPlayer.prepareCompleted += source =>
+        {
+            source.Play();
+            for (ushort i = 0; i < _videoPlayer.audioTrackCount; i++)
+                _videoPlayer.EnableAudioTrack(i, false);
+        };
     }
 
 #if AI || HS2
@@ -73,11 +88,10 @@ public class MonitorController : MonoBehaviour
     public void PlayVideo(string u)
     {
         _videoPlayer.Stop();
+        _videoPlayer.url = null; // unset the variable to wish it to be cleared.
+        _videoPlayer.Stop();
         url = u;
         _videoPlayer.url = u;
-        _videoPlayer.Play();
-        // somehow its crashing the unity editor so im completely disabling it.
-        for (ushort i = 0; i < _videoPlayer.audioTrackCount; i++)
-            _videoPlayer.EnableAudioTrack(i, false);
+        _videoPlayer.Prepare();
     }
 }
