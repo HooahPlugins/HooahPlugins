@@ -62,6 +62,9 @@
         <Reference Include="UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\external\hs2/UnityEngine.ParticleSystemModule.dll</HintPath>
         </Reference>
+        <Reference Include="UnityEngine.VideoModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\external/hs2/UnityEngine.VideoModule.dll</HintPath>
+        </Reference>
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Plugin.cs" />
