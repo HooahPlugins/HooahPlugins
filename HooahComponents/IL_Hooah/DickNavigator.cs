@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using UnityEngine;
 using MessagePack;
-#if AI || HS2
 using HooahUtility.Model.Attribute;
+#if AI || HS2
+using System.Linq;
+using System.Reflection;
 using HarmonyLib;
 using HooahUtility.Model;
 #endif
