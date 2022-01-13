@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{1CE2FCFE-D2CB-4BFD-821F-9655A5447E66}</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>HS2_Heelz</RootNamespace>
+        <AssemblyName>HS2_Heelz</AssemblyName>
+        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+        <Deterministic>true</Deterministic>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>hooh_HS2Heelz.snk</AssemblyOriginatorKeyFile>
+        <PublicSign>true</PublicSign>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>TRACE;DEBUG;HS2</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="Plugin.cs"/>
+        <Compile Include="Properties\AssemblyInfo.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="packages.config"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Reference Include="System"/>
+        <Reference Include="System.Xml"/>
+        <Reference Include="System.Xml.Linq"/>
+        <PackageReference Include="IllusionLibs.HoneySelect2.Assembly-CSharp" Version="2020.5.29.4"/>
+        <PackageReference Include="IllusionLibs.HoneySelect2.Assembly-CSharp-firstpass" Version="2020.5.29.4"/>
+        <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.AnimationModule" Version="2018.4.11.4"/>
+        <PackageReference Include="IllusionLibs.HoneySelect2.UnityEngine.CoreModule" Version="2018.4.11.4"/>
+        <PackageReference Include="IllusionLibs.BepInEx" Version="5.4.15"/>
+        <PackageReference Include="IllusionLibs.BepInEx.Harmony" Version="2.5.4"/>
+        <PackageReference Include="IllusionModdingAPI.HS2API" Version="1.28.2"/>
+        <PackageReference Include="XUnity.Common" Version="1.0.0"/>
+        <PackageReference Include="XUnity.ResourceRedirector" Version="1.1.0"/>
+        <PackageReference Include="Sideloader.HoneySelect2" Version="16.9.2"/>
+    </ItemGroup>
+    <Import Project="..\IL_Heelz\IL_Heelz.projitems" Label="Shared"/>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+</Project>
