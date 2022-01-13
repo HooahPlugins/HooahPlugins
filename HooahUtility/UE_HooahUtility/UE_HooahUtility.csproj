@@ -50,11 +50,5 @@
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <Import Project="packages\IllusionLibs.AIGirl.MessagePack.2020.5.29.2\build\IllusionLibs.AIGirl.MessagePack.targets" Condition="Exists('..\packages\IllusionLibs.AIGirl.MessagePack.2020.5.29.2\build\IllusionLibs.AIGirl.MessagePack.targets')" />
-    <PropertyGroup>
-        <PostBuildEvent>
-            call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(EDITOR_A)" "$(AssemblyName)"
-            call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(EDITOR_B)" "$(AssemblyName)"
-        </PostBuildEvent>
-    </PropertyGroup>
     <Import Project="../IL_HooahUI/AdvancedStudioUI.projitems" Label="Shared" />
 </Project>
