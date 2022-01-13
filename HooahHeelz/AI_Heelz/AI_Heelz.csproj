@@ -14,7 +14,6 @@
         <Deterministic>true</Deterministic>
         <TargetFrameworkProfile/>
         <SignAssembly>true</SignAssembly>
-        <AssemblyOriginatorKeyFile>hooh_AIHeelz.snk</AssemblyOriginatorKeyFile>
         <PublicSign>true</PublicSign>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

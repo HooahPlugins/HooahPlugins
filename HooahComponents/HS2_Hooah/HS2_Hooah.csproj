@@ -13,7 +13,6 @@
         <DefineConstants>HS2</DefineConstants>
         <FileAlignment>512</FileAlignment>
         <SignAssembly>false</SignAssembly>
-        <AssemblyOriginatorKeyFile>HS2_Hooah.snk</AssemblyOriginatorKeyFile>
         <LangVersion>7.3</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -36,9 +35,6 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="Aura2_Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\..\external\Proprietary\Aura2_Core.dll</HintPath>
-        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
@@ -59,6 +55,9 @@
         <PackageReference Include="IllusionLibs.BepInEx" Version="5.4.13" />
         <PackageReference Include="IllusionModdingAPI.HS2API" Version="1.20.3" />
         <PackageReference Include="ExtensibleSaveFormat.HoneySelect2" Version="16.3.0" />
+        <Reference Include="Aura2_Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\external\Proprietary\Aura2_Core.dll</HintPath>
+        </Reference>
         <Reference Include="UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
             <HintPath>..\..\external\hs2/UnityEngine.ParticleSystemModule.dll</HintPath>
         </Reference>

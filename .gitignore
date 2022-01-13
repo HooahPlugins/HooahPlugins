@@ -80,6 +80,7 @@ crashlytics-build.properties
 *.cache
 /**/.github/
 /**/**/bin/
+/**/**/obj/
 *.zip
 *.rar
 HooahRandMutation/**/bin/**/*
