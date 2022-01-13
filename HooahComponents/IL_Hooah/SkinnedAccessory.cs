@@ -109,7 +109,7 @@ public static class SkinnedAccessoryHook
         if (skinnedAccessory == null)
         {
 #if DEBUG
-            throw new Exception($"Unable to find Skinned Accesory.");
+            throw new Exception($"Unable to find Skinned Accessory.");
 #else
             return;
 #endif

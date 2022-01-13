@@ -39,12 +39,14 @@
         <Reference Include="Aura2_Core, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\..\external\Proprietary\Aura2_Core.dll</HintPath>
         </Reference>
+        <Reference Include="UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\..\external\ai\UnityEngine.ParticleSystemModule.dll</HintPath>
+        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
         <Reference Include="System.Xml" />
         <Reference Include="System.Xml.Linq" />
-        <PackageReference Include="ExtensibleSaveFormat.AIGirl" Version="16.3.0" />
         <PackageReference Include="IllusionLibs.AIGirl.Assembly-CSharp" Version="2020.5.29.4" />
         <PackageReference Include="IllusionLibs.AIGirl.Assembly-CSharp-firstpass" Version="2020.5.29.4" />
         <PackageReference Include="IllusionLibs.AIGirl.Sirenix.Serialization" Version="2020.5.29.4" />
@@ -60,9 +62,6 @@
         <PackageReference Include="IllusionLibs.BepInEx.Harmony" Version="2.5.2" />
         <PackageReference Include="IllusionModdingAPI.AIAPI" Version="1.20.3" />
         <PackageReference Include="ExtensibleSaveFormat.AIGirl" Version="16.3.0" />
-        <Reference Include="UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\..\external\ai\UnityEngine.ParticleSystemModule.dll</HintPath>
-        </Reference>
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Plugin.cs" />
@@ -80,13 +79,6 @@
             <Name>AI_HooahUtility</Name>
         </ProjectReference>
     </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <Import Project="..\IL_Hooah\IL_Hooah.projitems" Label="Shared" />
-    <PropertyGroup>
-        <PostBuildEvent>
-            mkdir "$(SolutionDir)\final"
-            call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(SolutionDir)\final" "$(ProjectName)"
-            call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(AIPath)" "$(ProjectName)"
-        </PostBuildEvent>
-    </PropertyGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
