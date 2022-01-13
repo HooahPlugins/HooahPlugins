@@ -77,10 +77,8 @@ crashlytics-build.properties
 
 .idea
 .git
+/**/.github/
+/**/**/bin/
 *.zip
-<<<<<<< Updated upstream
 *.rar
-=======
-*.rar
-/final
->>>>>>> Stashed changes
+HooahRandMutation/**/bin/**/*
