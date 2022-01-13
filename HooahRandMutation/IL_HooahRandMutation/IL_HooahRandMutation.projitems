@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>3255e9c1-e4db-435b-8b21-a5d98afa4fdd</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>HooahRandMutationPlugin</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ABMXMutation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constant.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FemaleFaceShape.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FieldRefs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InterpolateShapeUtility.cs" />
+  </ItemGroup>
+</Project>

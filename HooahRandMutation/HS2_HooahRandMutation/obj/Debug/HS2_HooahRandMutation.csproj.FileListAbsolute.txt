@@ -1,0 +1,11 @@
+D:\projects\HooahPlugins\HooahRandMutation\HS2_HooahRandMutation\bin\Debug\HooahRandMutation.dll
+D:\projects\HooahPlugins\HooahRandMutation\HS2_HooahRandMutation\bin\Debug\HooahRandMutation.pdb
+D:\projects\HooahPlugins\HooahRandMutation\HS2_HooahRandMutation\bin\Debug\BepInEx.dll
+D:\projects\HooahPlugins\HooahRandMutation\HS2_HooahRandMutation\obj\Debug\HS2_HooahRandMutation.csproj.CoreCompileInputs.cache
+D:\projects\HooahPlugins\HooahRandMutation\HS2_HooahRandMutation\obj\Debug\HS2_HooahRandMutation.csproj.CopyComplete
+D:\projects\HooahPlugins\HooahRandMutation\HS2_HooahRandMutation\obj\Debug\HooahRandMutation.dll
+D:\projects\HooahPlugins\HooahRandMutation\HS2_HooahRandMutation\obj\Debug\HooahRandMutation.pdb
+D:\projects\HooahPlugins\HooahRandMutation\HS2_HooahRandMutation\bin\Debug\HS2_ExtensibleSaveFormat.dll
+D:\projects\HooahPlugins\HooahRandMutation\HS2_HooahRandMutation\bin\Debug\HS2API.dll
+D:\projects\HooahPlugins\HooahRandMutation\HS2_HooahRandMutation\bin\Debug\HS2ABMX.dll
+D:\projects\HooahPlugins\HooahRandMutation\HS2_HooahRandMutation\obj\Debug\HS2_HooahRandMutation.csproj.AssemblyReference.cache

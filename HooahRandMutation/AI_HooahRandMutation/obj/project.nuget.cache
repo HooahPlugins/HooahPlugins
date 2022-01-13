@@ -1,0 +1,99 @@
+{
+  "version": 2,
+  "dgSpecHash": "FcR1wAJic/VV4tHvHqV6a8L/Owo0N09krl4B1cdrSiohW9W4kNViQ7M4UobiKzHDOHXO8EPCZRCPosTOrR4ppQ==",
+  "success": true,
+  "projectFilePath": "D:\\projects\\HooahPlugins\\HooahRandMutation\\AI_HooahRandMutation\\AI_HooahRandMutation.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\carla\\.nuget\\packages\\abmx.aiabmx\\4.4.6\\abmx.aiabmx.4.4.6.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\extensiblesaveformat.aigirl\\16.4.0\\extensiblesaveformat.aigirl.16.4.0.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.aigirl.assembly-csharp\\2019.11.8\\illusionlibs.aigirl.assembly-csharp.2019.11.8.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.aigirl.assembly-csharp-firstpass\\2019.11.8\\illusionlibs.aigirl.assembly-csharp-firstpass.2019.11.8.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.aigirl.sirenix.serialization\\2020.5.29.4\\illusionlibs.aigirl.sirenix.serialization.2020.5.29.4.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.aigirl.unirx\\2020.5.29.4\\illusionlibs.aigirl.unirx.2020.5.29.4.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.aigirl.unityengine.coremodule\\2018.2.21\\illusionlibs.aigirl.unityengine.coremodule.2018.2.21.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.bepinex\\5.3.0\\illusionlibs.bepinex.5.3.0.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.bepinex.harmony\\2.0.6\\illusionlibs.bepinex.harmony.2.0.6.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.bepinex.monomod\\21.8.5.1\\illusionlibs.bepinex.monomod.21.8.5.1.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionmoddingapi.aiapi\\1.28.2\\illusionmoddingapi.aiapi.1.28.2.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "AI_HooahRandMutation depends on IllusionLibs.AIGirl.Assembly-CSharp (>= 0.0.0) but IllusionLibs.AIGirl.Assembly-CSharp 0.0.0 was not found. An approximate best match of IllusionLibs.AIGirl.Assembly-CSharp 2019.11.8 was resolved.",
+      "libraryId": "IllusionLibs.AIGirl.Assembly-CSharp",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.7.2",
+        ".NETFramework,Version=v4.7.2/win",
+        ".NETFramework,Version=v4.7.2/win-x64",
+        ".NETFramework,Version=v4.7.2/win-x86"
+      ]
+    },
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "AI_HooahRandMutation depends on IllusionLibs.AIGirl.Assembly-CSharp-firstpass (>= 0.0.0) but IllusionLibs.AIGirl.Assembly-CSharp-firstpass 0.0.0 was not found. An approximate best match of IllusionLibs.AIGirl.Assembly-CSharp-firstpass 2019.11.8 was resolved.",
+      "libraryId": "IllusionLibs.AIGirl.Assembly-CSharp-firstpass",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.7.2",
+        ".NETFramework,Version=v4.7.2/win",
+        ".NETFramework,Version=v4.7.2/win-x64",
+        ".NETFramework,Version=v4.7.2/win-x86"
+      ]
+    },
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "AI_HooahRandMutation depends on IllusionLibs.AIGirl.UnityEngine.CoreModule (>= 0.0.0) but IllusionLibs.AIGirl.UnityEngine.CoreModule 0.0.0 was not found. An approximate best match of IllusionLibs.AIGirl.UnityEngine.CoreModule 2018.2.21 was resolved.",
+      "libraryId": "IllusionLibs.AIGirl.UnityEngine.CoreModule",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.7.2",
+        ".NETFramework,Version=v4.7.2/win",
+        ".NETFramework,Version=v4.7.2/win-x64",
+        ".NETFramework,Version=v4.7.2/win-x86"
+      ]
+    },
+    {
+      "code": "NU1605",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Detected package downgrade: IllusionLibs.AIGirl.Assembly-CSharp from 2020.5.29.4 to 2019.11.8. Reference the package directly from the project to select a different version. \r\n AI_HooahRandMutation -> IllusionModdingAPI.AIAPI 1.28.2 -> IllusionLibs.AIGirl.Assembly-CSharp (>= 2020.5.29.4) \r\n AI_HooahRandMutation -> IllusionLibs.AIGirl.Assembly-CSharp (>= 0.0.0)",
+      "libraryId": "IllusionLibs.AIGirl.Assembly-CSharp",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.7.2",
+        ".NETFramework,Version=v4.7.2/win",
+        ".NETFramework,Version=v4.7.2/win-x64",
+        ".NETFramework,Version=v4.7.2/win-x86"
+      ]
+    },
+    {
+      "code": "NU1605",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Detected package downgrade: IllusionLibs.AIGirl.Assembly-CSharp-firstpass from 2020.5.29.4 to 2019.11.8. Reference the package directly from the project to select a different version. \r\n AI_HooahRandMutation -> IllusionModdingAPI.AIAPI 1.28.2 -> IllusionLibs.AIGirl.Assembly-CSharp-firstpass (>= 2020.5.29.4) \r\n AI_HooahRandMutation -> IllusionLibs.AIGirl.Assembly-CSharp-firstpass (>= 0.0.0)",
+      "libraryId": "IllusionLibs.AIGirl.Assembly-CSharp-firstpass",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.7.2",
+        ".NETFramework,Version=v4.7.2/win",
+        ".NETFramework,Version=v4.7.2/win-x64",
+        ".NETFramework,Version=v4.7.2/win-x86"
+      ]
+    },
+    {
+      "code": "NU1605",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Detected package downgrade: IllusionLibs.BepInEx from 5.4.15 to 5.3.0. Reference the package directly from the project to select a different version. \r\n AI_HooahRandMutation -> IllusionModdingAPI.AIAPI 1.28.2 -> IllusionLibs.BepInEx (>= 5.4.15) \r\n AI_HooahRandMutation -> IllusionLibs.BepInEx (>= 5.3.0)",
+      "libraryId": "IllusionLibs.BepInEx",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.7.2",
+        ".NETFramework,Version=v4.7.2/win",
+        ".NETFramework,Version=v4.7.2/win-x64",
+        ".NETFramework,Version=v4.7.2/win-x86"
+      ]
+    }
+  ]
+}

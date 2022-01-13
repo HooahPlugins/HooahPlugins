@@ -1,0 +1,838 @@
+{
+  "version": 3,
+  "targets": {
+    ".NETFramework,Version=v4.7.2": {
+      "ABMX.AIABMX/4.4.6": {
+        "type": "package",
+        "compile": {
+          "lib/net46/AIABMX.dll": {}
+        },
+        "runtime": {
+          "lib/net46/AIABMX.dll": {}
+        }
+      },
+      "ExtensibleSaveFormat.AIGirl/16.4.0": {
+        "type": "package",
+        "compile": {
+          "lib/net46/AI_ExtensibleSaveFormat.dll": {}
+        },
+        "runtime": {
+          "lib/net46/AI_ExtensibleSaveFormat.dll": {}
+        }
+      },
+      "IllusionLibs.AIGirl.Assembly-CSharp/2019.11.8": {
+        "type": "package",
+        "compile": {
+          "lib/net46/Assembly-CSharp.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Assembly-CSharp.dll": {}
+        }
+      },
+      "IllusionLibs.AIGirl.Assembly-CSharp-firstpass/2019.11.8": {
+        "type": "package",
+        "compile": {
+          "lib/net35/Assembly-CSharp-firstpass.dll": {}
+        },
+        "runtime": {
+          "lib/net35/Assembly-CSharp-firstpass.dll": {}
+        }
+      },
+      "IllusionLibs.AIGirl.Sirenix.Serialization/2020.5.29.4": {
+        "type": "package",
+        "compile": {
+          "lib/net46/Sirenix.Serialization.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Sirenix.Serialization.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.AIGirl.Sirenix.Serialization.targets": {}
+        }
+      },
+      "IllusionLibs.AIGirl.UniRx/2020.5.29.4": {
+        "type": "package",
+        "compile": {
+          "lib/net46/UniRx.dll": {}
+        },
+        "runtime": {
+          "lib/net46/UniRx.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.AIGirl.UniRx.targets": {}
+        }
+      },
+      "IllusionLibs.AIGirl.UnityEngine.CoreModule/2018.2.21": {
+        "type": "package",
+        "compile": {
+          "lib/net46/UnityEngine.CoreModule.dll": {},
+          "lib/net46/UnityEngine.dll": {}
+        },
+        "runtime": {
+          "lib/net46/UnityEngine.CoreModule.dll": {},
+          "lib/net46/UnityEngine.dll": {}
+        }
+      },
+      "IllusionLibs.BepInEx/5.3.0": {
+        "type": "package",
+        "compile": {
+          "lib/net35/BepInEx.dll": {}
+        },
+        "runtime": {
+          "lib/net35/BepInEx.dll": {}
+        }
+      },
+      "IllusionLibs.BepInEx.Harmony/2.0.6": {
+        "type": "package",
+        "compile": {
+          "lib/net35/0Harmony.dll": {},
+          "lib/net35/BepInEx.Harmony.dll": {}
+        },
+        "runtime": {
+          "lib/net35/0Harmony.dll": {},
+          "lib/net35/BepInEx.Harmony.dll": {}
+        }
+      },
+      "IllusionLibs.BepInEx.MonoMod/21.8.5.1": {
+        "type": "package",
+        "compile": {
+          "lib/net35/MonoMod.RuntimeDetour.dll": {},
+          "lib/net35/MonoMod.Utils.dll": {}
+        },
+        "runtime": {
+          "lib/net35/MonoMod.RuntimeDetour.dll": {},
+          "lib/net35/MonoMod.Utils.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.BepInEx.MonoMod.targets": {}
+        }
+      },
+      "IllusionModdingAPI.AIAPI/1.28.2": {
+        "type": "package",
+        "dependencies": {
+          "ExtensibleSaveFormat.AIGirl": "16.4.0",
+          "IllusionLibs.AIGirl.Assembly-CSharp": "2020.5.29.4",
+          "IllusionLibs.AIGirl.Assembly-CSharp-firstpass": "2020.5.29.4",
+          "IllusionLibs.AIGirl.Sirenix.Serialization": "2020.5.29.4",
+          "IllusionLibs.AIGirl.UniRx": "2020.5.29.4",
+          "IllusionLibs.AIGirl.UnityEngine.CoreModule": "2018.2.21",
+          "IllusionLibs.BepInEx": "5.4.15",
+          "IllusionLibs.BepInEx.MonoMod": "21.8.5.1"
+        },
+        "compile": {
+          "lib/net46/AIAPI.dll": {}
+        },
+        "runtime": {
+          "lib/net46/AIAPI.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.7.2/win": {
+      "ABMX.AIABMX/4.4.6": {
+        "type": "package",
+        "compile": {
+          "lib/net46/AIABMX.dll": {}
+        },
+        "runtime": {
+          "lib/net46/AIABMX.dll": {}
+        }
+      },
+      "ExtensibleSaveFormat.AIGirl/16.4.0": {
+        "type": "package",
+        "compile": {
+          "lib/net46/AI_ExtensibleSaveFormat.dll": {}
+        },
+        "runtime": {
+          "lib/net46/AI_ExtensibleSaveFormat.dll": {}
+        }
+      },
+      "IllusionLibs.AIGirl.Assembly-CSharp/2019.11.8": {
+        "type": "package",
+        "compile": {
+          "lib/net46/Assembly-CSharp.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Assembly-CSharp.dll": {}
+        }
+      },
+      "IllusionLibs.AIGirl.Assembly-CSharp-firstpass/2019.11.8": {
+        "type": "package",
+        "compile": {
+          "lib/net35/Assembly-CSharp-firstpass.dll": {}
+        },
+        "runtime": {
+          "lib/net35/Assembly-CSharp-firstpass.dll": {}
+        }
+      },
+      "IllusionLibs.AIGirl.Sirenix.Serialization/2020.5.29.4": {
+        "type": "package",
+        "compile": {
+          "lib/net46/Sirenix.Serialization.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Sirenix.Serialization.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.AIGirl.Sirenix.Serialization.targets": {}
+        }
+      },
+      "IllusionLibs.AIGirl.UniRx/2020.5.29.4": {
+        "type": "package",
+        "compile": {
+          "lib/net46/UniRx.dll": {}
+        },
+        "runtime": {
+          "lib/net46/UniRx.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.AIGirl.UniRx.targets": {}
+        }
+      },
+      "IllusionLibs.AIGirl.UnityEngine.CoreModule/2018.2.21": {
+        "type": "package",
+        "compile": {
+          "lib/net46/UnityEngine.CoreModule.dll": {},
+          "lib/net46/UnityEngine.dll": {}
+        },
+        "runtime": {
+          "lib/net46/UnityEngine.CoreModule.dll": {},
+          "lib/net46/UnityEngine.dll": {}
+        }
+      },
+      "IllusionLibs.BepInEx/5.3.0": {
+        "type": "package",
+        "compile": {
+          "lib/net35/BepInEx.dll": {}
+        },
+        "runtime": {
+          "lib/net35/BepInEx.dll": {}
+        }
+      },
+      "IllusionLibs.BepInEx.Harmony/2.0.6": {
+        "type": "package",
+        "compile": {
+          "lib/net35/0Harmony.dll": {},
+          "lib/net35/BepInEx.Harmony.dll": {}
+        },
+        "runtime": {
+          "lib/net35/0Harmony.dll": {},
+          "lib/net35/BepInEx.Harmony.dll": {}
+        }
+      },
+      "IllusionLibs.BepInEx.MonoMod/21.8.5.1": {
+        "type": "package",
+        "compile": {
+          "lib/net35/MonoMod.RuntimeDetour.dll": {},
+          "lib/net35/MonoMod.Utils.dll": {}
+        },
+        "runtime": {
+          "lib/net35/MonoMod.RuntimeDetour.dll": {},
+          "lib/net35/MonoMod.Utils.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.BepInEx.MonoMod.targets": {}
+        }
+      },
+      "IllusionModdingAPI.AIAPI/1.28.2": {
+        "type": "package",
+        "dependencies": {
+          "ExtensibleSaveFormat.AIGirl": "16.4.0",
+          "IllusionLibs.AIGirl.Assembly-CSharp": "2020.5.29.4",
+          "IllusionLibs.AIGirl.Assembly-CSharp-firstpass": "2020.5.29.4",
+          "IllusionLibs.AIGirl.Sirenix.Serialization": "2020.5.29.4",
+          "IllusionLibs.AIGirl.UniRx": "2020.5.29.4",
+          "IllusionLibs.AIGirl.UnityEngine.CoreModule": "2018.2.21",
+          "IllusionLibs.BepInEx": "5.4.15",
+          "IllusionLibs.BepInEx.MonoMod": "21.8.5.1"
+        },
+        "compile": {
+          "lib/net46/AIAPI.dll": {}
+        },
+        "runtime": {
+          "lib/net46/AIAPI.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.7.2/win-x64": {
+      "ABMX.AIABMX/4.4.6": {
+        "type": "package",
+        "compile": {
+          "lib/net46/AIABMX.dll": {}
+        },
+        "runtime": {
+          "lib/net46/AIABMX.dll": {}
+        }
+      },
+      "ExtensibleSaveFormat.AIGirl/16.4.0": {
+        "type": "package",
+        "compile": {
+          "lib/net46/AI_ExtensibleSaveFormat.dll": {}
+        },
+        "runtime": {
+          "lib/net46/AI_ExtensibleSaveFormat.dll": {}
+        }
+      },
+      "IllusionLibs.AIGirl.Assembly-CSharp/2019.11.8": {
+        "type": "package",
+        "compile": {
+          "lib/net46/Assembly-CSharp.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Assembly-CSharp.dll": {}
+        }
+      },
+      "IllusionLibs.AIGirl.Assembly-CSharp-firstpass/2019.11.8": {
+        "type": "package",
+        "compile": {
+          "lib/net35/Assembly-CSharp-firstpass.dll": {}
+        },
+        "runtime": {
+          "lib/net35/Assembly-CSharp-firstpass.dll": {}
+        }
+      },
+      "IllusionLibs.AIGirl.Sirenix.Serialization/2020.5.29.4": {
+        "type": "package",
+        "compile": {
+          "lib/net46/Sirenix.Serialization.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Sirenix.Serialization.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.AIGirl.Sirenix.Serialization.targets": {}
+        }
+      },
+      "IllusionLibs.AIGirl.UniRx/2020.5.29.4": {
+        "type": "package",
+        "compile": {
+          "lib/net46/UniRx.dll": {}
+        },
+        "runtime": {
+          "lib/net46/UniRx.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.AIGirl.UniRx.targets": {}
+        }
+      },
+      "IllusionLibs.AIGirl.UnityEngine.CoreModule/2018.2.21": {
+        "type": "package",
+        "compile": {
+          "lib/net46/UnityEngine.CoreModule.dll": {},
+          "lib/net46/UnityEngine.dll": {}
+        },
+        "runtime": {
+          "lib/net46/UnityEngine.CoreModule.dll": {},
+          "lib/net46/UnityEngine.dll": {}
+        }
+      },
+      "IllusionLibs.BepInEx/5.3.0": {
+        "type": "package",
+        "compile": {
+          "lib/net35/BepInEx.dll": {}
+        },
+        "runtime": {
+          "lib/net35/BepInEx.dll": {}
+        }
+      },
+      "IllusionLibs.BepInEx.Harmony/2.0.6": {
+        "type": "package",
+        "compile": {
+          "lib/net35/0Harmony.dll": {},
+          "lib/net35/BepInEx.Harmony.dll": {}
+        },
+        "runtime": {
+          "lib/net35/0Harmony.dll": {},
+          "lib/net35/BepInEx.Harmony.dll": {}
+        }
+      },
+      "IllusionLibs.BepInEx.MonoMod/21.8.5.1": {
+        "type": "package",
+        "compile": {
+          "lib/net35/MonoMod.RuntimeDetour.dll": {},
+          "lib/net35/MonoMod.Utils.dll": {}
+        },
+        "runtime": {
+          "lib/net35/MonoMod.RuntimeDetour.dll": {},
+          "lib/net35/MonoMod.Utils.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.BepInEx.MonoMod.targets": {}
+        }
+      },
+      "IllusionModdingAPI.AIAPI/1.28.2": {
+        "type": "package",
+        "dependencies": {
+          "ExtensibleSaveFormat.AIGirl": "16.4.0",
+          "IllusionLibs.AIGirl.Assembly-CSharp": "2020.5.29.4",
+          "IllusionLibs.AIGirl.Assembly-CSharp-firstpass": "2020.5.29.4",
+          "IllusionLibs.AIGirl.Sirenix.Serialization": "2020.5.29.4",
+          "IllusionLibs.AIGirl.UniRx": "2020.5.29.4",
+          "IllusionLibs.AIGirl.UnityEngine.CoreModule": "2018.2.21",
+          "IllusionLibs.BepInEx": "5.4.15",
+          "IllusionLibs.BepInEx.MonoMod": "21.8.5.1"
+        },
+        "compile": {
+          "lib/net46/AIAPI.dll": {}
+        },
+        "runtime": {
+          "lib/net46/AIAPI.dll": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.7.2/win-x86": {
+      "ABMX.AIABMX/4.4.6": {
+        "type": "package",
+        "compile": {
+          "lib/net46/AIABMX.dll": {}
+        },
+        "runtime": {
+          "lib/net46/AIABMX.dll": {}
+        }
+      },
+      "ExtensibleSaveFormat.AIGirl/16.4.0": {
+        "type": "package",
+        "compile": {
+          "lib/net46/AI_ExtensibleSaveFormat.dll": {}
+        },
+        "runtime": {
+          "lib/net46/AI_ExtensibleSaveFormat.dll": {}
+        }
+      },
+      "IllusionLibs.AIGirl.Assembly-CSharp/2019.11.8": {
+        "type": "package",
+        "compile": {
+          "lib/net46/Assembly-CSharp.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Assembly-CSharp.dll": {}
+        }
+      },
+      "IllusionLibs.AIGirl.Assembly-CSharp-firstpass/2019.11.8": {
+        "type": "package",
+        "compile": {
+          "lib/net35/Assembly-CSharp-firstpass.dll": {}
+        },
+        "runtime": {
+          "lib/net35/Assembly-CSharp-firstpass.dll": {}
+        }
+      },
+      "IllusionLibs.AIGirl.Sirenix.Serialization/2020.5.29.4": {
+        "type": "package",
+        "compile": {
+          "lib/net46/Sirenix.Serialization.dll": {}
+        },
+        "runtime": {
+          "lib/net46/Sirenix.Serialization.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.AIGirl.Sirenix.Serialization.targets": {}
+        }
+      },
+      "IllusionLibs.AIGirl.UniRx/2020.5.29.4": {
+        "type": "package",
+        "compile": {
+          "lib/net46/UniRx.dll": {}
+        },
+        "runtime": {
+          "lib/net46/UniRx.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.AIGirl.UniRx.targets": {}
+        }
+      },
+      "IllusionLibs.AIGirl.UnityEngine.CoreModule/2018.2.21": {
+        "type": "package",
+        "compile": {
+          "lib/net46/UnityEngine.CoreModule.dll": {},
+          "lib/net46/UnityEngine.dll": {}
+        },
+        "runtime": {
+          "lib/net46/UnityEngine.CoreModule.dll": {},
+          "lib/net46/UnityEngine.dll": {}
+        }
+      },
+      "IllusionLibs.BepInEx/5.3.0": {
+        "type": "package",
+        "compile": {
+          "lib/net35/BepInEx.dll": {}
+        },
+        "runtime": {
+          "lib/net35/BepInEx.dll": {}
+        }
+      },
+      "IllusionLibs.BepInEx.Harmony/2.0.6": {
+        "type": "package",
+        "compile": {
+          "lib/net35/0Harmony.dll": {},
+          "lib/net35/BepInEx.Harmony.dll": {}
+        },
+        "runtime": {
+          "lib/net35/0Harmony.dll": {},
+          "lib/net35/BepInEx.Harmony.dll": {}
+        }
+      },
+      "IllusionLibs.BepInEx.MonoMod/21.8.5.1": {
+        "type": "package",
+        "compile": {
+          "lib/net35/MonoMod.RuntimeDetour.dll": {},
+          "lib/net35/MonoMod.Utils.dll": {}
+        },
+        "runtime": {
+          "lib/net35/MonoMod.RuntimeDetour.dll": {},
+          "lib/net35/MonoMod.Utils.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.BepInEx.MonoMod.targets": {}
+        }
+      },
+      "IllusionModdingAPI.AIAPI/1.28.2": {
+        "type": "package",
+        "dependencies": {
+          "ExtensibleSaveFormat.AIGirl": "16.4.0",
+          "IllusionLibs.AIGirl.Assembly-CSharp": "2020.5.29.4",
+          "IllusionLibs.AIGirl.Assembly-CSharp-firstpass": "2020.5.29.4",
+          "IllusionLibs.AIGirl.Sirenix.Serialization": "2020.5.29.4",
+          "IllusionLibs.AIGirl.UniRx": "2020.5.29.4",
+          "IllusionLibs.AIGirl.UnityEngine.CoreModule": "2018.2.21",
+          "IllusionLibs.BepInEx": "5.4.15",
+          "IllusionLibs.BepInEx.MonoMod": "21.8.5.1"
+        },
+        "compile": {
+          "lib/net46/AIAPI.dll": {}
+        },
+        "runtime": {
+          "lib/net46/AIAPI.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ABMX.AIABMX/4.4.6": {
+      "sha512": "8IoVOL7S06zVFHT8yQTXlaEm1BVEPuNmS5WYlMPrTTGigYV6I39TYf7qvjLK6FU95wHfrRdnJlDNvpsPsCtnjQ==",
+      "type": "package",
+      "path": "abmx.aiabmx/4.4.6",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        "abmx.aiabmx.4.4.6.nupkg.sha512",
+        "abmx.aiabmx.nuspec",
+        "lib/net46/AIABMX.dll",
+        "lib/net46/AIABMX.xml",
+        "tools/install.ps1"
+      ]
+    },
+    "ExtensibleSaveFormat.AIGirl/16.4.0": {
+      "sha512": "rXXX4J7w9DbdBKSDJsBxNGi6Nx6gqV3LDmrHrY/jno18GSpyY6Ew0+Hhm+hNqKxtrJ/rEtG49MQBTef9VXuYBA==",
+      "type": "package",
+      "path": "extensiblesaveformat.aigirl/16.4.0",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        "extensiblesaveformat.aigirl.16.4.0.nupkg.sha512",
+        "extensiblesaveformat.aigirl.nuspec",
+        "lib/net46/AI_ExtensibleSaveFormat.dll",
+        "lib/net46/AI_ExtensibleSaveFormat.xml",
+        "tools/install.ps1"
+      ]
+    },
+    "IllusionLibs.AIGirl.Assembly-CSharp/2019.11.8": {
+      "sha512": "1BDVSV0Fz4wPLqINOoF0gukgxNcV9T6NCgqycH0dLDSXoCDb2w0jzIKH7K5UMAIJwr0PEdpWoBENhq1Qazy/vA==",
+      "type": "package",
+      "path": "illusionlibs.aigirl.assembly-csharp/2019.11.8",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        "illusionlibs.aigirl.assembly-csharp.2019.11.8.nupkg.sha512",
+        "illusionlibs.aigirl.assembly-csharp.nuspec",
+        "lib/net46/Assembly-CSharp.dll",
+        "tools/install.ps1"
+      ]
+    },
+    "IllusionLibs.AIGirl.Assembly-CSharp-firstpass/2019.11.8": {
+      "sha512": "zRB5YIQy9/yVr1/fjTVWi4ZNiWxA3nL0LMMBJ7KB3Ap+1iuQ1lQN7neVE5/u2VK5sbIQ3SmuFdjBcY6WQw8R5A==",
+      "type": "package",
+      "path": "illusionlibs.aigirl.assembly-csharp-firstpass/2019.11.8",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        "illusionlibs.aigirl.assembly-csharp-firstpass.2019.11.8.nupkg.sha512",
+        "illusionlibs.aigirl.assembly-csharp-firstpass.nuspec",
+        "lib/net35/Assembly-CSharp-firstpass.dll",
+        "tools/install.ps1"
+      ]
+    },
+    "IllusionLibs.AIGirl.Sirenix.Serialization/2020.5.29.4": {
+      "sha512": "u/youpMxAmo95vlZTAqmhHyv21+CPg13RWXdI2syT3JzmrmIUUstdkABc7CXdCYqT9aTHHooai6pv0TBr2d3qQ==",
+      "type": "package",
+      "path": "illusionlibs.aigirl.sirenix.serialization/2020.5.29.4",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        "build/IllusionLibs.AIGirl.Sirenix.Serialization.targets",
+        "illusionlibs.aigirl.sirenix.serialization.2020.5.29.4.nupkg.sha512",
+        "illusionlibs.aigirl.sirenix.serialization.nuspec",
+        "lib/net46/Sirenix.Serialization.dll",
+        "tools/install.ps1"
+      ]
+    },
+    "IllusionLibs.AIGirl.UniRx/2020.5.29.4": {
+      "sha512": "k3AZVuV2JtzI36VZmDIyEFM8lszdkL5nHXqhrldytn3Ztw637S/ASLByTFlwyZTq5Gr6vw5x+ilOINL9AWc+WQ==",
+      "type": "package",
+      "path": "illusionlibs.aigirl.unirx/2020.5.29.4",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        "build/IllusionLibs.AIGirl.UniRx.targets",
+        "illusionlibs.aigirl.unirx.2020.5.29.4.nupkg.sha512",
+        "illusionlibs.aigirl.unirx.nuspec",
+        "lib/net46/UniRx.dll",
+        "tools/install.ps1"
+      ]
+    },
+    "IllusionLibs.AIGirl.UnityEngine.CoreModule/2018.2.21": {
+      "sha512": "A79bkWR2cme7ci/QF5xduR7YDUptPjzUHQX7WjdnmQyTpcFTZTsPlDHoh8oEatjJwkAjoI9daFo+7uR8ha7IYQ==",
+      "type": "package",
+      "path": "illusionlibs.aigirl.unityengine.coremodule/2018.2.21",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        "illusionlibs.aigirl.unityengine.coremodule.2018.2.21.nupkg.sha512",
+        "illusionlibs.aigirl.unityengine.coremodule.nuspec",
+        "lib/net46/UnityEngine.CoreModule.dll",
+        "lib/net46/UnityEngine.CoreModule.xml",
+        "lib/net46/UnityEngine.dll",
+        "tools/install.ps1"
+      ]
+    },
+    "IllusionLibs.BepInEx/5.3.0": {
+      "sha512": "YkvJMSvNcFMORg2LF3c5ygJruUndKMZ5q13ELyqULATz9n2kcM6HByi5wBjMTNclyjqnGZlqgm/5GI+1kCJvSQ==",
+      "type": "package",
+      "path": "illusionlibs.bepinex/5.3.0",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        "illusionlibs.bepinex.5.3.0.nupkg.sha512",
+        "illusionlibs.bepinex.nuspec",
+        "lib/net35/BepInEx.dll",
+        "lib/net35/BepInEx.xml",
+        "tools/install.ps1"
+      ]
+    },
+    "IllusionLibs.BepInEx.Harmony/2.0.6": {
+      "sha512": "OHC67pBKSqu05sdhHU3UTbNMZe9YR/kIKpfuqNsrXudBIzFafcJxbBWvcsRwY0KqeJ3E1SfpMpg9sYfZWhfQ9A==",
+      "type": "package",
+      "path": "illusionlibs.bepinex.harmony/2.0.6",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        "illusionlibs.bepinex.harmony.2.0.6.nupkg.sha512",
+        "illusionlibs.bepinex.harmony.nuspec",
+        "lib/net35/0Harmony.dll",
+        "lib/net35/0Harmony.xml",
+        "lib/net35/BepInEx.Harmony.dll",
+        "lib/net35/BepInEx.Harmony.xml",
+        "tools/install.ps1"
+      ]
+    },
+    "IllusionLibs.BepInEx.MonoMod/21.8.5.1": {
+      "sha512": "pBnGOZacNuCocEC9uOAE3eJnUz0xCOXLHT2uwID93yOBszUmxw50tRQqtTeIGE9R8jOM8IOiIWhcYau9kfOilw==",
+      "type": "package",
+      "path": "illusionlibs.bepinex.monomod/21.8.5.1",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        "build/IllusionLibs.BepInEx.MonoMod.targets",
+        "illusionlibs.bepinex.monomod.21.8.5.1.nupkg.sha512",
+        "illusionlibs.bepinex.monomod.nuspec",
+        "lib/net35/MonoMod.RuntimeDetour.dll",
+        "lib/net35/MonoMod.RuntimeDetour.xml",
+        "lib/net35/MonoMod.Utils.dll",
+        "lib/net35/MonoMod.Utils.xml",
+        "tools/install.ps1"
+      ]
+    },
+    "IllusionModdingAPI.AIAPI/1.28.2": {
+      "sha512": "KGgdma/ZZrDOhGOaOe+5a8MNyRkZPWqZ4Hyf3fHmkCjv2iCodYJM0Hhi3BSgTnSFqbeR/yQs9zbiUNQSS7wqSA==",
+      "type": "package",
+      "path": "illusionmoddingapi.aiapi/1.28.2",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        "illusionmoddingapi.aiapi.1.28.2.nupkg.sha512",
+        "illusionmoddingapi.aiapi.nuspec",
+        "lib/net46/AIAPI.dll",
+        "lib/net46/AIAPI.xml",
+        "tools/install.ps1"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.7.2": [
+      "ABMX.AIABMX >= 4.4.6",
+      "IllusionLibs.AIGirl.Assembly-CSharp >= 0.0.0",
+      "IllusionLibs.AIGirl.Assembly-CSharp-firstpass >= 0.0.0",
+      "IllusionLibs.AIGirl.UnityEngine.CoreModule >= 0.0.0",
+      "IllusionLibs.BepInEx >= 5.3.0",
+      "IllusionLibs.BepInEx.Harmony >= 2.0.6",
+      "IllusionModdingAPI.AIAPI >= 1.28.2"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\carla\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\projects\\HooahPlugins\\HooahRandMutation\\AI_HooahRandMutation\\AI_HooahRandMutation.csproj",
+      "projectName": "AI_HooahRandMutation",
+      "projectPath": "D:\\projects\\HooahPlugins\\HooahRandMutation\\AI_HooahRandMutation\\AI_HooahRandMutation.csproj",
+      "packagesPath": "C:\\Users\\carla\\.nuget\\packages\\",
+      "outputPath": "D:\\projects\\HooahPlugins\\HooahRandMutation\\AI_HooahRandMutation\\obj\\",
+      "projectStyle": "PackageReference",
+      "skipContentFileWrite": true,
+      "configFilePaths": [
+        "D:\\projects\\HooahPlugins\\NuGet.Config",
+        "C:\\Users\\carla\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net472"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://pkgs.dev.azure.com/IllusionMods/Nuget/_packaging/IllusionMods/nuget/v3/index.json": {}
+      },
+      "frameworks": {
+        "net472": {
+          "projectReferences": {}
+        }
+      }
+    },
+    "frameworks": {
+      "net472": {
+        "dependencies": {
+          "ABMX.AIABMX": {
+            "target": "Package",
+            "version": "[4.4.6, )"
+          },
+          "IllusionLibs.AIGirl.Assembly-CSharp": {
+            "target": "Package",
+            "version": "[0.0.0, )"
+          },
+          "IllusionLibs.AIGirl.Assembly-CSharp-firstpass": {
+            "target": "Package",
+            "version": "[0.0.0, )"
+          },
+          "IllusionLibs.AIGirl.UnityEngine.CoreModule": {
+            "target": "Package",
+            "version": "[0.0.0, )"
+          },
+          "IllusionLibs.BepInEx": {
+            "target": "Package",
+            "version": "[5.3.0, )"
+          },
+          "IllusionLibs.BepInEx.Harmony": {
+            "target": "Package",
+            "version": "[2.0.6, )"
+          },
+          "IllusionModdingAPI.AIAPI": {
+            "target": "Package",
+            "version": "[1.28.2, )"
+          }
+        }
+      }
+    },
+    "runtimes": {
+      "win": {
+        "#import": []
+      },
+      "win-x64": {
+        "#import": []
+      },
+      "win-x86": {
+        "#import": []
+      }
+    }
+  },
+  "logs": [
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "AI_HooahRandMutation depends on IllusionLibs.AIGirl.Assembly-CSharp (>= 0.0.0) but IllusionLibs.AIGirl.Assembly-CSharp 0.0.0 was not found. An approximate best match of IllusionLibs.AIGirl.Assembly-CSharp 2019.11.8 was resolved.",
+      "libraryId": "IllusionLibs.AIGirl.Assembly-CSharp",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.7.2",
+        ".NETFramework,Version=v4.7.2/win",
+        ".NETFramework,Version=v4.7.2/win-x64",
+        ".NETFramework,Version=v4.7.2/win-x86"
+      ]
+    },
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "AI_HooahRandMutation depends on IllusionLibs.AIGirl.Assembly-CSharp-firstpass (>= 0.0.0) but IllusionLibs.AIGirl.Assembly-CSharp-firstpass 0.0.0 was not found. An approximate best match of IllusionLibs.AIGirl.Assembly-CSharp-firstpass 2019.11.8 was resolved.",
+      "libraryId": "IllusionLibs.AIGirl.Assembly-CSharp-firstpass",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.7.2",
+        ".NETFramework,Version=v4.7.2/win",
+        ".NETFramework,Version=v4.7.2/win-x64",
+        ".NETFramework,Version=v4.7.2/win-x86"
+      ]
+    },
+    {
+      "code": "NU1603",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "AI_HooahRandMutation depends on IllusionLibs.AIGirl.UnityEngine.CoreModule (>= 0.0.0) but IllusionLibs.AIGirl.UnityEngine.CoreModule 0.0.0 was not found. An approximate best match of IllusionLibs.AIGirl.UnityEngine.CoreModule 2018.2.21 was resolved.",
+      "libraryId": "IllusionLibs.AIGirl.UnityEngine.CoreModule",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.7.2",
+        ".NETFramework,Version=v4.7.2/win",
+        ".NETFramework,Version=v4.7.2/win-x64",
+        ".NETFramework,Version=v4.7.2/win-x86"
+      ]
+    },
+    {
+      "code": "NU1605",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Detected package downgrade: IllusionLibs.AIGirl.Assembly-CSharp from 2020.5.29.4 to 2019.11.8. Reference the package directly from the project to select a different version. \r\n AI_HooahRandMutation -> IllusionModdingAPI.AIAPI 1.28.2 -> IllusionLibs.AIGirl.Assembly-CSharp (>= 2020.5.29.4) \r\n AI_HooahRandMutation -> IllusionLibs.AIGirl.Assembly-CSharp (>= 0.0.0)",
+      "libraryId": "IllusionLibs.AIGirl.Assembly-CSharp",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.7.2",
+        ".NETFramework,Version=v4.7.2/win",
+        ".NETFramework,Version=v4.7.2/win-x64",
+        ".NETFramework,Version=v4.7.2/win-x86"
+      ]
+    },
+    {
+      "code": "NU1605",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Detected package downgrade: IllusionLibs.AIGirl.Assembly-CSharp-firstpass from 2020.5.29.4 to 2019.11.8. Reference the package directly from the project to select a different version. \r\n AI_HooahRandMutation -> IllusionModdingAPI.AIAPI 1.28.2 -> IllusionLibs.AIGirl.Assembly-CSharp-firstpass (>= 2020.5.29.4) \r\n AI_HooahRandMutation -> IllusionLibs.AIGirl.Assembly-CSharp-firstpass (>= 0.0.0)",
+      "libraryId": "IllusionLibs.AIGirl.Assembly-CSharp-firstpass",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.7.2",
+        ".NETFramework,Version=v4.7.2/win",
+        ".NETFramework,Version=v4.7.2/win-x64",
+        ".NETFramework,Version=v4.7.2/win-x86"
+      ]
+    },
+    {
+      "code": "NU1605",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Detected package downgrade: IllusionLibs.BepInEx from 5.4.15 to 5.3.0. Reference the package directly from the project to select a different version. \r\n AI_HooahRandMutation -> IllusionModdingAPI.AIAPI 1.28.2 -> IllusionLibs.BepInEx (>= 5.4.15) \r\n AI_HooahRandMutation -> IllusionLibs.BepInEx (>= 5.3.0)",
+      "libraryId": "IllusionLibs.BepInEx",
+      "targetGraphs": [
+        ".NETFramework,Version=v4.7.2",
+        ".NETFramework,Version=v4.7.2/win",
+        ".NETFramework,Version=v4.7.2/win-x64",
+        ".NETFramework,Version=v4.7.2/win-x86"
+      ]
+    }
+  ]
+}

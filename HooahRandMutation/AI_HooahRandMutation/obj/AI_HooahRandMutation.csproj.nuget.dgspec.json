@@ -1,0 +1,83 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\projects\\HooahPlugins\\HooahRandMutation\\AI_HooahRandMutation\\AI_HooahRandMutation.csproj": {}
+  },
+  "projects": {
+    "D:\\projects\\HooahPlugins\\HooahRandMutation\\AI_HooahRandMutation\\AI_HooahRandMutation.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\projects\\HooahPlugins\\HooahRandMutation\\AI_HooahRandMutation\\AI_HooahRandMutation.csproj",
+        "projectName": "AI_HooahRandMutation",
+        "projectPath": "D:\\projects\\HooahPlugins\\HooahRandMutation\\AI_HooahRandMutation\\AI_HooahRandMutation.csproj",
+        "packagesPath": "C:\\Users\\carla\\.nuget\\packages\\",
+        "outputPath": "D:\\projects\\HooahPlugins\\HooahRandMutation\\AI_HooahRandMutation\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "D:\\projects\\HooahPlugins\\NuGet.Config",
+          "C:\\Users\\carla\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/IllusionMods/Nuget/_packaging/IllusionMods/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "ABMX.AIABMX": {
+              "target": "Package",
+              "version": "[4.4.6, )"
+            },
+            "IllusionLibs.AIGirl.Assembly-CSharp": {
+              "target": "Package",
+              "version": "[0.0.0, )"
+            },
+            "IllusionLibs.AIGirl.Assembly-CSharp-firstpass": {
+              "target": "Package",
+              "version": "[0.0.0, )"
+            },
+            "IllusionLibs.AIGirl.UnityEngine.CoreModule": {
+              "target": "Package",
+              "version": "[0.0.0, )"
+            },
+            "IllusionLibs.BepInEx": {
+              "target": "Package",
+              "version": "[5.3.0, )"
+            },
+            "IllusionLibs.BepInEx.Harmony": {
+              "target": "Package",
+              "version": "[2.0.6, )"
+            },
+            "IllusionModdingAPI.AIAPI": {
+              "target": "Package",
+              "version": "[1.28.2, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "dgSpecHash": "Tp8Jj2ehM1lGawbaL5/gPpr3MfC4PiyGrbkvbAWHo/Fadpt+yJb1JCoFleB7VJUmb3+81ndnNy/4hbByksZT2g==",
+  "success": true,
+  "projectFilePath": "D:\\projects\\HooahPlugins\\HooahRandMutation\\HS2_HooahRandMutation\\HS2_HooahRandMutation.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\carla\\.nuget\\packages\\abmx.hs2abmx\\4.4.6\\abmx.hs2abmx.4.4.6.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\extensiblesaveformat.honeyselect2\\16.4.0\\extensiblesaveformat.honeyselect2.16.4.0.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.bepinex\\5.4.15\\illusionlibs.bepinex.5.4.15.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.bepinex.harmony\\2.5.4\\illusionlibs.bepinex.harmony.2.5.4.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.honeyselect2.assembly-csharp\\2020.5.29.4\\illusionlibs.honeyselect2.assembly-csharp.2020.5.29.4.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.honeyselect2.assembly-csharp-firstpass\\2020.5.29.4\\illusionlibs.honeyselect2.assembly-csharp-firstpass.2020.5.29.4.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.honeyselect2.il\\2020.5.29.4\\illusionlibs.honeyselect2.il.2020.5.29.4.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.honeyselect2.sirenix.serialization\\2020.5.29.4\\illusionlibs.honeyselect2.sirenix.serialization.2020.5.29.4.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.honeyselect2.unirx\\2020.5.29.4\\illusionlibs.honeyselect2.unirx.2020.5.29.4.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.honeyselect2.unityengine.coremodule\\2018.4.11.4\\illusionlibs.honeyselect2.unityengine.coremodule.2018.4.11.4.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.honeyselect2.unityengine.imguimodule\\2018.4.11.4\\illusionlibs.honeyselect2.unityengine.imguimodule.2018.4.11.4.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.honeyselect2.unityengine.ui\\2018.4.11.4\\illusionlibs.honeyselect2.unityengine.ui.2018.4.11.4.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.honeyselect2.unityengine.uimodule\\2018.4.11.4\\illusionlibs.honeyselect2.unityengine.uimodule.2018.4.11.4.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionmoddingapi.hs2api\\1.30.1\\illusionmoddingapi.hs2api.1.30.1.nupkg.sha512"
+  ],
+  "logs": []
+}
