@@ -8,13 +8,6 @@ namespace HooahRandMutation.IL_HooahRandMutation
 {
     public static class ShapeUtility
     {
-        private static float[] _template;
-
-        public static void Remember(this ChaControl chara)
-        {
-            _template = chara.fileCustom.face.shapeValueFace.Select(x => x).ToArray();
-        }
-
         public static void Mutate(this ChaControl chara, float val)
         {
             chara.Mutate(-val, val);
@@ -22,7 +15,8 @@ namespace HooahRandMutation.IL_HooahRandMutation
 
         public static void Mutate(this ChaControl chara, float min, float max)
         {
-            chara.fileCustom.face.shapeValueFace = _template.Select(x => x + Random.Range(min, max)).ToArray();
+            chara.fileCustom.face.shapeValueFace = InterpolateShapeUtility.Templates[0].HeadSliders
+                .Select(x => x + Random.Range(min, max)).ToArray();
         }
 
         public static void MutateRange(this ChaControl chara, int min, int max, float tVal)
@@ -32,7 +26,7 @@ namespace HooahRandMutation.IL_HooahRandMutation
 
         public static void MutateRange(this ChaControl chara, int min, int max, float tMin, float tMax)
         {
-            chara.fileCustom.face.shapeValueFace = _template
+            chara.fileCustom.face.shapeValueFace = InterpolateShapeUtility.Templates[0].HeadSliders
                 .Select((x, i) => i >= min && i <= max ? x + Random.Range(tMin, tMax) : x).ToArray();
         }
 
@@ -46,9 +40,11 @@ namespace HooahRandMutation.IL_HooahRandMutation
 
         static bool IsInRange(int i, int a, int b) => i >= a && i <= b;
 
-        public static void MutateRangeCombined(this ChaControl chara, float head, float chin, float cheek, float eyes, float eyeAng,
+        public static void MutateRangeCombined(this ChaControl chara, float head, float chin, float cheek, float eyes,
+            float eyeAng,
             float nose, float mouth, float ear)
         {
+            var _template = InterpolateShapeUtility.Templates[0].HeadSliders;
             chara.fileCustom.face.shapeValueFace = _template.Select((x, i) =>
             {
                 if (IsInRange(i, 0, 4)) return x + Random.Range(-head, head);
@@ -58,7 +54,7 @@ namespace HooahRandMutation.IL_HooahRandMutation
                 if (IsInRange(i, 19, 23)) return x + Random.Range(-eyes, eyes);
                 if (IsInRange(i, 24, 25)) return x + Random.Range(-eyeAng, eyeAng);
                 if (IsInRange(i, 26, 31)) return x + Random.Range(-eyes, eyes);
-				// aahhh
+                // aahhh
                 if (IsInRange(i, 32, 46)) return x + Random.Range(-nose, nose);
                 if (IsInRange(i, 47, 53)) return x + Random.Range(-mouth, mouth);
                 if (IsInRange(i, 54, 58)) return x + Random.Range(-ear, ear);

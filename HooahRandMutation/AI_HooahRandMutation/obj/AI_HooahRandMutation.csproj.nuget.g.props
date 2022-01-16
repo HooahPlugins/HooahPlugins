@@ -23,6 +23,7 @@
     <PkgExtensibleSaveFormat_AIGirl Condition=" '$(PkgExtensibleSaveFormat_AIGirl)' == '' ">C:\Users\carla\.nuget\packages\extensiblesaveformat.aigirl\16.4.0</PkgExtensibleSaveFormat_AIGirl>
     <PkgIllusionModdingAPI_AIAPI Condition=" '$(PkgIllusionModdingAPI_AIAPI)' == '' ">C:\Users\carla\.nuget\packages\illusionmoddingapi.aiapi\1.28.2</PkgIllusionModdingAPI_AIAPI>
     <PkgIllusionLibs_BepInEx_Harmony Condition=" '$(PkgIllusionLibs_BepInEx_Harmony)' == '' ">C:\Users\carla\.nuget\packages\illusionlibs.bepinex.harmony\2.0.6</PkgIllusionLibs_BepInEx_Harmony>
+    <PkgIllusionLibs_AIGirl_UnityEngine_UI Condition=" '$(PkgIllusionLibs_AIGirl_UnityEngine_UI)' == '' ">C:\Users\carla\.nuget\packages\illusionlibs.aigirl.unityengine.ui\2018.2.21.4</PkgIllusionLibs_AIGirl_UnityEngine_UI>
     <PkgABMX_AIABMX Condition=" '$(PkgABMX_AIABMX)' == '' ">C:\Users\carla\.nuget\packages\abmx.aiabmx\4.4.6</PkgABMX_AIABMX>
   </PropertyGroup>
 </Project>

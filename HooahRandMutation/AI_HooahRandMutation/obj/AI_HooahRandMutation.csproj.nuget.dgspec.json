@@ -52,6 +52,10 @@
               "target": "Package",
               "version": "[0.0.0, )"
             },
+            "IllusionLibs.AIGirl.UnityEngine.UI": {
+              "target": "Package",
+              "version": "[2018.2.21.4, )"
+            },
             "IllusionLibs.BepInEx": {
               "target": "Package",
               "version": "[5.3.0, )"

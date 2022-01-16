@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "FcR1wAJic/VV4tHvHqV6a8L/Owo0N09krl4B1cdrSiohW9W4kNViQ7M4UobiKzHDOHXO8EPCZRCPosTOrR4ppQ==",
+  "dgSpecHash": "AZWmMZt/Z1/6Ar/bLhQXiRA/gZT9qKLGWTYZ/wl8XtvKPrkr45R5knXxKfIY8oMa1WsvZ7yQn8Xyxbd+uBaZAw==",
   "success": true,
   "projectFilePath": "D:\\projects\\HooahPlugins\\HooahRandMutation\\AI_HooahRandMutation\\AI_HooahRandMutation.csproj",
   "expectedPackageFiles": [
@@ -11,6 +11,7 @@
     "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.aigirl.sirenix.serialization\\2020.5.29.4\\illusionlibs.aigirl.sirenix.serialization.2020.5.29.4.nupkg.sha512",
     "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.aigirl.unirx\\2020.5.29.4\\illusionlibs.aigirl.unirx.2020.5.29.4.nupkg.sha512",
     "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.aigirl.unityengine.coremodule\\2018.2.21\\illusionlibs.aigirl.unityengine.coremodule.2018.2.21.nupkg.sha512",
+    "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.aigirl.unityengine.ui\\2018.2.21.4\\illusionlibs.aigirl.unityengine.ui.2018.2.21.4.nupkg.sha512",
     "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.bepinex\\5.3.0\\illusionlibs.bepinex.5.3.0.nupkg.sha512",
     "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.bepinex.harmony\\2.0.6\\illusionlibs.bepinex.harmony.2.0.6.nupkg.sha512",
     "C:\\Users\\carla\\.nuget\\packages\\illusionlibs.bepinex.monomod\\21.8.5.1\\illusionlibs.bepinex.monomod.21.8.5.1.nupkg.sha512",

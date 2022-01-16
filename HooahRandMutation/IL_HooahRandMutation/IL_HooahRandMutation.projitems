@@ -10,6 +10,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ABMXMutation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CharacterEditorSections.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CharacterRandomizeSection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constant.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FemaleFaceShape.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FieldRefs.cs" />

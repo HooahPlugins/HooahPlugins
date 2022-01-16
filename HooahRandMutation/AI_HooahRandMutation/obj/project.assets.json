@@ -73,6 +73,18 @@
           "lib/net46/UnityEngine.dll": {}
         }
       },
+      "IllusionLibs.AIGirl.UnityEngine.UI/2018.2.21.4": {
+        "type": "package",
+        "compile": {
+          "lib/net46/UnityEngine.UI.dll": {}
+        },
+        "runtime": {
+          "lib/net46/UnityEngine.UI.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.AIGirl.UnityEngine.UI.targets": {}
+        }
+      },
       "IllusionLibs.BepInEx/5.3.0": {
         "type": "package",
         "compile": {
@@ -197,6 +209,18 @@
         "runtime": {
           "lib/net46/UnityEngine.CoreModule.dll": {},
           "lib/net46/UnityEngine.dll": {}
+        }
+      },
+      "IllusionLibs.AIGirl.UnityEngine.UI/2018.2.21.4": {
+        "type": "package",
+        "compile": {
+          "lib/net46/UnityEngine.UI.dll": {}
+        },
+        "runtime": {
+          "lib/net46/UnityEngine.UI.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.AIGirl.UnityEngine.UI.targets": {}
         }
       },
       "IllusionLibs.BepInEx/5.3.0": {
@@ -325,6 +349,18 @@
           "lib/net46/UnityEngine.dll": {}
         }
       },
+      "IllusionLibs.AIGirl.UnityEngine.UI/2018.2.21.4": {
+        "type": "package",
+        "compile": {
+          "lib/net46/UnityEngine.UI.dll": {}
+        },
+        "runtime": {
+          "lib/net46/UnityEngine.UI.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.AIGirl.UnityEngine.UI.targets": {}
+        }
+      },
       "IllusionLibs.BepInEx/5.3.0": {
         "type": "package",
         "compile": {
@@ -449,6 +485,18 @@
         "runtime": {
           "lib/net46/UnityEngine.CoreModule.dll": {},
           "lib/net46/UnityEngine.dll": {}
+        }
+      },
+      "IllusionLibs.AIGirl.UnityEngine.UI/2018.2.21.4": {
+        "type": "package",
+        "compile": {
+          "lib/net46/UnityEngine.UI.dll": {}
+        },
+        "runtime": {
+          "lib/net46/UnityEngine.UI.dll": {}
+        },
+        "build": {
+          "build/IllusionLibs.AIGirl.UnityEngine.UI.targets": {}
         }
       },
       "IllusionLibs.BepInEx/5.3.0": {
@@ -604,6 +652,20 @@
         "tools/install.ps1"
       ]
     },
+    "IllusionLibs.AIGirl.UnityEngine.UI/2018.2.21.4": {
+      "sha512": "du24zFUGCLWDjPRzCgcf71lnbJBElYBRVULBrVHFL6yiXFBrveVANIBdDLpiyMfRKKHlMyydyTvogM7noPJkxw==",
+      "type": "package",
+      "path": "illusionlibs.aigirl.unityengine.ui/2018.2.21.4",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        "build/IllusionLibs.AIGirl.UnityEngine.UI.targets",
+        "illusionlibs.aigirl.unityengine.ui.2018.2.21.4.nupkg.sha512",
+        "illusionlibs.aigirl.unityengine.ui.nuspec",
+        "lib/net46/UnityEngine.UI.dll",
+        "tools/install.ps1"
+      ]
+    },
     "IllusionLibs.BepInEx/5.3.0": {
       "sha512": "YkvJMSvNcFMORg2LF3c5ygJruUndKMZ5q13ELyqULATz9n2kcM6HByi5wBjMTNclyjqnGZlqgm/5GI+1kCJvSQ==",
       "type": "package",
@@ -672,6 +734,7 @@
       "IllusionLibs.AIGirl.Assembly-CSharp >= 0.0.0",
       "IllusionLibs.AIGirl.Assembly-CSharp-firstpass >= 0.0.0",
       "IllusionLibs.AIGirl.UnityEngine.CoreModule >= 0.0.0",
+      "IllusionLibs.AIGirl.UnityEngine.UI >= 2018.2.21.4",
       "IllusionLibs.BepInEx >= 5.3.0",
       "IllusionLibs.BepInEx.Harmony >= 2.0.6",
       "IllusionModdingAPI.AIAPI >= 1.28.2"
@@ -727,6 +790,10 @@
           "IllusionLibs.AIGirl.UnityEngine.CoreModule": {
             "target": "Package",
             "version": "[0.0.0, )"
+          },
+          "IllusionLibs.AIGirl.UnityEngine.UI": {
+            "target": "Package",
+            "version": "[2018.2.21.4, )"
           },
           "IllusionLibs.BepInEx": {
             "target": "Package",
