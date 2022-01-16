@@ -5,14 +5,7 @@ using HarmonyLib;
 namespace HooahRandMutation
 {
     [BepInPlugin(Constant.GUID, Constant.NAME, Constant.VERSION)]
-    public class HooahRandMutationPlugin : BaseUnityPlugin
+    public partial class HooahRandMutationPlugin : BaseUnityPlugin
     {
-        private static ManualLogSource _logger;
-
-        private void Start()
-        {
-            _logger = Logger;
-            Harmony.CreateAndPatchAll(typeof(HooahRandMutationPlugin));
-        }
     }
 }
