@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using ADV.Commands.Base;
-using BepInEx;
+﻿using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 using HooahRandMutation.IL_HooahRandMutation;
 using KKAPI.Maker;
-using KKAPI.Maker.UI;
-using UnityEngine;
-using UnityEngine.Events;
 
 // todo: add check if the template exists.
 // if there is no template, just use the current character as template for once.

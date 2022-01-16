@@ -10,7 +10,6 @@ namespace HooahRandMutation.IL_HooahRandMutation
         protected readonly ABMXSliderValues AbmxSliderValues;
         protected readonly FaceSliderValues FaceSliderValues;
 
-
         public CharacterRandomizeSection(RegisterSubCategoriesEvent e, MakerCategory cat,
             HooahRandMutationPlugin targetInstance) : base(e, cat, targetInstance)
         {
@@ -19,7 +18,7 @@ namespace HooahRandMutation.IL_HooahRandMutation
             FaceSliderValues = new FaceSliderValues(Event, Category, targetInstance);
             AddButton("Randomize Head Sliders", FaceSliderValues.RandomizeHeadSliders);
 
-            // abmx slider values will be used in most of categories
+            // ABMX slider values will be used in most of categories
             AbmxSliderValues = new ABMXSliderValues(Event, Category, targetInstance);
             AddButton("Randomize All ABMX Values", () => AbmxSliderValues.RandomizeAbmxSliders(null));
             AddButton("Randomize Head ABMX Values",

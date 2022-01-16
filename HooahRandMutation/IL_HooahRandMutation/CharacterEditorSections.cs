@@ -93,6 +93,45 @@ namespace HooahRandMutation.IL_HooahRandMutation
             chara.UpdateShapeFaceValueFromCustomInfo();
         }
 
+        public void InterpolateHeadSliders()
+        {
+            var chara = MakerAPI.GetCharacterControl();
+
+            chara.InterpolateTwoSliders(
+                HeadSliderValue,
+                ChinSliderValue,
+                CheekSliderValue,
+                EyesSliderValue,
+                EyesAngleSliderValue,
+                NoseSliderValue,
+                MouthSliderValue,
+                EarSliderValue
+            );
+
+            chara.UpdateShapeFaceValueFromCustomInfo();
+            // for now, there is only two point blending
+        }
+
+        public void InterpolateHeadSlidersWithFactor(float factor)
+        {
+            var chara = MakerAPI.GetCharacterControl();
+
+            chara.InterpolateTwoSliders(
+                HeadSliderValue,
+                ChinSliderValue,
+                CheekSliderValue,
+                EyesSliderValue,
+                EyesAngleSliderValue,
+                NoseSliderValue,
+                MouthSliderValue,
+                EarSliderValue,
+                true,
+                factor
+            );
+
+            chara.UpdateShapeFaceValueFromCustomInfo();
+            // for now, there is only two point blending
+        }
         public FaceSliderValues(RegisterSubCategoriesEvent e, MakerCategory cat,
             HooahRandMutationPlugin targetInstance) : base(e, cat, targetInstance)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AIChara;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace HooahRandMutation.IL_HooahRandMutation
@@ -44,8 +45,8 @@ namespace HooahRandMutation.IL_HooahRandMutation
             float eyeAng,
             float nose, float mouth, float ear)
         {
-            var _template = InterpolateShapeUtility.Templates[0].HeadSliders;
-            chara.fileCustom.face.shapeValueFace = _template.Select((x, i) =>
+            var template = InterpolateShapeUtility.Templates[0].HeadSliders;
+            chara.fileCustom.face.shapeValueFace = template.Select((x, i) =>
             {
                 if (IsInRange(i, 0, 4)) return x + Random.Range(-head, head);
                 if (IsInRange(i, 5, 12)) return x + Random.Range(-chin, chin);
@@ -58,6 +59,38 @@ namespace HooahRandMutation.IL_HooahRandMutation
                 if (IsInRange(i, 32, 46)) return x + Random.Range(-nose, nose);
                 if (IsInRange(i, 47, 53)) return x + Random.Range(-mouth, mouth);
                 if (IsInRange(i, 54, 58)) return x + Random.Range(-ear, ear);
+                return x;
+            }).ToArray();
+        }
+
+        private static float GetInterpolatedFactor(float x, float y, float strength, bool useFactor, float factor)
+        {
+            var m = useFactor ? factor : Random.Range(0, 1);
+            return Mathf.LerpUnclamped(x, y, m * strength);
+        }
+
+        public static void InterpolateTwoSliders(this ChaControl chara, float head, float chin, float cheek, float eyes,
+            float eyeAng,
+            float nose, float mouth, float ear, bool interpolate = false, float factor = 0)
+        {
+            var nodeA = InterpolateShapeUtility.Templates[0].HeadSliders;
+            var nodeB = InterpolateShapeUtility.Templates[1].HeadSliders;
+
+            chara.fileCustom.face.shapeValueFace = nodeA.Select((x, i) =>
+            {
+                var y = nodeB[i];
+
+                if (IsInRange(i, 0, 4)) return GetInterpolatedFactor(x, y, head, interpolate, factor);
+                if (IsInRange(i, 5, 12)) return GetInterpolatedFactor(x, y, chin, interpolate, factor);
+                if (IsInRange(i, 13, 18)) return GetInterpolatedFactor(x, y, cheek, interpolate, factor);
+                // bruh...
+                if (IsInRange(i, 19, 23)) return GetInterpolatedFactor(x, y, eyes, interpolate, factor);
+                if (IsInRange(i, 24, 25)) return GetInterpolatedFactor(x, y, eyeAng, interpolate, factor);
+                if (IsInRange(i, 26, 31)) return GetInterpolatedFactor(x, y, eyes, interpolate, factor);
+                // aahhh
+                if (IsInRange(i, 32, 46)) return GetInterpolatedFactor(x, y, nose, interpolate, factor);
+                if (IsInRange(i, 47, 53)) return GetInterpolatedFactor(x, y, mouth, interpolate, factor);
+                if (IsInRange(i, 54, 58)) return GetInterpolatedFactor(x, y, ear, interpolate, factor);
                 return x;
             }).ToArray();
         }
