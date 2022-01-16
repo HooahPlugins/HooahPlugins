@@ -33,13 +33,11 @@ namespace HooahRandMutation
                 // todo: maybe use dropdown for this one?
                 var all = MakerConstants.Body.All;
                 RandomizerSection = new CharacterRandomizeSection(e, all, _instance);
-                BlendingCategorySection = new MakerCategory(all.CategoryName, "MakerBlendingMutation",
-                    all.Position + 5,
-                    "Blending Mutation");
+                BlendingCategorySection = new CharacterInterpolateSection(e, all, _instance);
             };
         }
 
-        public MakerCategory BlendingCategorySection { get; set; }
+        public CharacterInterpolateSection BlendingCategorySection { get; set; }
 
         public CharacterRandomizeSection RandomizerSection { get; set; }
     }

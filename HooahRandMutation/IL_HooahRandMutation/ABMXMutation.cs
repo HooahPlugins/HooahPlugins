@@ -50,14 +50,9 @@ namespace HooahRandMutation.IL_HooahRandMutation
             "o_eyeshadow", "o_head", "o_namida", "o_tang", "o_tooth"
         };
 
-        public static void SetTemplate(this ChaControl control)
+        public static void SetTemplate(this ChaControl control, int index = 0)
         {
-            InterpolateShapeUtility.Templates[0] = control.GetCharacterSnapshot();
-        }
-
-        public static void SetTargetTemplate(this ChaControl control)
-        {
-            InterpolateShapeUtility.Templates[1] = control.GetCharacterSnapshot();
+            InterpolateShapeUtility.Templates[index] = control.GetCharacterSnapshot();
         }
 
         public static void RandomizeABMX(this ChaControl control,
