@@ -55,8 +55,8 @@
     <PropertyGroup>
         <PostBuildEvent>
             mkdir "$(SolutionDir)\final"
-            call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(SolutionDir)\final" "$(ProjectName)"
-            call "$(SolutionDir)scripts/deploy.bat" "$(TargetDir)$(AssemblyName)" "$(AIPath)" "$(ProjectName)"
+            call "$(SolutionDir)scripts/deploy.bat" "$(ProjectDir)$(IntermediateOutputPath)$(AssemblyName)" "$(SolutionDir)\final" "$(ProjectName)"
+            call "$(SolutionDir)scripts/deploy.bat" "$(ProjectDir)$(IntermediateOutputPath)$(AssemblyName)" "$(HS2Path)" "$(ProjectName)"
         </PostBuildEvent>
     </PropertyGroup>
 </Project>

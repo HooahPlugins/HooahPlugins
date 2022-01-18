@@ -25,9 +25,8 @@ namespace HooahRandMutation
             MakerAPI.RegisterCustomSubCategories += (sender, e) =>
             {
                 // todo: maybe use dropdown for this one?
-                var all = MakerConstants.Body.All;
-                RandomizerSection = new CharacterRandomizeSection(e, all, _instance);
-                BlendingCategorySection = new CharacterInterpolateSection(e, all, _instance);
+                RandomizerSection = new CharacterRandomizeSection(e, _instance);
+                BlendingCategorySection = new CharacterInterpolateSection(e, _instance);
             };
         }
 
