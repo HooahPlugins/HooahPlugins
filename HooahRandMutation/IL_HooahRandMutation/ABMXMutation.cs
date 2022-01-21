@@ -11,6 +11,10 @@ namespace HooahRandMutation.IL_HooahRandMutation
 {
     public static class ABMXMutation
     {
+        // todo: resolve this abomination
+        //       ui? or just load from textfile?
+        //       anyway in any method, gotta make this customizable
+        //       and persistent.
         public static readonly HashSet<string> HorizontalFix = new HashSet<string>()
         {
             "p_cf_head_bone", "cf_J_FaceRoot", "cf_J_FaceBase", "cf_J_FaceLowBase", "cf_J_FaceLow_s",
@@ -42,7 +46,7 @@ namespace HooahRandMutation.IL_HooahRandMutation
             "cf_J_Eye04_s_R", "cf_J_EyePos_rz_R", "cf_J_look_R", "cf_J_eye_rs_R",
             "cf_J_pupil_s_R", "cf_J_Mayu_L", "cf_J_MayuMid_s_L", "cf_J_MayuTip_s_L",
             "cf_J_Mayu_R", "cf_J_MayuMid_s_R", "cf_J_MayuTip_s_R", "N_Hitai",
-            "N_Head", "N_Head_top", "cf_J_NoseBase_trs", "cf_J_NoseBase_s",
+            "N_Head", "N_Head_top", "cf_J_NoseBase_trs", "cf_J_NoseBase_s", "cf_J_Neck",
             "cf_J_Nose_r", "cf_J_Nose_t", "cf_J_Nose_tip", "N_Nose",
             "cf_J_NoseWing_tx_L", "cf_J_NoseWing_tx_R", "cf_J_NoseBridge_t", "cf_J_megane",
             "N_Megane", "cf_J_NoseBridge_s", "N_Face", "cf_J_FaceRoot_s",
@@ -168,6 +172,55 @@ namespace HooahRandMutation.IL_HooahRandMutation
                             }
                         }
                     );
+                controller.AddModifier(modifier);
+
+                if (!m.Success || m.Groups.Count < 4) continue;
+                var pos = invertDictionary.TryGetValue(m.Groups[2].Value, out var a) ? a : m.Captures[1].Value;
+                mirrorModifiers.Add($"{m.Groups[1].Value}{pos}{m.Groups[3].Value}", modifier);
+            }
+        }
+
+        public static void ApplyAbmxValues(this ChaControl control,
+            in Dictionary<string, InterpolateShapeUtility.ABMXValues> valuesMap)
+        {
+            var controller = control.GetComponent<BoneController>();
+            if (controller == null) return;
+            foreach (var mdf in controller.Modifiers) mdf.Reset();
+            controller.Modifiers.Clear();
+            var mirrorModifiers = new Dictionary<string, BoneModifier>();
+
+            foreach (var x in valuesMap.Values)
+            {
+                var m = ptn.Match(x.Name);
+                if (m.Success && mirrorModifiers.TryGetValue(x.Name, out var mirrorModifier))
+                {
+                    var mdfData = mirrorModifier.CoordinateModifiers.FirstOrDefault();
+                    if (mdfData == null) continue;
+                    var flippedModifier = new BoneModifier(x.Name, new[]
+                    {
+                        new BoneModifierData
+                        {
+                            ScaleModifier = mdfData.ScaleModifier,
+                            LengthModifier = mdfData.LengthModifier,
+                            PositionModifier = (mdfData.PositionModifier * 1).ScaleAndReturn(new Vector3(-1, 1, 1)),
+                            RotationModifier = Quaternion.Inverse(Quaternion.Euler(mdfData.RotationModifier))
+                                .eulerAngles
+                        }
+                    });
+                    controller.AddModifier(flippedModifier);
+                    continue;
+                }
+
+                var modifier = new BoneModifier(x.Name, new[]
+                {
+                    new BoneModifierData
+                    {
+                        ScaleModifier = x.Scale,
+                        LengthModifier = x.RelativePosition,
+                        PositionModifier = x.Position,
+                        RotationModifier = x.VectorAngle
+                    }
+                });
                 controller.AddModifier(modifier);
 
                 if (!m.Success || m.Groups.Count < 4) continue;

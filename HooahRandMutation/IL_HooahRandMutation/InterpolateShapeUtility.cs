@@ -10,7 +10,7 @@ namespace HooahRandMutation.IL_HooahRandMutation
 {
     public static class InterpolateShapeUtility
     {
-        public struct ABMXValues
+        public class ABMXValues
         {
             public string Name;
             public Vector3 Scale;
