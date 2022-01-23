@@ -25,7 +25,11 @@ namespace HooahRandMutation.IL_HooahRandMutation
             "cf_J_Nose_r", "cf_J_Nose_t", "cf_J_Nose_tip", "N_Nose",
             "cf_J_NoseBridge_t", "cf_J_megane", "N_Megane",
             "cf_J_NoseBridge_s", "N_Face", "cf_J_FaceRoot_s",
-            "ct_head", "o_eyelashes", "o_eyeshadow", "o_head", "o_namida", "o_tang", "o_tooth"
+            "cf_J_Head", "cf_J_Head_s", "ct_head", "cf_head_bone",
+            "cf_J_Tang_S_00",
+            "cf_J_Neck", "cf_J_Neck_s",
+            "ct_head", "o_eyelashes", "o_eyeshadow", "o_head", "o_namida", "o_tang", "o_tooth",
+            "ColFace01", "ColFace02"
         };
 
         public static readonly HashSet<string> HeadBoneNames = new HashSet<string>()
@@ -46,17 +50,38 @@ namespace HooahRandMutation.IL_HooahRandMutation
             "cf_J_Eye04_s_R", "cf_J_EyePos_rz_R", "cf_J_look_R", "cf_J_eye_rs_R",
             "cf_J_pupil_s_R", "cf_J_Mayu_L", "cf_J_MayuMid_s_L", "cf_J_MayuTip_s_L",
             "cf_J_Mayu_R", "cf_J_MayuMid_s_R", "cf_J_MayuTip_s_R", "N_Hitai",
-            "N_Head", "N_Head_top", "cf_J_NoseBase_trs", "cf_J_NoseBase_s", "cf_J_Neck",
+            "N_Head", "N_Head_top", "cf_J_NoseBase_trs", "cf_J_NoseBase_s",
+            "cf_J_Tang_S_00",
+            "cf_J_Neck", "cf_J_Neck_s",
             "cf_J_Nose_r", "cf_J_Nose_t", "cf_J_Nose_tip", "N_Nose",
+            "cf_J_Head", "cf_J_Head_s", "ct_head", "cf_head_bone",
             "cf_J_NoseWing_tx_L", "cf_J_NoseWing_tx_R", "cf_J_NoseBridge_t", "cf_J_megane",
             "N_Megane", "cf_J_NoseBridge_s", "N_Face", "cf_J_FaceRoot_s",
             "ct_head", "o_eyebase_L", "o_eyebase_R", "o_eyelashes",
-            "o_eyeshadow", "o_head", "o_namida", "o_tang", "o_tooth"
+            "o_eyeshadow", "o_head", "o_namida", "o_tang", "o_tooth", "ColFace01", "ColFace02"
         };
 
         public static void SetTemplate(this ChaControl control, int index = 0)
         {
+            if (InterpolateShapeUtility.Templates == null || index < 0 ||
+                index > InterpolateShapeUtility.Templates.Length) return;
             InterpolateShapeUtility.Templates[index] = control.GetCharacterSnapshot();
+        }
+
+        public static void TrySaveSlot(int index = 0)
+        {
+            // invalid
+            if (InterpolateShapeUtility.Templates == null || index < 0 ||
+                index > InterpolateShapeUtility.Templates.Length) return;
+            InterpolateShapeUtility.Templates.ElementAt(index).Save();
+        }
+
+        public static void TryLoadSlot(int index = 0)
+        {
+            if (InterpolateShapeUtility.Templates == null || index < 0 ||
+                index > InterpolateShapeUtility.Templates.Length) return;
+            InterpolateShapeUtility.CharacterSliders.TryLoad(template =>
+                InterpolateShapeUtility.Templates[index] = template);
         }
 
         public static void RandomizeABMX(this ChaControl control,

@@ -1,4 +1,6 @@
-﻿using KKAPI.Maker;
+﻿using System.Linq;
+using KKAPI.Maker;
+using KKAPI.Maker.UI;
 
 namespace HooahRandMutation.IL_HooahRandMutation
 {
@@ -6,6 +8,8 @@ namespace HooahRandMutation.IL_HooahRandMutation
     {
         protected readonly string DisplayName = "MakerRandomMutation";
         protected readonly string SubCategoryName = "SliderMutation";
+
+        private string SlotAName => InterpolateShapeUtility.Templates.ElementAtOrDefault(0).CharacterName ?? "Not Set";
 
         protected readonly ABMXSliderValues AbmxSliderValues;
         protected readonly FaceSliderValues FaceSliderValues;
@@ -17,14 +21,36 @@ namespace HooahRandMutation.IL_HooahRandMutation
             e.AddSubCategory(Category);
 
             AddButton("Set current character as template", () => MakerChaControl.SetTemplate());
+            AddButton("Save Current Template", () => ABMXMutation.TrySaveSlot());
+            AddButton("Load Template From File", () => ABMXMutation.TryLoadSlot());
+
+            e.AddControl(new MakerSeparator(Category, targetInstance));
+
+            e.AddControl(new MakerText(SlotAName, Category, targetInstance));
+            // todo: display current undo buffer
+
+
+            e.AddControl(new MakerSeparator(Category, targetInstance));
+
             FaceSliderValues = new FaceSliderValues(in e, in targetInstance, in Category);
             AddButton("Randomize Head Sliders", () => { FaceSliderValues.RandomizeHeadSliders(); });
+
+            e.AddControl(new MakerSeparator(Category, targetInstance));
 
             // ABMX slider values will be used in most of categories
             AbmxSliderValues = new ABMXSliderValues(in e, in targetInstance, in Category);
             AddButton("Randomize All ABMX Values", () => AbmxSliderValues.RandomizeAbmxSliders(null));
             AddButton("Randomize Head ABMX Values",
                 () => AbmxSliderValues.RandomizeAbmxSliders(ABMXMutation.HeadBoneNames));
+
+            e.AddControl(new MakerSeparator(Category, targetInstance));
+
+            // todo: customizable abmx filters
+            // separate bones with ";"
+            // maybe load from file?
+            // predefined?
+
+            AddButton("Go back to previous shape", () => MakerChaControl.SetTemplate());
             AddButton("Randomize Head Slider&ABMX", () =>
             {
                 FaceSliderValues.RandomizeHeadSliders();

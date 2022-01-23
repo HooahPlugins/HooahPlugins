@@ -41,11 +41,13 @@
         <PackageReference Include="ABMX.AIABMX" Version="4.4.6" />
         <PackageReference Include="IllusionLibs.AIGirl.Assembly-CSharp" Version="2020.5.29.4" />
         <PackageReference Include="IllusionLibs.AIGirl.Assembly-CSharp-firstpass" Version="2020.5.29.4" />
+        <PackageReference Include="IllusionLibs.AIGirl.MessagePack" Version="2020.5.29.4" />
         <PackageReference Include="IllusionLibs.AIGirl.UnityEngine.CoreModule" Version="2018.2.21.4" />
+        <PackageReference Include="IllusionLibs.AIGirl.UnityEngine.JSONSerializeModule" Version="2018.2.21.4" />
         <PackageReference Include="IllusionLibs.AIGirl.UnityEngine.UI" Version="2018.2.21.4" />
         <PackageReference Include="IllusionLibs.BepInEx" Version="5.4.15" />
         <PackageReference Include="IllusionLibs.BepInEx.Harmony" Version="2.5.4" />
-        <PackageReference Include="IllusionModdingAPI.AIAPI" Version="1.30.1"/>
+        <PackageReference Include="IllusionModdingAPI.AIAPI" Version="1.30.1" />
         <Reference Include="System" />
         <Reference Include="System.Xml" />
         <Reference Include="System.Xml.Linq" />

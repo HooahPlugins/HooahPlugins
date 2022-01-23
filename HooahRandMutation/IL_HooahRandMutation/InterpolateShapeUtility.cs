@@ -1,8 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using ADV.Commands.Effect;
 using AIChara;
 using KKABMX.Core;
+using KKAPI.Utilities;
+using MessagePack;
+using Sirenix.Serialization;
+using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,20 +17,63 @@ namespace HooahRandMutation.IL_HooahRandMutation
 {
     public static class InterpolateShapeUtility
     {
+        [MessagePackObject]
         public class ABMXValues
         {
-            public string Name;
-            public Vector3 Scale;
-            public Vector3 Position;
-            public Vector3 VectorAngle;
-            public float RelativePosition;
+            [Key("name")] public string Name;
+            [Key("scale")] public Vector3 Scale;
+            [Key("pos")] public Vector3 Position;
+            [Key("ang")] public Vector3 VectorAngle;
+            [Key("len")] public float RelativePosition;
         }
 
+        [MessagePackObject]
         public struct CharacterSliders
         {
-            public float[] HeadSliders;
-            public float[] BodySliders;
-            public Dictionary<string, ABMXValues> AbmxValuesMap;
+            [Key("version")] public int Version;
+            [Key("name")] public string CharacterName;
+            [Key("head")] public float[] HeadSliders;
+            [Key("body")] public float[] BodySliders;
+            [Key("abmx")] public Dictionary<string, ABMXValues> AbmxValuesMap;
+
+            private static string GetDir() => Path.Combine(Application.dataPath, @"..\userdata\mutator");
+
+            public void Save()
+            {
+                // make sure the target directory exists
+                if (!Directory.Exists(GetDir())) Directory.CreateDirectory(GetDir());
+                File.WriteAllBytes(
+                    Path.Combine(GetDir(), $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}_{CharacterName}.preset"),
+                    MessagePackSerializer.Serialize(this));
+            }
+
+            public const string Filter = "Json File (*.preset)|*.preset|All files|*.*";
+            public const string FileExtension = ".preset";
+
+
+            public static void TryLoad(Action<CharacterSliders> callback)
+            {
+                void OnAccept(string[] strings)
+                {
+                    var path = strings.FirstOrDefault();
+                    if (path == null || path.IsNullOrWhiteSpace()) return;
+                    try
+                    {
+                        // todo: accept json....
+                        var jsonPayload = File.ReadAllBytes(path);
+                        var result = MessagePackSerializer.Deserialize<CharacterSliders>(jsonPayload);
+                        // todo: find strange cases.
+                        callback(result);
+                    }
+                    catch (Exception e)
+                    {
+                        // todo: print message, failed to load json payload
+                        // specify the reason in the message.
+                    }
+                }
+
+                OpenFileDialog.Show(OnAccept, "Select Character Slider File", GetDir(), Filter, FileExtension);
+            }
         }
 
         public static CharacterSliders[] Templates = new CharacterSliders[2];
@@ -57,8 +107,12 @@ namespace HooahRandMutation.IL_HooahRandMutation
             var apiController = control.GetComponent<BoneController>();
             return new CharacterSliders
             {
+                CharacterName = control.fileParam.fullname,
+                Version = 1, // just in case.
                 HeadSliders = control.fileCustom.face.shapeValueFace.Select(x => x).ToArray(),
-                BodySliders = Array.Empty<float>(),
+                BodySliders =
+                    control.fileCustom.body.shapeValueBody.Select(x => x)
+                        .ToArray(), // to copy the array. lmk if there is more better way.
                 AbmxValuesMap = apiController == null
                     ? new Dictionary<string, ABMXValues>()
                     : apiController.Modifiers.ToDictionary(x => x.BoneName, GetValueFromModifier)
