@@ -1,9 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KKAPI.Maker;
 using KKAPI.Maker.UI;
 using UniRx;
 
-namespace HooahRandMutation.IL_HooahRandMutation
+namespace HooahRandMutation
 {
     // todo: this is a mess!
     public class CharacterInterpolateSection : EditorSubSection
@@ -14,9 +15,61 @@ namespace HooahRandMutation.IL_HooahRandMutation
         protected readonly ABMXSliderValues AbmxSliderValues;
         protected readonly FaceSliderValues FaceSliderValues;
 
-        private string SlotAName => InterpolateShapeUtility.Templates.ElementAtOrDefault(0).CharacterName ?? "Not Set";
-        private string SlotBName => InterpolateShapeUtility.Templates.ElementAtOrDefault(1).CharacterName ?? "Not Set";
+        private string SlotAName => CharacterData.Templates.ElementAtOrDefault(0).CharacterName ?? "Not Set";
+        private string SlotBName => CharacterData.Templates.ElementAtOrDefault(1).CharacterName ?? "Not Set";
 
+        public bool IsUpdating = false;
+
+        public void UpdateFace(
+            MakerSlider min, MakerSlider max, MakerSlider median, MakerSlider range, MakerSlider mix,
+            MakerToggle defaultSide, MakerToggle fixWarp, bool sliders, bool abmx, bool useFactor = false,
+            bool inverted = false, bool notRealtime = false)
+        {
+            if (notRealtime) return;
+            if (IsUpdating) return;
+
+            IsUpdating = true;
+
+            try
+            {
+                if (sliders)
+                {
+                    if (useFactor)
+                    {
+                        FaceSliderValues.InterpolateHeadSlidersWithFactor(MakerChaControl, min.Value, max.Value, median.Value,
+                            range.Value, mix.Value);
+                    }
+                    else
+                    {
+                        FaceSliderValues.InterpolateHeadSliders(MakerChaControl, min.Value, max.Value, median.Value, range.Value);
+                    }
+
+                    if (!abmx) IsUpdating = false;
+                }
+
+                if (abmx)
+                {
+                    // todo: validate essential shits
+                    try
+                    {
+                        MakerChaControl.InterpolateAbmx(defaultSide.Value ? 0 : 1,
+                            ABMXMutation.HeadBoneNames,
+                            min.Value, max.Value, median.Value, range.Value, useFactor, mix.Value,
+                            inverted, fixWarp.Value);
+                    }
+                    finally
+                    {
+                        Observable.NextFrame(FrameCountType.EndOfFrame).Take(1)
+                            .Subscribe(__ => { IsUpdating = false; });
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                // todo: print log for the trouble shooting.
+                IsUpdating = false;
+            }
+        }
 
         public CharacterInterpolateSection(RegisterSubCategoriesEvent e, HooahRandMutationPlugin targetInstance) : base(
             e, targetInstance)
@@ -30,79 +83,66 @@ namespace HooahRandMutation.IL_HooahRandMutation
             AddButton("Save slider values of B", () => ABMXMutation.TrySaveSlot(1));
             AddButton("Load slider values of A", () => ABMXMutation.TryLoadSlot());
             AddButton("Load slider values of B", () => ABMXMutation.TryLoadSlot(1));
+
             e.AddControl(new MakerSeparator(Category, targetInstance));
             e.AddControl(new MakerText(SlotAName, Category, targetInstance));
             e.AddControl(new MakerText(SlotBName, Category, targetInstance));
             e.AddControl(new MakerSeparator(Category, targetInstance));
-            var toggle = AddToggle("First Character is Default", true);
-            var updateTick = AddToggle("Update Real-Time", false);
+            var toggle = AddToggle("Use First Character's Body", true);
+            var updateTick = AddToggle("Update when change", false);
+            var preventFix = AddToggle("Remove face shifting", false);
 
             // initialize sliders
             FaceSliderValues = new FaceSliderValues(in e, in targetInstance, in Category, true);
 
             e.AddControl(new MakerSeparator(Category, targetInstance));
-            var min = AddSlider("Min Factor");
-            var max = AddSlider("Max Factor", 0, 1, 1);
-            var median = AddSlider("Median Value", 0, 1, 0.5f);
-            var range = AddSlider("Random Range from Median", 0, 1, 0.1f);
-            var mix = AddSlider("Mix Factor (Fixed)", 0, 1, 0.5f);
+            var min = AddSlider("Random Minimum Bias");
+            var max = AddSlider("Random Maximum Bias", 0, 1, 1);
+            var median = AddSlider("Random Median", 0, 1, 0.5f);
+            var range = AddSlider("Random Deviation", 0, 1, 0.1f);
+            var mix = AddSlider("Mix Factor", 0, 1, 0.5f);
             e.AddControl(new MakerSeparator(Category, targetInstance));
 
-            AddButton("Interpolate Head Sliders (Random)",
-                () => FaceSliderValues.InterpolateHeadSliders(min.Value, max.Value, median.Value, range.Value));
-            AddButton("Interpolate Head Sliders (Factor)",
-                () => FaceSliderValues.InterpolateHeadSlidersWithFactor(min.Value, max.Value, median.Value, range.Value,
-                    mix.Value));
+            void UpdateFactor(float x)
+            {
+                UpdateFace(min, max, median, range, mix, toggle, preventFix, true, true, true, false,
+                    !updateTick.Value);
+            }
+
+            void UpdateRealTime(float x)
+            {
+                UpdateFace(min, max, median, range, mix, toggle, preventFix, true, true, false, false,
+                    !updateTick.Value);
+            }
+
+            AddButton("Mix Head Sliders with Randomized Factor",
+                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, true, false)
+            );
+            AddButton("Mix Head Sliders with Mix Factor",
+                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, true, false, true)
+            );
             // only interpolate sliders
 
             e.AddControl(new MakerSeparator(Category, targetInstance));
 
             // initialize abmx values
             AbmxSliderValues = new ABMXSliderValues(in e, in targetInstance, in Category, true);
-            AddButton("Interpolate ABMX (Random)",
-                () => AbmxSliderValues.InterpolateAbmxSliders(toggle.Value ? 0 : 1, ABMXMutation.HeadBoneNames,
-                    min.Value, max.Value, median.Value, range.Value));
+            AddButton("Mix Head ABMX with Randomized Factor",
+                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, false, true)
+            );
 
-            AddButton("Interpolate ABMX (Fixed)",
-                () => AbmxSliderValues.InterpolateAbmxSliders(toggle.Value ? 0 : 1, ABMXMutation.HeadBoneNames,
-                    min.Value, max.Value, median.Value, range.Value,
-                    true, mix.Value));
+            AddButton("Mix Head ABMX with Mix Factor",
+                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, false, true, true)
+            );
 
             e.AddControl(new MakerSeparator(Category, targetInstance));
 
-            AddButton("Interpolate Face ABMX & Slider (Random)",
-                () =>
-                {
-                    FaceSliderValues.InterpolateHeadSliders(min.Value, max.Value, median.Value, range.Value);
-                    AbmxSliderValues.InterpolateAbmxSliders(toggle.Value ? 0 : 1, ABMXMutation.HeadBoneNames, min.Value,
-                        max.Value, median.Value, range.Value);
-                });
-            AddButton("Interpolate Face ABMX & Slider (Fixed)",
-                () =>
-                {
-                    FaceSliderValues.InterpolateHeadSlidersWithFactor(min.Value, max.Value, median.Value, range.Value,
-                        mix.Value);
-                    AbmxSliderValues.InterpolateAbmxSliders(toggle.Value ? 0 : 1, ABMXMutation.HeadBoneNames, min.Value,
-                        max.Value, median.Value, range.Value, true,
-                        mix.Value);
-                });
-
-            void UpdateFactor(float x)
-            {
-                if (!updateTick.Value) return;
-                FaceSliderValues.InterpolateHeadSlidersWithFactor(min.Value, max.Value, median.Value, range.Value,
-                    mix.Value);
-                AbmxSliderValues.InterpolateAbmxSliders(toggle.Value ? 0 : 1, ABMXMutation.HeadBoneNames, min.Value,
-                    max.Value, median.Value, range.Value, true, mix.Value);
-            }
-
-            void UpdateRealTime(float x)
-            {
-                if (!updateTick.Value) return;
-                FaceSliderValues.InterpolateHeadSliders(min.Value, max.Value, median.Value, range.Value);
-                AbmxSliderValues.InterpolateAbmxSliders(toggle.Value ? 0 : 1, ABMXMutation.HeadBoneNames, min.Value,
-                    max.Value, median.Value, range.Value);
-            }
+            AddButton("Mix Head Slider&ABMX with Randomized Factor",
+                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, true, true)
+            );
+            AddButton("Mix Head Slider&ABMX with Mix Factor",
+                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, true, true, true)
+            );
 
             min.ValueChanged.Subscribe(UpdateRealTime);
             max.ValueChanged.Subscribe(UpdateRealTime);

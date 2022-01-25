@@ -4,7 +4,7 @@
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using HooahRandMutation.IL_HooahRandMutation;
+using HooahRandMutation;
 using KKAPI.Maker;
 
 namespace HooahRandMutation

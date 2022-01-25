@@ -1,15 +1,16 @@
 ﻿using System.Linq;
 using KKAPI.Maker;
 using KKAPI.Maker.UI;
+using UnityEngine.Events;
 
-namespace HooahRandMutation.IL_HooahRandMutation
+namespace HooahRandMutation
 {
     public class CharacterRandomizeSection : EditorSubSection
     {
         protected readonly string DisplayName = "MakerRandomMutation";
         protected readonly string SubCategoryName = "SliderMutation";
 
-        private string SlotAName => InterpolateShapeUtility.Templates.ElementAtOrDefault(0).CharacterName ?? "Not Set";
+        private string SlotAName => CharacterData.Templates.ElementAtOrDefault(0).CharacterName ?? "Not Set";
 
         protected readonly ABMXSliderValues AbmxSliderValues;
         protected readonly FaceSliderValues FaceSliderValues;
@@ -50,12 +51,24 @@ namespace HooahRandMutation.IL_HooahRandMutation
             // maybe load from file?
             // predefined?
 
-            AddButton("Go back to previous shape", () => MakerChaControl.SetTemplate());
-            AddButton("Randomize Head Slider&ABMX", () =>
+            void OnClick()
             {
                 FaceSliderValues.RandomizeHeadSliders();
                 AbmxSliderValues.RandomizeAbmxSliders(ABMXMutation.HeadBoneNames);
+                CharacterData.Push(MakerChaControl);
+            }
+
+            AddButton("Undo", () =>
+            {
+                CharacterData.Undo();
+                MakerChaControl.ApplySliders(CharacterData.Templates.FirstOrDefault());
             });
+            AddButton("Redo", () =>
+            {
+                CharacterData.Redo();
+                MakerChaControl.ApplySliders(CharacterData.Templates.FirstOrDefault());
+            });
+            AddButton("Randomize Head Slider & ABMX", OnClick);
         }
     }
 }

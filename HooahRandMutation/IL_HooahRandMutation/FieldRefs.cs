@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using AIChara;
 using HarmonyLib;
 
-namespace HooahRandMutation.IL_HooahRandMutation
+namespace HooahRandMutation
 {
     public static class FieldRefs
     {
