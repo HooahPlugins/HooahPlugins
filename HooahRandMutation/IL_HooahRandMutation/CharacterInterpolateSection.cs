@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using KKABMX.Core;
 using KKAPI.Maker;
 using KKAPI.Maker.UI;
 using UniRx;
@@ -34,15 +35,15 @@ namespace HooahRandMutation
             {
                 if (sliders)
                 {
+                    var ctl = MakerChaControl.GetComponent<BoneController>();
+                    ctl.enabled = false;
                     if (useFactor)
-                    {
-                        FaceSliderValues.InterpolateHeadSlidersWithFactor(MakerChaControl, min.Value, max.Value, median.Value,
-                            range.Value, mix.Value);
-                    }
+                        FaceSliderValues.InterpolateHeadSlidersWithFactor(MakerChaControl, min.Value, max.Value,
+                            median.Value, range.Value, mix.Value, abmx);
                     else
-                    {
-                        FaceSliderValues.InterpolateHeadSliders(MakerChaControl, min.Value, max.Value, median.Value, range.Value);
-                    }
+                        FaceSliderValues.InterpolateHeadSliders(MakerChaControl, min.Value, max.Value, median.Value,
+                            range.Value, abmx);
+                    ctl.enabled = true;
 
                     if (!abmx) IsUpdating = false;
                 }
@@ -57,16 +58,24 @@ namespace HooahRandMutation
                             min.Value, max.Value, median.Value, range.Value, useFactor, mix.Value,
                             inverted, fixWarp.Value);
                     }
+                    catch (Exception e)
+                    {
+                        HooahRandMutationPlugin.instance.loggerInstance.LogError(e);
+                    }
                     finally
                     {
                         Observable.NextFrame(FrameCountType.EndOfFrame).Take(1)
-                            .Subscribe(__ => { IsUpdating = false; });
+                            .Subscribe(__ =>
+                            {
+                                IsUpdating = false;
+                                if (sliders) MakerChaControl.AltFaceUpdate();
+                            });
                     }
                 }
             }
             catch (Exception e)
             {
-                // todo: print log for the trouble shooting.
+                HooahRandMutationPlugin.instance.loggerInstance.LogError(e);
                 IsUpdating = false;
             }
         }

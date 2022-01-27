@@ -34,15 +34,27 @@ namespace HooahRandMutation
             e.AddControl(new MakerSeparator(Category, targetInstance));
 
             FaceSliderValues = new FaceSliderValues(in e, in targetInstance, in Category);
-            AddButton("Randomize Head Sliders", () => { FaceSliderValues.RandomizeHeadSliders(); });
+            AddButton("Randomize Head Sliders", () =>
+            {
+                FaceSliderValues.RandomizeHeadSliders();
+                CharacterData.Push(MakerChaControl);
+            });
 
             e.AddControl(new MakerSeparator(Category, targetInstance));
 
             // ABMX slider values will be used in most of categories
             AbmxSliderValues = new ABMXSliderValues(in e, in targetInstance, in Category);
-            AddButton("Randomize All ABMX Values", () => AbmxSliderValues.RandomizeAbmxSliders(null));
+            AddButton("Randomize All ABMX Values", () =>
+            {
+                AbmxSliderValues.RandomizeAbmxSliders(null, true);
+                CharacterData.Push(MakerChaControl);
+            });
             AddButton("Randomize Head ABMX Values",
-                () => AbmxSliderValues.RandomizeAbmxSliders(ABMXMutation.HeadBoneNames));
+                () =>
+                {
+                    AbmxSliderValues.RandomizeAbmxSliders(ABMXMutation.HeadBoneNames, true);
+                    CharacterData.Push(MakerChaControl);
+                });
 
             e.AddControl(new MakerSeparator(Category, targetInstance));
 
@@ -54,7 +66,7 @@ namespace HooahRandMutation
             void OnClick()
             {
                 FaceSliderValues.RandomizeHeadSliders();
-                AbmxSliderValues.RandomizeAbmxSliders(ABMXMutation.HeadBoneNames);
+                AbmxSliderValues.RandomizeAbmxSliders(ABMXMutation.HeadBoneNames, false);
                 CharacterData.Push(MakerChaControl);
             }
 

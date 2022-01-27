@@ -11,22 +11,21 @@ namespace HooahRandMutation
 {
     public partial class HooahRandMutationPlugin : BaseUnityPlugin
     {
-        private static ManualLogSource _logger;
-        private static HooahRandMutationPlugin _instance;
+        public static HooahRandMutationPlugin instance;
+        public ManualLogSource loggerInstance => Logger;
 
         private void Start()
         {
             /*
              * Thanks for 2155X for good code to start!
              */
-            _instance = this;
-            _logger = Logger;
+            instance = this;
             Harmony.CreateAndPatchAll(typeof(HooahRandMutationPlugin));
             MakerAPI.RegisterCustomSubCategories += (sender, e) =>
             {
                 // todo: maybe use dropdown for this one?
-                RandomizerSection = new CharacterRandomizeSection(e, _instance);
-                BlendingCategorySection = new CharacterInterpolateSection(e, _instance);
+                RandomizerSection = new CharacterRandomizeSection(e, instance);
+                BlendingCategorySection = new CharacterInterpolateSection(e, instance);
             };
         }
 

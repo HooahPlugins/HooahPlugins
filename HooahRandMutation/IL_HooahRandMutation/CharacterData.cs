@@ -94,7 +94,7 @@ namespace HooahRandMutation
             {
                 control.fileCustom.face.shapeValueFace =
                     GetRandomizedHeadSliders(head, chin, cheek, eyes, eyeAng, nose, mouth, ear);
-                control.UpdateShapeFaceValueFromCustomInfo();
+                control.AltFaceUpdate();
             }
 
             public float[] GetRandomizedBodyFactor(float deviation)
@@ -115,7 +115,9 @@ namespace HooahRandMutation
 
             public void RandomizeAbmx(ChaControl control,
                 float maxPos, float maxAng, float maxScale, float maxLength,
-                bool useAbsolute = false, HashSet<string> filters = null, bool inverted = false)
+                bool useAbsolute = false, HashSet<string> filters = null, bool inverted = false,
+                bool fullUpdate = false)
+
             {
                 var controller = control.GetComponent<BoneController>();
                 if (controller == null) return;
@@ -146,7 +148,7 @@ namespace HooahRandMutation
                             LengthModifier = x.RelativePosition,
                             PositionModifier = x.Position,
                             RotationModifier = x.VectorAngle
-                        });
+                        }, fullUpdate);
             }
 
             #endregion
@@ -188,7 +190,6 @@ namespace HooahRandMutation
                 var tmp = UndoBuffer.Pop();
                 Templates[0] = tmp;
                 RedoBuffer.Push(tmp);
-
 
                 return true;
             }
@@ -246,7 +247,7 @@ namespace HooahRandMutation
                 ScaleModifier = mdfData.ScaleModifier,
                 LengthModifier = mdfData.LengthModifier,
                 PositionModifier = (mdfData.PositionModifier * 1).ScaleAndReturn(new Vector3(-1, 1, 1)),
-                RotationModifier = mdfData.RotationModifier
+                RotationModifier = (mdfData.RotationModifier * 1).ScaleAndReturn(new Vector3(1, -1, -1))
             };
         }
 
@@ -264,7 +265,7 @@ namespace HooahRandMutation
         // todo: modular?
         public static void UpdateModifiers(this BoneController controller,
             in Dictionary<string, ABMXValues> valuesMap,
-            bool mirrored, Func<ABMXValues, BoneModifierData> generate)
+            bool mirrored, Func<ABMXValues, BoneModifierData> generate, bool fullUpdate = false)
         {
             controller.ClearModifiers();
             var mirrorModifiers = mirrored ? new Dictionary<string, BoneModifier>() : null;
@@ -294,7 +295,8 @@ namespace HooahRandMutation
                 mirrorModifiers.Add($"{m.Groups[1].Value}{pos}{m.Groups[3].Value}", modifier);
             }
 
-            controller.NeedsFullRefresh = true;
+            if (fullUpdate) controller.NeedsFullRefresh = true;
+            controller.NeedsBaselineUpdate = true;
         }
 
         public static void UpdateModifiers(this BoneController controller, in Dictionary<string, ABMXValues> valuesMap)
@@ -310,12 +312,14 @@ namespace HooahRandMutation
         {
             chaControl.fileCustom.face.shapeValueFace = sliders.HeadSliders;
             chaControl.fileCustom.body.shapeValueBody = sliders.BodySliders;
-            chaControl.UpdateShapeFaceValueFromCustomInfo();
+            chaControl.AltFaceUpdate();
+            chaControl.AltBodyUpdate();
+
             chaControl.GetComponent<BoneController>()?.UpdateModifiers(sliders.AbmxValuesMap);
         }
 
         public static void UpdateAbmx(this ChaControl control,
-            in Dictionary<string, CharacterData.ABMXValues> processedMaps)
+            in Dictionary<string, ABMXValues> processedMaps)
         {
             var controller = control.GetComponent<BoneController>();
             if (controller == null) return;
@@ -326,37 +330,18 @@ namespace HooahRandMutation
 
         #region Interpolation Methods
 
-        public static void InterpolateFaceSliders(this ChaControl control, float min, float max, float median, float range,
-            bool uniformFactor = false, float factor = 0)
+        public static void InterpolateFaceSliders(this ChaControl control, float min, float max, float median,
+            float range, bool uniformFactor = false, float factor = 0)
         {
             var nodeA = Templates[0].HeadSliders;
             var nodeB = Templates[1].HeadSliders;
+            var array = new float[nodeA.Length];
 
-            var rnd = new Func<float>(() => Utility.GetRandomNumber(min, max, median, range));
-            control.fileCustom.face.shapeValueFace = nodeA.Select((x, i) =>
-            {
-                var y = nodeB[i];
+            for (var i = 0; i < array.Length; i++)
+                array[i] = Utility.GetInterpolatedFactor(nodeA[i], nodeB[i],
+                    uniformFactor ? factor : Utility.GetRandomNumber(min, max, median, range));
 
-                if (Utility.IsInRange(i, 0, 4))
-                    return Utility.GetInterpolatedFactor(x, y, uniformFactor ? factor : rnd());
-                if (Utility.IsInRange(i, 5, 12))
-                    return Utility.GetInterpolatedFactor(x, y, uniformFactor ? factor : rnd());
-                if (Utility.IsInRange(i, 13, 18))
-                    return Utility.GetInterpolatedFactor(x, y, uniformFactor ? factor : rnd());
-                if (Utility.IsInRange(i, 19, 23))
-                    return Utility.GetInterpolatedFactor(x, y, uniformFactor ? factor : rnd());
-                if (Utility.IsInRange(i, 24, 25))
-                    return Utility.GetInterpolatedFactor(x, y, uniformFactor ? factor : rnd());
-                if (Utility.IsInRange(i, 26, 31))
-                    return Utility.GetInterpolatedFactor(x, y, uniformFactor ? factor : rnd());
-                if (Utility.IsInRange(i, 32, 46))
-                    return Utility.GetInterpolatedFactor(x, y, uniformFactor ? factor : rnd());
-                if (Utility.IsInRange(i, 47, 53))
-                    return Utility.GetInterpolatedFactor(x, y, uniformFactor ? factor : rnd());
-                if (Utility.IsInRange(i, 54, 58))
-                    return Utility.GetInterpolatedFactor(x, y, uniformFactor ? factor : rnd());
-                return x;
-            }).ToArray();
+            control.fileCustom.face.shapeValueFace = array;
         }
 
         // todo: one to one interpolation
@@ -397,7 +382,7 @@ namespace HooahRandMutation
                 // todo: this can be changed later to support multi point lerp
                 // uniformFactor = use same lerp factor for all values.
                 //          else = random factor for all
-                processedMaps[kv.Key] = new CharacterData.ABMXValues
+                var values = new ABMXValues
                 {
                     Name = Utility.PickName(kv.Value),
                     Position = filterTarget
@@ -407,7 +392,7 @@ namespace HooahRandMutation
                         ? def?.Scale ?? Vector3.one
                         : Utility.LerpValue(kv.Value, Utility.ABMXValueType.Scale, uniformFactor ? factor : rnd()),
                     VectorAngle = filterTarget
-                        ? def?.VectorAngle ?? Vector3.one
+                        ? def?.VectorAngle ?? Vector3.zero
                         : Utility.LerpValue(kv.Value, Utility.ABMXValueType.Angle, uniformFactor ? factor : rnd()),
                     RelativePosition = ABMXMutation.BadDragons.Contains(kv.Key)
                         ? 1
@@ -415,6 +400,12 @@ namespace HooahRandMutation
                             ? def?.RelativePosition ?? 1
                             : Utility.LerpValue(kv.Value, uniformFactor ? factor : rnd())
                 };
+
+                if (values.Position.magnitude <= 0.1 &&
+                    Math.Abs(values.VectorAngle.magnitude - 1) <= 0.5 &&
+                    Math.Abs(values.Scale.magnitude - 1) < 0.001) continue;
+
+                processedMaps[kv.Key] = values;
             }
 
             control.UpdateAbmx(processedMaps);

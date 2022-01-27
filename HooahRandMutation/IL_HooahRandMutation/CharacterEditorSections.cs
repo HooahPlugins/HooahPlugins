@@ -67,6 +67,8 @@ namespace HooahRandMutation
 
         public void RandomizeHeadSliders()
         {
+            var ctl = MakerChaControl.GetComponent<BoneController>();
+            ctl.enabled = false;
             CharacterData.Templates.FirstOrDefault().RandomizeHeadSliders(
                 MakerChaControl,
                 HeadSliderValue,
@@ -78,6 +80,7 @@ namespace HooahRandMutation
                 MouthSliderValue,
                 EarSliderValue
             );
+            ctl.enabled = true;
         }
 
         public void InterpolateHeadSliders(ChaControl chara, float min, float max, float median, float range,
@@ -85,7 +88,7 @@ namespace HooahRandMutation
         {
             chara.InterpolateFaceSliders(min, max, median, range);
 
-            if (!stopUpdate) chara.UpdateShapeFaceValueFromCustomInfo();
+            if (!stopUpdate) chara.AltFaceUpdate();
             // for now, there is only two point blending
         }
 
@@ -95,7 +98,7 @@ namespace HooahRandMutation
         {
             chara.InterpolateFaceSliders(min, max, median, range, true, factor);
 
-            if (!stopUpdate) chara.UpdateShapeFaceValueFromCustomInfo();
+            if (!stopUpdate) chara.AltFaceUpdate();
             // for now, there is only two point blending
         }
 
@@ -149,13 +152,15 @@ namespace HooahRandMutation
             AbmxAbsoluteScale = AddToggle("Use Absolute Scale");
         }
 
-        public void RandomizeAbmxSliders(HashSet<string> filters)
+        public void RandomizeAbmxSliders(HashSet<string> filters, bool justAbmx)
         {
             CharacterData.Templates.FirstOrDefault().RandomizeAbmx(
                 MakerChaControl,
                 AbmxPositionSliderValue, AbmxAngleSliderValue,
                 AbmxScaleSliderValue, AbmxLengthSliderValue, AbmxUseAbsolute,
-                filters
+                filters,
+                false,
+                justAbmx
             );
         }
     }

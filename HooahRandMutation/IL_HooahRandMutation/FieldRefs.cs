@@ -12,13 +12,29 @@ namespace HooahRandMutation
 
         static FieldRefs()
         {
-            var chaControlClass = typeof(AIChara.ChaControl);
+            var chaControlClass = typeof(ChaControl);
             charShapeFaceField = chaControlClass.GetProperty("sibFace", AccessTools.all);
+            charShapeBodyField = chaControlClass.GetProperty("sibBody", AccessTools.all);
         }
 
-        public static ShapeInfoBase GetFaceShape(this ChaControl chaControl)
+        private static ShapeInfoBase GetFaceShape(this ChaControl chaControl)
         {
             return charShapeFaceField.GetValue(chaControl) as ShapeInfoBase;
+        }
+
+        private static ShapeInfoBase GetBodyShape(this ChaControl chaControl)
+        {
+            return charShapeBodyField.GetValue(chaControl) as ShapeInfoBase;
+        }
+
+        public static ShapeHeadInfoFemale GetFemaleBodyShape(this ChaControl femaleControl)
+        {
+            return femaleControl.GetBodyShape() as ShapeHeadInfoFemale;
+        }
+
+        public static ShapeHeadInfoMale GetMaleBodyShape(this ChaControl femaleControl)
+        {
+            return femaleControl.GetBodyShape() as ShapeHeadInfoMale;
         }
 
         public static ShapeHeadInfoFemale GetFemaleFaceShape(this ChaControl femaleControl)
