@@ -92,6 +92,7 @@ namespace HooahRandMutation
             AddButton("Save slider values of B", () => ABMXMutation.TrySaveSlot(1));
             AddButton("Load slider values of A", () => ABMXMutation.TryLoadSlot());
             AddButton("Load slider values of B", () => ABMXMutation.TryLoadSlot(1));
+            AddButton("Open Slider Preset Folder", CharacterData.CharacterSliders.OpenSlidePresetFolder);
 
             e.AddControl(new MakerSeparator(Category, targetInstance));
             e.AddControl(new MakerText(SlotAName, Category, targetInstance));

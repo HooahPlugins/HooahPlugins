@@ -13,7 +13,7 @@ namespace HooahRandMutation
         private string SlotAName => CharacterData.Templates.ElementAtOrDefault(0).CharacterName ?? "Not Set";
 
         protected readonly ABMXSliderValues AbmxSliderValues;
-        protected readonly FaceSliderValues FaceSliderValues;
+        protected readonly FaceSliderValues CharacterSliderValues;
 
         public CharacterRandomizeSection(RegisterSubCategoriesEvent e, HooahRandMutationPlugin targetInstance) : base(e,
             targetInstance)
@@ -21,9 +21,12 @@ namespace HooahRandMutation
             Category = new MakerCategory(MakerConstants.Body.CategoryName, SubCategoryName);
             e.AddSubCategory(Category);
 
+            // todo: make this buttons... more compact.
+            // [set][save][load][?]
             AddButton("Set current character as template", () => MakerChaControl.SetTemplate());
             AddButton("Save Current Template", () => ABMXMutation.TrySaveSlot());
             AddButton("Load Template From File", () => ABMXMutation.TryLoadSlot());
+            AddButton("Open Slider Preset Folder", CharacterData.CharacterSliders.OpenSlidePresetFolder);
 
             e.AddControl(new MakerSeparator(Category, targetInstance));
 
@@ -33,10 +36,15 @@ namespace HooahRandMutation
 
             e.AddControl(new MakerSeparator(Category, targetInstance));
 
-            FaceSliderValues = new FaceSliderValues(in e, in targetInstance, in Category);
+            CharacterSliderValues = new FaceSliderValues(in e, in targetInstance, in Category);
             AddButton("Randomize Head Sliders", () =>
             {
-                FaceSliderValues.RandomizeHeadSliders();
+                CharacterSliderValues.RandomizeHeadSliders();
+                CharacterData.Push(MakerChaControl);
+            });
+            AddButton("Randomize Body Sliders", () =>
+            {
+                CharacterSliderValues.RandomizeBodySliders();
                 CharacterData.Push(MakerChaControl);
             });
 
@@ -55,6 +63,12 @@ namespace HooahRandMutation
                     AbmxSliderValues.RandomizeAbmxSliders(ABMXMutation.HeadBoneNames, true);
                     CharacterData.Push(MakerChaControl);
                 });
+            AddButton("Randomize Body ABMX Values",
+                () =>
+                {
+                    AbmxSliderValues.RandomizeAbmxSliders(ABMXMutation.HeadBoneNames, true, true);
+                    CharacterData.Push(MakerChaControl);
+                });
 
             e.AddControl(new MakerSeparator(Category, targetInstance));
 
@@ -65,7 +79,8 @@ namespace HooahRandMutation
 
             void OnClick()
             {
-                FaceSliderValues.RandomizeHeadSliders();
+                CharacterSliderValues.RandomizeHeadSliders();
+                // todo: do this in the next frame?
                 AbmxSliderValues.RandomizeAbmxSliders(ABMXMutation.HeadBoneNames, false);
                 CharacterData.Push(MakerChaControl);
             }
@@ -81,6 +96,8 @@ namespace HooahRandMutation
                 MakerChaControl.ApplySliders(CharacterData.Templates.FirstOrDefault());
             });
             AddButton("Randomize Head Slider & ABMX", OnClick);
+            AddButton("Randomize Body Slider & ABMX", OnClick);
+            AddButton("Randomize All!", OnClick);
         }
     }
 }

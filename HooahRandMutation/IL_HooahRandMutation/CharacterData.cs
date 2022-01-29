@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -24,21 +25,34 @@ namespace HooahRandMutation
             [Key("name")] public string CharacterName;
             [Key("head")] public float[] HeadSliders;
             [Key("body")] public float[] BodySliders;
+            [Key("body-soft")] public float BodyBreastSoft;
+            [Key("body-weight")] public float BodyBreastWeight;
             [Key("abmx")] public Dictionary<string, ABMXValues> AbmxValuesMap;
 
-            private static string GetDir() => Path.Combine(Application.dataPath, @"..\userdata\mutator");
+            // windows. smh.
+            private static string GetDir() =>
+                Path.Combine(Application.dataPath, @"..\userdata\mutator\").Replace("/", "\\");
 
             public void Save()
             {
                 // make sure the target directory exists
                 if (!Directory.Exists(GetDir())) Directory.CreateDirectory(GetDir());
                 File.WriteAllBytes(
-                    Path.Combine(GetDir(), $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}_{CharacterName}.preset"),
+                    Path.Combine(GetDir(),
+                        $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}_{CharacterName}.{FileExtension}"),
                     MessagePackSerializer.Serialize(this));
             }
 
-            public const string Filter = "Json File (*.preset)|*.preset|All files|*.*";
-            public const string FileExtension = ".preset";
+            public static readonly string Filter =
+                $"Slide Preset File (*{FileExtension})|*{FileExtension}|All files|*.*";
+
+            public const string FileExtension = ".silders";
+
+            public static void OpenSlidePresetFolder()
+            {
+                // sorry, I don't run this game in linux.
+                Process.Start("explorer.exe", $"/select, \"{GetDir()}\"");
+            }
 
             public static void TryLoad(Action<CharacterSliders> callback)
             {
@@ -65,6 +79,35 @@ namespace HooahRandMutation
             }
 
             #region Randomizer Features
+
+            public void RandomizeBodySliders(
+                ChaControl control,
+                float body, float head, float breasts, float torso, float pelvis, float arm, float leg
+            )
+            {
+                control.fileCustom.body.bustSoftness = BodyBreastSoft + Random.Range(-breasts, breasts);
+                control.fileCustom.body.bustWeight = BodyBreastWeight + Random.Range(-breasts, breasts);
+                control.fileCustom.body.shapeValueBody =
+                    GetRandomBodySliders(body, head, breasts, torso, pelvis, arm, leg);
+                control.AltBodyUpdate();
+            }
+
+            public float[] GetRandomBodySliders(
+                float body, float head, float breasts, float torso, float pelvis, float arm, float leg
+            )
+            {
+                return BodySliders.Select((x, i) =>
+                {
+                    if (i == 0) return x + Random.Range(-body, body);
+                    if (Utility.IsInRange(i, 1, 8) || i == 32) return x + Random.Range(-breasts, breasts);
+                    if (i == 9) return x + Random.Range(-head, head);
+                    if (Utility.IsInRange(i, 10, 17)) return x + Random.Range(-torso, torso);
+                    if (Utility.IsInRange(i, 18, 24)) return x + Random.Range(-pelvis, pelvis);
+                    if (Utility.IsInRange(i, 25, 28)) return x + Random.Range(-leg, leg);
+                    if (Utility.IsInRange(i, 29, 31)) return x + Random.Range(-arm, arm);
+                    return x;
+                }).ToArray();
+            }
 
             public float[] GetRandomizedHeadSliders(
                 float head, float chin, float cheek, float eyes, float eyeAng, float nose, float mouth, float ear
@@ -95,11 +138,6 @@ namespace HooahRandMutation
                 control.fileCustom.face.shapeValueFace =
                     GetRandomizedHeadSliders(head, chin, cheek, eyes, eyeAng, nose, mouth, ear);
                 control.AltFaceUpdate();
-            }
-
-            public float[] GetRandomizedBodyFactor(float deviation)
-            {
-                return BodySliders.Select(x => x).ToArray();
             }
 
             public static Vector3 RandomVector(float scale)
@@ -402,7 +440,7 @@ namespace HooahRandMutation
                 };
 
                 if (values.Position.magnitude <= 0.1 &&
-                    values.VectorAngle.magnitude <=VectorOneTolerance &&
+                    values.VectorAngle.magnitude <= VectorOneTolerance &&
                     Mathf.Abs(values.Scale.magnitude - VectorOneTolerance) < 0.01 &&
                     Mathf.Abs(values.RelativePosition - 1) < 0.001) continue;
                 if (Mathf.Abs(values.RelativePosition - 1) < 0.010) values.RelativePosition = 1; // stop.

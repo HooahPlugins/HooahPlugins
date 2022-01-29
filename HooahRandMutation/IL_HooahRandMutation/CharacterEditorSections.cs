@@ -54,6 +54,13 @@ namespace HooahRandMutation
         private readonly MakerSlider NoseSlider;
         private readonly MakerSlider HeadSlider;
         private readonly MakerSlider MouthSlider;
+        private readonly MakerSlider BodySlider;
+        private readonly MakerSlider BodyHeadSlider;
+        private readonly MakerSlider BreastSlider;
+        private readonly MakerSlider TorsoSlider;
+        private readonly MakerSlider PelvisSlider;
+        private readonly MakerSlider ArmSlider;
+        private readonly MakerSlider LegSlider;
 
         private float CheekSliderValue => CheekSlider.Value;
         private float ChinSliderValue => ChinSlider.Value;
@@ -64,6 +71,30 @@ namespace HooahRandMutation
         private float HeadSliderValue => HeadSlider.Value;
         private float MouthSliderValue => MouthSlider.Value;
 
+        private float BodySliderValue => BodySlider.Value;
+        private float BodyHeadSliderValue => BodyHeadSlider.Value;
+        private float BreastSliderValue => BreastSlider.Value;
+        private float TorsoSliderValue => TorsoSlider.Value;
+        private float PelvisSliderValue => PelvisSlider.Value;
+        private float ArmSliderValue => ArmSlider.Value;
+        private float LegSliderValue => LegSlider.Value;
+
+        public void RandomizeBodySliders()
+        {
+            var ctl = MakerChaControl.GetComponent<BoneController>();
+            ctl.enabled = false;
+            CharacterData.Templates.FirstOrDefault().RandomizeBodySliders(
+                MakerChaControl,
+                BodySliderValue,
+                BodyHeadSliderValue,
+                BreastSliderValue,
+                TorsoSliderValue,
+                PelvisSliderValue,
+                ArmSliderValue,
+                LegSliderValue
+            );
+            ctl.enabled = true;
+        }
 
         public void RandomizeHeadSliders()
         {
@@ -108,6 +139,18 @@ namespace HooahRandMutation
             Category = makerCategory;
 
             if (noSlider) return;
+            e.AddControl(new MakerText("Body Randomizer Ranges", Category, targetInstance));
+            BodySlider = AddSlider("Body Deviation");
+            BodyHeadSlider = AddSlider("Head Deviation");
+            BreastSlider = AddSlider("Breast Deviation");
+            TorsoSlider = AddSlider("Torso Deviation");
+            PelvisSlider = AddSlider("Pelvis Deviation");
+            ArmSlider = AddSlider("Arms Deviation");
+            LegSlider = AddSlider("Legs Deviation");
+
+
+            e.AddControl(new MakerSeparator(Category, targetInstance));
+            e.AddControl(new MakerText("Face Randomizer Ranges", Category, targetInstance));
             CheekSlider = AddSlider("Cheek Deviation");
             ChinSlider = AddSlider("Chin Deviation");
             EarSlider = AddSlider("Ear Deviation");
@@ -129,10 +172,10 @@ namespace HooahRandMutation
         private readonly MakerToggle AbmxAbsoluteScale;
         private readonly MakerSlider AbmxMultiplier;
 
-        private float AbmxPositionSliderValue => AbmxPositionSlider.Value;
-        private float AbmxAngleSliderValue => AbmxAngleSlider.Value;
-        private float AbmxScaleSliderValue => AbmxScaleSlider.Value;
-        private float AbmxLengthSliderValue => AbmxLengthSlider.Value;
+        private float AbmxPositionSliderValue => AbmxPositionSlider.Value * AbmxMutiplierValue;
+        private float AbmxAngleSliderValue => AbmxAngleSlider.Value * AbmxMutiplierValue;
+        private float AbmxScaleSliderValue => AbmxScaleSlider.Value * AbmxMutiplierValue;
+        private float AbmxLengthSliderValue => AbmxLengthSlider.Value * AbmxMutiplierValue;
         private bool AbmxUseAbsolute => AbmxAbsoluteScale.Value;
 
         private float AbmxMutiplierValue => AbmxMultiplier.Value;
@@ -148,11 +191,12 @@ namespace HooahRandMutation
             AbmxAngleSlider = AddSlider("Abmx Angle Deviation");
             AbmxScaleSlider = AddSlider("Abmx Scale Deviation");
             AbmxLengthSlider = AddSlider("Abmx Length Deviation");
-            AbmxMultiplier = AddSlider("Abmx Length Multiplier");
+            // this is for more precise randomizer control for abmx.
+            AbmxMultiplier = AddSlider("Randomize Multiplier", 0.01f, 2, 1f);
             AbmxAbsoluteScale = AddToggle("Use Absolute Scale");
         }
 
-        public void RandomizeAbmxSliders(HashSet<string> filters, bool justAbmx)
+        public void RandomizeAbmxSliders(HashSet<string> filters, bool justAbmx, bool inverted = false)
         {
             CharacterData.Templates.FirstOrDefault().RandomizeAbmx(
                 MakerChaControl,

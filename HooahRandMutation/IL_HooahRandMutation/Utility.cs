@@ -57,17 +57,15 @@ namespace HooahRandMutation
         public static void AltFaceUpdate(this ChaControl chaControl)
         {
             var sliders = chaControl.fileCustom.face.shapeValueFace;
-            var sibFace = chaControl.GetFemaleFaceShape();
-            for (var i = 0; i < sliders.Length; i++) sibFace.ChangeValue(i, sliders[i]);
-            sibFace.Update();
+            for (var i = 0; i < sliders.Length; i++) chaControl.sibFace.ChangeValue(i, sliders[i]);
+            chaControl.sibFace.Update();
         }
 
         public static void AltBodyUpdate(this ChaControl chaControl)
         {
             var sliders = chaControl.fileCustom.body.shapeValueBody;
-            var sibBody = chaControl.GetFemaleBodyShape();
-            for (var i = 0; i < sliders.Length; i++) sibBody.ChangeValue(i, sliders[i]);
-            sibBody.Update();
+            for (var i = 0; i < sliders.Length; i++) chaControl.sibBody.ChangeValue(i, sliders[i]);
+            chaControl.sibBody.Update();
         }
 
         public static float GetInterpolatedFactor(float x, float y, float factor)
