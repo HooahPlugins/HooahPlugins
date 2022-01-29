@@ -152,6 +152,12 @@ namespace HooahRandMutation
             AddButton("Mix Head Slider&ABMX with Mix Factor",
                 () => UpdateFace(min, max, median, range, mix, toggle, preventFix, true, true, true)
             );
+            AddButton("Mix Body Slider&ABMX with Randomized Factor",
+                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, true, true, false, true)
+            );
+            AddButton("Mix Body Slider&ABMX with Mix Factor",
+                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, true, true, true, true)
+            );
 
             min.ValueChanged.Subscribe(UpdateRealTime);
             max.ValueChanged.Subscribe(UpdateRealTime);

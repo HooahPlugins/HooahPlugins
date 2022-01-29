@@ -403,8 +403,9 @@ namespace HooahRandMutation
 
                 if (values.Position.magnitude <= 0.1 &&
                     values.VectorAngle.magnitude <=VectorOneTolerance &&
-                    Math.Abs(values.Scale.magnitude - VectorOneTolerance) < 0.01) continue;
-                if (Math.Abs(values.RelativePosition - 1) < 0.010) values.RelativePosition = 1; // stop.
+                    Mathf.Abs(values.Scale.magnitude - VectorOneTolerance) < 0.01 &&
+                    Mathf.Abs(values.RelativePosition - 1) < 0.001) continue;
+                if (Mathf.Abs(values.RelativePosition - 1) < 0.010) values.RelativePosition = 1; // stop.
 
                 processedMaps[kv.Key] = values;
             }
