@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using MessagePack;
 using HooahUtility.Model.Attribute;
 #if AI || HS2
-using System.Linq;
-using System.Reflection;
 using HarmonyLib;
 using HooahUtility.Model;
 #endif
@@ -98,8 +98,7 @@ public class DickNavigator : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (pmiEnabled) return;
-        if (!IsPmIntegrationValid() || _pregmodController == null) return;
+        if (!IsPmIntegrationValid() || _pregmodController == null || pmiEnabled == false) return;
 
         #region Insertion Intensity
 
@@ -124,7 +123,8 @@ public class DickNavigator : MonoBehaviour
 
     public void OnTransformParentChanged()
     {
-        if (IsPmIntegrationValid()) _pregmodController = GetComponentInParent(PregPlusControllerType);
+        if (IsPmIntegrationValid())
+            _pregmodController = GetComponentInParent(PregPlusControllerType);
     }
 
     #endregion

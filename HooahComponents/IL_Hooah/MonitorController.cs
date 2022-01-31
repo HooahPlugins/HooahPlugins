@@ -25,6 +25,7 @@ public class MonitorController : MonoBehaviour
     private RenderTexture _renderTexture;
     private VideoPlayer _videoPlayer;
     public string materialShaderProperty;
+    
 
     public void Start()
     {
@@ -50,11 +51,6 @@ public class MonitorController : MonoBehaviour
             _videoPlayer.targetMaterialRenderer = GetComponentInChildren<Renderer>();
         _videoPlayer.targetMaterialRenderer.material.SetTexture(materialShaderProperty, _renderTexture);
         _videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
-        _videoPlayer.errorReceived += (source, message) =>
-        {
-            // todo: should i do something?
-            Debugger.Break();
-        };
         _videoPlayer.prepareCompleted += source =>
         {
             source.Play();
@@ -87,8 +83,7 @@ public class MonitorController : MonoBehaviour
 
     public void PlayVideo(string u)
     {
-        _videoPlayer.Stop();
-        _videoPlayer.url = null; // unset the variable to wish it to be cleared.
+        _videoPlayer.targetTexture.Release();
         _videoPlayer.Stop();
         url = u;
         _videoPlayer.url = u;

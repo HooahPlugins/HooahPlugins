@@ -18,6 +18,16 @@ Common utilities for all plugins
 
 Fast search actions and items
 
+## Hooah Heelz
+
+Add heels.
+about to get more stable integration between abmx and heelz.
+
 ## Hooah Smug Face
 
 Add faces
+
+## Hooah Rand Mutation
+
+Adds ability to mix and randomize character sliders and ABMX modifiers.
+Also you can use this as lightweight character slider save format.
