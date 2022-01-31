@@ -217,12 +217,15 @@ namespace HooahRandMutation
         #region Randomizer Undo/Redo Mechanism
 
         // this is only for the randomizer!
-        public static Stack<CharacterSliders> UndoBuffer = new Stack<CharacterSliders>();
-        public static Stack<CharacterSliders> RedoBuffer = new Stack<CharacterSliders>();
+        public static List<CharacterSliders> UndoBuffer = new List<CharacterSliders>(10);
+        public static List<CharacterSliders> RedoBuffer = new List<CharacterSliders>(10);
 
         public static void Push(ChaControl chaControl)
         {
-            UndoBuffer.Push(chaControl.GetCharacterSnapshot());
+            var cnt = UndoBuffer.Count;
+            if (cnt == UndoBuffer.Capacity) UndoBuffer.RemoveAt(cnt - 1);
+
+            UndoBuffer.Add(chaControl.GetCharacterSnapshot());
             RedoBuffer.Clear();
         }
 
@@ -230,9 +233,10 @@ namespace HooahRandMutation
         {
             try
             {
-                var tmp = UndoBuffer.Pop();
+                var tmp = UndoBuffer.ElementAt(0);
+                UndoBuffer.RemoveAt(0);
                 Templates[0] = tmp;
-                RedoBuffer.Push(tmp);
+                RedoBuffer.Add(tmp);
 
                 return true;
             }
@@ -248,9 +252,10 @@ namespace HooahRandMutation
         {
             try
             {
-                var redo = RedoBuffer.Pop();
+                var redo = RedoBuffer.ElementAt(0);
+                RedoBuffer.RemoveAt(0);
                 Templates[0] = redo;
-                UndoBuffer.Push(redo);
+                UndoBuffer.Add(redo);
 
                 return true;
             }
