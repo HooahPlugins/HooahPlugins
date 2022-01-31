@@ -339,12 +339,13 @@ namespace HooahRandMutation
             }
 
             if (fullUpdate) controller.NeedsFullRefresh = true;
-            controller.NeedsBaselineUpdate = true;
+            else controller.NeedsBaselineUpdate = true;
         }
 
-        public static void UpdateModifiers(this BoneController controller, in Dictionary<string, ABMXValues> valuesMap)
+        public static void UpdateModifiers(this BoneController controller, in Dictionary<string, ABMXValues> valuesMap,
+            bool fullUpdate = false)
         {
-            controller.UpdateModifiers(valuesMap, true, GetIdentityModifierData);
+            controller.UpdateModifiers(valuesMap, true, GetIdentityModifierData, fullUpdate);
         }
 
         #endregion
@@ -365,12 +366,12 @@ namespace HooahRandMutation
                 .Subscribe(_ => controller.UpdateModifiers(sliders.AbmxValuesMap));
         }
 
-        public static void UpdateAbmx(this ChaControl control,
-            in Dictionary<string, ABMXValues> processedMaps)
+        public static void UpdateAbmx(this ChaControl control, in Dictionary<string, ABMXValues> processedMaps,
+            bool fullUpdate = false)
         {
             var controller = control.GetComponent<BoneController>();
             if (controller == null) return;
-            controller.UpdateModifiers(processedMaps);
+            controller.UpdateModifiers(processedMaps, fullUpdate);
         }
 
         #endregion
@@ -398,10 +399,9 @@ namespace HooahRandMutation
             var tB = Templates.ElementAtOrDefault(1);
             var nodeA = tA.BodySliders;
             var nodeB = tB.BodySliders;
-            var array = new float[nodeA.Length];
 
-            for (var i = 0; i < array.Length; i++)
-                array[i] = Utility.GetInterpolatedFactor(nodeA[i], nodeB[i],
+            for (var i = 0; i < control.fileCustom.body.shapeValueBody.Length; i++)
+                control.fileCustom.body.shapeValueBody[i] = Utility.GetInterpolatedFactor(nodeA[i], nodeB[i],
                     uniformFactor ? factor : Utility.GetRandomNumber(min, max, median, range));
             control.fileCustom.body.bustSoftness =
                 Utility.GetInterpolatedFactor(tA.BodyBreastSoft, tB.BodyBreastSoft,
@@ -409,7 +409,6 @@ namespace HooahRandMutation
             control.fileCustom.body.bustWeight =
                 Utility.GetInterpolatedFactor(tA.BodyBreastWeight, tB.BodyBreastWeight,
                     uniformFactor ? factor : Utility.GetRandomNumber(min, max, median, range));
-            control.fileCustom.body.shapeValueBody = array;
         }
 
         // todo: one to one interpolation
@@ -417,7 +416,9 @@ namespace HooahRandMutation
         public static void InterpolateAbmx(this ChaControl control,
             int defaultIndex, HashSet<string> filters,
             float min, float max, float median, float range,
-            bool uniformFactor = false, float factor = 0.5f, bool inverted = false, bool preventShifting = false
+            bool uniformFactor = false, float factor = 0.5f, bool inverted = false,
+            bool preventShifting = false,
+            bool fullUpdate = false
         )
         {
             // todo: support multi shape
@@ -444,7 +445,9 @@ namespace HooahRandMutation
             var rnd = new Func<float>(() => Utility.GetRandomNumber(min, max, median, range));
             foreach (var kv in dictMaps)
             {
-                var filterTarget = filters != null && !filters.Contains(kv.Key);
+                var filterTarget = inverted
+                    ? !(filters != null && !filters.Contains(kv.Key))
+                    : filters != null && !filters.Contains(kv.Key);
                 var def = kv.Value[defaultIndex];
 
                 // todo: this can be changed later to support multi point lerp
@@ -462,7 +465,7 @@ namespace HooahRandMutation
                     VectorAngle = filterTarget
                         ? def?.VectorAngle ?? Vector3.zero
                         : Utility.LerpValue(kv.Value, Utility.ABMXValueType.Angle, uniformFactor ? factor : rnd()),
-                    RelativePosition = ABMXMutation.BadDragons.Contains(kv.Key)
+                    RelativePosition = preventShifting && ABMXMutation.BadDragons.Contains(kv.Key)
                         ? 1
                         : filterTarget
                             ? def?.RelativePosition ?? 1
@@ -473,12 +476,12 @@ namespace HooahRandMutation
                     values.VectorAngle.magnitude <= VectorOneTolerance &&
                     Mathf.Abs(values.Scale.magnitude - VectorOneTolerance) < 0.001 &&
                     Mathf.Abs(values.RelativePosition - 1) < 0.001) continue;
-                if (Mathf.Abs(values.RelativePosition - 1) < 0.010) values.RelativePosition = 1; // stop.
+                if (Mathf.Abs(values.RelativePosition - 1) < 0.001) values.RelativePosition = 1; // stop.
 
                 processedMaps[kv.Key] = values;
             }
 
-            control.UpdateAbmx(processedMaps);
+            control.UpdateAbmx(processedMaps, fullUpdate);
         }
 
         private static readonly float VectorOneTolerance = Vector3.one.magnitude;

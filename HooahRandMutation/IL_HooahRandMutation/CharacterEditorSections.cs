@@ -124,7 +124,8 @@ namespace HooahRandMutation
         {
             chara.InterpolateBodySliders(min, max, median, range);
 
-            if (!stopUpdate) chara.AltBodyUpdate();
+            if (stopUpdate) return;
+            chara.AltBodyUpdate();
             // for now, there is only two point blending
         }
 
@@ -133,7 +134,8 @@ namespace HooahRandMutation
         {
             chara.InterpolateFaceSliders(min, max, median, range);
 
-            if (!stopUpdate) chara.AltFaceUpdate();
+            if (stopUpdate) return;
+            chara.AltFaceUpdate();
             // for now, there is only two point blending
         }
 
@@ -143,8 +145,8 @@ namespace HooahRandMutation
         {
             chara.InterpolateBodySliders(min, max, median, range, true, factor);
 
-            if (!stopUpdate) chara.AltBodyUpdate();
-            // for now, there is only two point blending
+            if (stopUpdate) return;
+            chara.AltBodyUpdate();
         }
 
         public void InterpolateHeadSlidersWithFactor(ChaControl chara, float min, float max, float median, float range,
@@ -153,7 +155,8 @@ namespace HooahRandMutation
         {
             chara.InterpolateFaceSliders(min, max, median, range, true, factor);
 
-            if (!stopUpdate) chara.AltFaceUpdate();
+            if (stopUpdate) return;
+            chara.AltFaceUpdate();
             // for now, there is only two point blending
         }
 
@@ -173,7 +176,7 @@ namespace HooahRandMutation
             LegSlider = AddSlider("Legs Deviation");
 
 
-            e.AddControl(new MakerSeparator(Category, targetInstance));
+            AddSeparator();
             e.AddControl(new MakerText("Face Randomizer Ranges", Category, targetInstance));
             CheekSlider = AddSlider("Cheek Deviation");
             ChinSlider = AddSlider("Chin Deviation");
@@ -226,9 +229,7 @@ namespace HooahRandMutation
                 MakerChaControl,
                 AbmxPositionSliderValue, AbmxAngleSliderValue,
                 AbmxScaleSliderValue, AbmxLengthSliderValue, AbmxUseAbsolute,
-                filters,
-                inverted,
-                justAbmx
+                filters, inverted, justAbmx
             );
         }
     }

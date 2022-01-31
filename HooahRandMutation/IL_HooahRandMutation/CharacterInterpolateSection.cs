@@ -68,7 +68,7 @@ namespace HooahRandMutation
                 MakerChaControl.InterpolateAbmx(defaultSideValue, filters,
                     minSliderValue, maxSliderValue, medianSliderValue, rangeSliderValue,
                     useFactor, mixSliderValue,
-                    inverted, fixWarpValue);
+                    inverted, fixWarpValue, !sliders);
             }
             catch (Exception e)
             {
@@ -87,36 +87,34 @@ namespace HooahRandMutation
             }
         }
 
-        public void InterpolateHeadAndBody(bool sliders, bool abmx, bool useFactor = false,
-            bool inverted = false)
+        public void InterpolateHeadAndBody(bool sliders, bool abmx, bool useFactor = false)
         {
-            if (!sliders) return;
-
             var ctl = MakerChaControl.GetComponent<BoneController>();
-            ctl.enabled = false;
-            if (mixTypeValue == 0 || mixTypeValue == 2) InterpolateHead(useFactor, inverted);
-            else if (mixTypeValue == 1 || mixTypeValue == 2) InterpolateBody(useFactor, inverted);
-            ctl.enabled = true;
-
-            if (!abmx) IsUpdating = false;
-        }
-
-        public void UpdateFace(HashSet<string> filters,
-            bool sliders, bool abmx, bool useFactor = false, bool inverted = false)
-        {
-            if (IsUpdating) return;
-            IsUpdating = true;
-
             try
             {
-                InterpolateHeadAndBody(sliders, abmx, useFactor, inverted);
-                InterpolateAbmx(filters, sliders, abmx, useFactor, inverted);
+                if (!sliders) return;
+                ctl.enabled = false;
+                if (mixTypeValue == 0 || mixTypeValue == 2) InterpolateHead(abmx, useFactor);
+                if (mixTypeValue == 1 || mixTypeValue == 2) InterpolateBody(abmx, useFactor);
+                ctl.enabled = true;
             }
             catch (Exception e)
             {
                 HooahRandMutationPlugin.instance.loggerInstance.LogError(e);
-                IsUpdating = false;
             }
+            finally
+            {
+                if (!abmx) IsUpdating = false;
+            }
+        }
+
+        public void UpdateCallback(HashSet<string> filters,
+            bool sliders, bool abmx, bool useFactor = false, bool inverted = false)
+        {
+            if (IsUpdating) return;
+            IsUpdating = true;
+            InterpolateHeadAndBody(sliders, abmx, useFactor);
+            InterpolateAbmx(filters, sliders, abmx, useFactor, inverted);
         }
 
         public CharacterInterpolateSection(RegisterSubCategoriesEvent e, HooahRandMutationPlugin targetInstance) : base(
@@ -143,13 +141,17 @@ namespace HooahRandMutation
             AddButton("Save slider values of B", () => ABMXMutation.TrySaveSlot(1));
             AddButton("Load slider values of A", () =>
             {
-                ABMXMutation.TryLoadSlot();
-                if (textA.Exists) textA.Text = CharacterData.Templates.ElementAtOrDefault(0).CharacterName;
+                ABMXMutation.TryLoadSlot(0, () =>
+                {
+                    if (textA.Exists) textA.Text = CharacterData.Templates.ElementAtOrDefault(0).CharacterName;
+                });
             });
             AddButton("Load slider values of B", () =>
             {
-                ABMXMutation.TryLoadSlot(1);
-                if (textB.Exists) textB.Text = CharacterData.Templates.ElementAtOrDefault(1).CharacterName;
+                ABMXMutation.TryLoadSlot(1, () =>
+                {
+                    if (textB.Exists) textB.Text = CharacterData.Templates.ElementAtOrDefault(1).CharacterName;
+                });
             });
 
             AddSeparator();
@@ -195,19 +197,18 @@ namespace HooahRandMutation
                 switch (mixTypeValue)
                 {
                     case 0:
-                        UpdateFace(ABMXMutation.HeadBoneNames, sliders, abmx, useFactor);
+                        UpdateCallback(ABMXMutation.HeadBoneNames, sliders, abmx, useFactor);
                         break;
                     case 1:
-                        UpdateFace(ABMXMutation.HeadBoneNames, sliders, abmx, useFactor, true);
+                        UpdateCallback(ABMXMutation.HeadBoneNames, sliders, abmx, useFactor, true);
                         break;
                     case 2:
-                        UpdateFace(null, sliders, abmx, useFactor);
+                        UpdateCallback(null, sliders, abmx, useFactor);
                         break;
                 }
             }
 
-            AddButton("Mix Sliders", () => UpdateSliders(mixRandomized.Value, mixSliders.Value, mixAbmx.Value));
-
+            AddButton("Mix Sliders", () => UpdateSliders(!mixRandomized.Value, mixSliders.Value, mixAbmx.Value));
             // only interpolate sliders
             minSlider.ValueChanged.Subscribe(UpdateRandomCallback);
             maxSlider.ValueChanged.Subscribe(UpdateRandomCallback);

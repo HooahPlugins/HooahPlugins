@@ -31,8 +31,10 @@ namespace HooahRandMutation
             AddButton("Save Current Template", () => ABMXMutation.TrySaveSlot());
             AddButton("Load Template From File", () =>
             {
-                ABMXMutation.TryLoadSlot();
-                if (text.Exists) text.Text = CharacterData.Templates.FirstOrDefault().CharacterName;
+                ABMXMutation.TryLoadSlot(0, () =>
+                {
+                    if (text.Exists) text.Text = CharacterData.Templates.FirstOrDefault().CharacterName;
+                });
             });
             AddButton("Open Slider Preset Folder", CharacterData.CharacterSliders.OpenSlidePresetFolder);
 

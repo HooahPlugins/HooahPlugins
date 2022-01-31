@@ -10,11 +10,10 @@ namespace HooahRandMutation
 {
     public static class ABMXMutation
     {
-
         public static readonly HashSet<string> BadDragons = new HashSet<string>()
         {
             "cf_J_Chin_rs", "cf_J_FaceBase", "cf_J_FaceRoot", "cf_J_FaceLowBase", "cf_J_FaceLow_s", "cf_J_NoseBase_trs",
-            "cf_J_MouthBase_tr", "cf_J_FaceUp_ty","cf_J_FaceUp_tz",
+            "cf_J_MouthBase_tr", "cf_J_FaceUp_ty", "cf_J_FaceUp_tz",
             "cf_J_CheekLow_L", "cf_J_CheekUp_L", "cf_J_CheekUp_R",
             "cf_J_Chin_rs", "cf_J_ChinTip_s", "cf_J_ChinLow", "cf_J_MouthBase_tr",
             "cf_J_Nose_tip"
@@ -64,12 +63,15 @@ namespace HooahRandMutation
             CharacterData.Templates.ElementAt(index).Save();
         }
 
-        public static void TryLoadSlot(int index = 0)
+        public static void TryLoadSlot(int index = 0, Action callback = null)
         {
             if (CharacterData.Templates == null || index < 0 ||
                 index > CharacterData.Templates.Length) return;
             CharacterData.CharacterSliders.TryLoad(template =>
-                CharacterData.Templates[index] = template);
+            {
+                CharacterData.Templates[index] = template;
+                callback?.Invoke();
+            });
         }
     }
 }
