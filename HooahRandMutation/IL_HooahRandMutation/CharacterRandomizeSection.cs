@@ -97,10 +97,12 @@ namespace HooahRandMutation
             AddButton("Undo", () =>
             {
                 if (CharacterData.Undo()) MakerChaControl.ApplySliders(CharacterData.Templates.FirstOrDefault());
+                else HooahRandMutationPlugin.instance.loggerInstance.LogMessage("Undo buffer is empty.");
             });
             AddButton("Redo", () =>
             {
                 if (CharacterData.Redo()) MakerChaControl.ApplySliders(CharacterData.Templates.FirstOrDefault());
+                else HooahRandMutationPlugin.instance.loggerInstance.LogMessage("Redo buffer is empty.");
             });
             AddButton("Randomize Head Slider & ABMX", OnClick);
             AddButton("Randomize Body Slider & ABMX", OnClick);

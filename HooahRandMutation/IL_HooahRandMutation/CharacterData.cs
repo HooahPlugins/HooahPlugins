@@ -38,10 +38,9 @@ namespace HooahRandMutation
             {
                 // make sure the target directory exists
                 if (!Directory.Exists(GetDir())) Directory.CreateDirectory(GetDir());
-                File.WriteAllBytes(
-                    Path.Combine(GetDir(),
-                        $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}_{CharacterName}.{FileExtension}"),
-                    MessagePackSerializer.Serialize(this));
+                var filename = $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}_{CharacterName}.{FileExtension}";
+                File.WriteAllBytes(Path.Combine(GetDir(), filename), MessagePackSerializer.Serialize(this));
+                HooahRandMutationPlugin.instance.loggerInstance.LogMessage($"Saved slider preset '{filename}.'");
             }
 
             public static readonly string Filter =
@@ -66,6 +65,8 @@ namespace HooahRandMutation
                         // todo: accept json....
                         var jsonPayload = File.ReadAllBytes(path);
                         var result = MessagePackSerializer.Deserialize<CharacterSliders>(jsonPayload);
+                        HooahRandMutationPlugin.instance.loggerInstance.LogMessage(
+                            "Successfully Loaded slider preset.");
                         // todo: find strange cases.
                         callback(result);
                     }
@@ -223,8 +224,7 @@ namespace HooahRandMutation
         public static void Push(ChaControl chaControl)
         {
             var cnt = UndoBuffer.Count;
-            if (cnt == UndoBuffer.Capacity) UndoBuffer.RemoveAt(cnt - 1);
-
+            if (cnt == UndoBuffer.Capacity) UndoBuffer.RemoveAt(0);
             UndoBuffer.Add(chaControl.GetCharacterSnapshot());
             RedoBuffer.Clear();
         }
@@ -233,8 +233,10 @@ namespace HooahRandMutation
         {
             try
             {
-                var tmp = UndoBuffer.ElementAt(0);
-                UndoBuffer.RemoveAt(0);
+                var cnt = UndoBuffer.Count;
+                if (cnt == 0) return false;
+                var tmp = UndoBuffer.LastOrDefault();
+                UndoBuffer.RemoveAt(cnt - 1);
                 Templates[0] = tmp;
                 RedoBuffer.Add(tmp);
 
@@ -252,8 +254,10 @@ namespace HooahRandMutation
         {
             try
             {
-                var redo = RedoBuffer.ElementAt(0);
-                RedoBuffer.RemoveAt(0);
+                var cnt = RedoBuffer.Count;
+                if (cnt == 0) return false;
+                var redo = RedoBuffer.LastOrDefault();
+                RedoBuffer.RemoveAt(cnt - 1);
                 Templates[0] = redo;
                 UndoBuffer.Add(redo);
 
@@ -363,6 +367,8 @@ namespace HooahRandMutation
             controller.enabled = false;
             chaControl.fileCustom.face.shapeValueFace = sliders.HeadSliders;
             chaControl.fileCustom.body.shapeValueBody = sliders.BodySliders;
+            chaControl.fileCustom.body.bustSoftness = sliders.BodyBreastSoft;
+            chaControl.fileCustom.body.bustWeight = sliders.BodyBreastWeight;
             chaControl.AltFaceUpdate();
             chaControl.AltBodyUpdate();
             controller.enabled = true;
