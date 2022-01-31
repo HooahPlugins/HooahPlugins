@@ -8,6 +8,7 @@ using AIChara;
 using KKABMX.Core;
 using KKAPI.Utilities;
 using MessagePack;
+using UniRx;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -352,12 +353,16 @@ namespace HooahRandMutation
 
         public static void ApplySliders(this ChaControl chaControl, CharacterSliders sliders)
         {
+            var controller = chaControl.GetComponent<BoneController>();
+            controller.enabled = false;
             chaControl.fileCustom.face.shapeValueFace = sliders.HeadSliders;
             chaControl.fileCustom.body.shapeValueBody = sliders.BodySliders;
             chaControl.AltFaceUpdate();
             chaControl.AltBodyUpdate();
+            controller.enabled = true;
 
-            chaControl.GetComponent<BoneController>()?.UpdateModifiers(sliders.AbmxValuesMap);
+            Observable.NextFrame(FrameCountType.EndOfFrame).Take(1)
+                .Subscribe(_ => controller.UpdateModifiers(sliders.AbmxValuesMap));
         }
 
         public static void UpdateAbmx(this ChaControl control,

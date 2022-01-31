@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AIChara;
+using UniRx;
 using UnityEngine;
 
 namespace HooahRandMutation

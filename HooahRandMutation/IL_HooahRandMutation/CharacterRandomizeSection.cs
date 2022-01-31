@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using KKAPI.Maker;
 using KKAPI.Maker.UI;
+using UniRx;
 using UnityEngine.Events;
 
 namespace HooahRandMutation
@@ -80,24 +81,29 @@ namespace HooahRandMutation
             void OnClick()
             {
                 CharacterSliderValues.RandomizeHeadSliders();
-                // todo: do this in the next frame?
                 AbmxSliderValues.RandomizeAbmxSliders(ABMXMutation.HeadBoneNames, false);
-                CharacterData.Push(MakerChaControl);
+                Observable.NextFrame(FrameCountType.EndOfFrame).Take(1)
+                    .Subscribe(_ => CharacterData.Push(MakerChaControl));
             }
 
             AddButton("Undo", () =>
             {
-                CharacterData.Undo();
-                MakerChaControl.ApplySliders(CharacterData.Templates.FirstOrDefault());
+                if (CharacterData.Undo()) MakerChaControl.ApplySliders(CharacterData.Templates.FirstOrDefault());
             });
             AddButton("Redo", () =>
             {
-                CharacterData.Redo();
-                MakerChaControl.ApplySliders(CharacterData.Templates.FirstOrDefault());
+                if (CharacterData.Redo()) MakerChaControl.ApplySliders(CharacterData.Templates.FirstOrDefault());
             });
             AddButton("Randomize Head Slider & ABMX", OnClick);
             AddButton("Randomize Body Slider & ABMX", OnClick);
-            AddButton("Randomize All!", OnClick);
+            AddButton("Randomize All!", () =>
+            {
+                CharacterSliderValues.RandomizeHeadSliders();
+                CharacterSliderValues.RandomizeBodySliders();
+                AbmxSliderValues.RandomizeAbmxSliders(null, false);
+                Observable.NextFrame(FrameCountType.EndOfFrame).Take(1)
+                    .Subscribe(_ => CharacterData.Push(MakerChaControl));
+            });
         }
     }
 }
