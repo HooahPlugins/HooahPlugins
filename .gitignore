@@ -84,3 +84,4 @@ crashlytics-build.properties
 /**/**/obj/
 *.zip
 *.rar
+/**/final/
