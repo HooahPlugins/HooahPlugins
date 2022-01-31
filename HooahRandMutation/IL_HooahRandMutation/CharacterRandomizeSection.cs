@@ -11,8 +11,6 @@ namespace HooahRandMutation
         protected readonly string DisplayName = "MakerRandomMutation";
         protected readonly string SubCategoryName = "SliderMutation";
 
-        private string SlotAName => CharacterData.Templates.ElementAtOrDefault(0).CharacterName ?? "Not Set";
-
         protected readonly ABMXSliderValues AbmxSliderValues;
         protected readonly FaceSliderValues CharacterSliderValues;
 
@@ -20,22 +18,30 @@ namespace HooahRandMutation
             targetInstance)
         {
             Category = new MakerCategory(MakerConstants.Body.CategoryName, SubCategoryName);
+            var text = new MakerText("Not Loaded", Category, targetInstance);
             e.AddSubCategory(Category);
 
             // todo: make this buttons... more compact.
             // [set][save][load][?]
-            AddButton("Set current character as template", () => MakerChaControl.SetTemplate());
+            AddButton("Set current character as template", () =>
+            {
+                MakerChaControl.SetTemplate();
+                if (text.Exists) text.Text = CharacterData.Templates.FirstOrDefault().CharacterName;
+            });
             AddButton("Save Current Template", () => ABMXMutation.TrySaveSlot());
-            AddButton("Load Template From File", () => ABMXMutation.TryLoadSlot());
+            AddButton("Load Template From File", () =>
+            {
+                ABMXMutation.TryLoadSlot();
+                if (text.Exists) text.Text = CharacterData.Templates.FirstOrDefault().CharacterName;
+            });
             AddButton("Open Slider Preset Folder", CharacterData.CharacterSliders.OpenSlidePresetFolder);
 
-            e.AddControl(new MakerSeparator(Category, targetInstance));
+            AddSeparator();
 
-            e.AddControl(new MakerText(SlotAName, Category, targetInstance));
+            e.AddControl(text);
             // todo: display current undo buffer
 
-
-            e.AddControl(new MakerSeparator(Category, targetInstance));
+            AddSeparator();
 
             CharacterSliderValues = new FaceSliderValues(in e, in targetInstance, in Category);
             AddButton("Randomize Head Sliders", () =>
@@ -49,7 +55,7 @@ namespace HooahRandMutation
                 CharacterData.Push(MakerChaControl);
             });
 
-            e.AddControl(new MakerSeparator(Category, targetInstance));
+            AddSeparator();
 
             // ABMX slider values will be used in most of categories
             AbmxSliderValues = new ABMXSliderValues(in e, in targetInstance, in Category);
@@ -71,7 +77,7 @@ namespace HooahRandMutation
                     CharacterData.Push(MakerChaControl);
                 });
 
-            e.AddControl(new MakerSeparator(Category, targetInstance));
+            AddSeparator();
 
             // todo: customizable abmx filters
             // separate bones with ";"

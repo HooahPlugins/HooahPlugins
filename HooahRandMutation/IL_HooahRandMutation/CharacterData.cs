@@ -391,6 +391,27 @@ namespace HooahRandMutation
             control.fileCustom.face.shapeValueFace = array;
         }
 
+        public static void InterpolateBodySliders(this ChaControl control, float min, float max, float median,
+            float range, bool uniformFactor = false, float factor = 0)
+        {
+            var tA = Templates.ElementAtOrDefault(0);
+            var tB = Templates.ElementAtOrDefault(1);
+            var nodeA = tA.BodySliders;
+            var nodeB = tB.BodySliders;
+            var array = new float[nodeA.Length];
+
+            for (var i = 0; i < array.Length; i++)
+                array[i] = Utility.GetInterpolatedFactor(nodeA[i], nodeB[i],
+                    uniformFactor ? factor : Utility.GetRandomNumber(min, max, median, range));
+            control.fileCustom.body.bustSoftness =
+                Utility.GetInterpolatedFactor(tA.BodyBreastSoft, tB.BodyBreastSoft,
+                    uniformFactor ? factor : Utility.GetRandomNumber(min, max, median, range));
+            control.fileCustom.body.bustWeight =
+                Utility.GetInterpolatedFactor(tA.BodyBreastWeight, tB.BodyBreastWeight,
+                    uniformFactor ? factor : Utility.GetRandomNumber(min, max, median, range));
+            control.fileCustom.body.shapeValueBody = array;
+        }
+
         // todo: one to one interpolation
         // todo: one to many lerp interpolation.
         public static void InterpolateAbmx(this ChaControl control,

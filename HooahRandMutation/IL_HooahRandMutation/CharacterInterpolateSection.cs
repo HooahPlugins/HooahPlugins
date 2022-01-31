@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KKABMX.Core;
 using KKAPI.Maker;
@@ -14,64 +15,102 @@ namespace HooahRandMutation
         protected readonly string SubCategoryName = "CharacterInterpolation";
 
         protected readonly ABMXSliderValues AbmxSliderValues;
-        protected readonly FaceSliderValues FaceSliderValues;
-
-        private string SlotAName => CharacterData.Templates.ElementAtOrDefault(0).CharacterName ?? "Not Set";
-        private string SlotBName => CharacterData.Templates.ElementAtOrDefault(1).CharacterName ?? "Not Set";
+        protected readonly FaceSliderValues SliderValues;
 
         public bool IsUpdating = false;
 
-        public void UpdateFace(
-            MakerSlider min, MakerSlider max, MakerSlider median, MakerSlider range, MakerSlider mix,
-            MakerToggle defaultSide, MakerToggle fixWarp, bool sliders, bool abmx, bool useFactor = false,
-            bool inverted = false, bool notRealtime = false)
-        {
-            if (notRealtime) return;
-            if (IsUpdating) return;
+        private readonly MakerSlider maxSlider;
+        private readonly MakerSlider medianSlider;
+        private readonly MakerSlider rangeSlider;
+        private readonly MakerSlider mixSlider;
+        private readonly MakerSlider minSlider;
+        private readonly MakerToggle defaultSide;
+        private readonly MakerToggle fixWarp;
+        private readonly MakerToggle updateTick;
+        private readonly MakerDropdown mixType;
 
+        private int mixTypeValue => mixType.Value;
+        private float maxSliderValue => maxSlider.Value;
+        private float medianSliderValue => medianSlider.Value;
+        private float rangeSliderValue => rangeSlider.Value;
+        private float mixSliderValue => mixSlider.Value;
+        private float minSliderValue => minSlider.Value;
+        private int defaultSideValue => defaultSide.Value ? 0 : 1;
+        private bool fixWarpValue => fixWarp.Value;
+
+
+        public void InterpolateHead(bool abmx, bool useFactor = false)
+        {
+            if (useFactor)
+                SliderValues.InterpolateHeadSlidersWithFactor(MakerChaControl, minSliderValue,
+                    maxSliderValue, medianSliderValue, rangeSliderValue, mixSliderValue, abmx);
+            else
+                SliderValues.InterpolateHeadSliders(MakerChaControl, minSliderValue, maxSliderValue,
+                    medianSliderValue, rangeSliderValue, abmx);
+        }
+
+        public void InterpolateBody(bool abmx, bool useFactor = false)
+        {
+            if (useFactor)
+                SliderValues.InterpolateBodySlidersWithFactor(MakerChaControl, minSliderValue,
+                    maxSliderValue, medianSliderValue, rangeSliderValue, mixSliderValue, abmx);
+            else
+                SliderValues.InterpolateBodySliders(MakerChaControl, minSliderValue, maxSliderValue,
+                    medianSliderValue, rangeSliderValue, abmx);
+        }
+
+        public void InterpolateAbmx(HashSet<string> filters, bool sliders, bool abmx, bool useFactor = false,
+            bool inverted = false)
+        {
+            if (!abmx) return;
+            try
+            {
+                MakerChaControl.InterpolateAbmx(defaultSideValue, filters,
+                    minSliderValue, maxSliderValue, medianSliderValue, rangeSliderValue,
+                    useFactor, mixSliderValue,
+                    inverted, fixWarpValue);
+            }
+            catch (Exception e)
+            {
+                HooahRandMutationPlugin.instance.loggerInstance.LogError(e);
+            }
+            finally
+            {
+                Observable.NextFrame(FrameCountType.EndOfFrame).Take(1)
+                    .Subscribe(__ =>
+                    {
+                        IsUpdating = false;
+                        if (!sliders) return;
+                        MakerChaControl.AltFaceUpdate();
+                        MakerChaControl.AltBodyUpdate();
+                    });
+            }
+        }
+
+        public void InterpolateHeadAndBody(bool sliders, bool abmx, bool useFactor = false,
+            bool inverted = false)
+        {
+            if (!sliders) return;
+
+            var ctl = MakerChaControl.GetComponent<BoneController>();
+            ctl.enabled = false;
+            if (mixTypeValue == 0 || mixTypeValue == 2) InterpolateHead(useFactor, inverted);
+            else if (mixTypeValue == 1 || mixTypeValue == 2) InterpolateBody(useFactor, inverted);
+            ctl.enabled = true;
+
+            if (!abmx) IsUpdating = false;
+        }
+
+        public void UpdateFace(HashSet<string> filters,
+            bool sliders, bool abmx, bool useFactor = false, bool inverted = false)
+        {
+            if (IsUpdating) return;
             IsUpdating = true;
 
             try
             {
-                if (sliders)
-                {
-                    var ctl = MakerChaControl.GetComponent<BoneController>();
-                    ctl.enabled = false;
-                    if (useFactor)
-                        FaceSliderValues.InterpolateHeadSlidersWithFactor(MakerChaControl, min.Value, max.Value,
-                            median.Value, range.Value, mix.Value, abmx);
-                    else
-                        FaceSliderValues.InterpolateHeadSliders(MakerChaControl, min.Value, max.Value, median.Value,
-                            range.Value, abmx);
-                    ctl.enabled = true;
-
-                    if (!abmx) IsUpdating = false;
-                }
-
-                if (abmx)
-                {
-                    // todo: validate essential shits
-                    try
-                    {
-                        MakerChaControl.InterpolateAbmx(defaultSide.Value ? 0 : 1,
-                            ABMXMutation.HeadBoneNames,
-                            min.Value, max.Value, median.Value, range.Value, useFactor, mix.Value,
-                            inverted, fixWarp.Value);
-                    }
-                    catch (Exception e)
-                    {
-                        HooahRandMutationPlugin.instance.loggerInstance.LogError(e);
-                    }
-                    finally
-                    {
-                        Observable.NextFrame(FrameCountType.EndOfFrame).Take(1)
-                            .Subscribe(__ =>
-                            {
-                                IsUpdating = false;
-                                if (sliders) MakerChaControl.AltFaceUpdate();
-                            });
-                    }
-                }
+                InterpolateHeadAndBody(sliders, abmx, useFactor, inverted);
+                InterpolateAbmx(filters, sliders, abmx, useFactor, inverted);
             }
             catch (Exception e)
             {
@@ -85,86 +124,96 @@ namespace HooahRandMutation
         {
             Category = new MakerCategory(MakerConstants.Body.CategoryName, SubCategoryName);
             e.AddSubCategory(Category);
+            var textA = new MakerText(Constant.NotLoaded, Category, targetInstance);
+            var textB = new MakerText(Constant.NotLoaded, Category, targetInstance);
 
-            AddButton("Set Current character as A", () => MakerChaControl.SetTemplate());
-            AddButton("Set Current character as B", () => MakerChaControl.SetTemplate(1));
+            AddButton("Open Slider Preset Folder", CharacterData.CharacterSliders.OpenSlidePresetFolder);
+            AddSeparator();
+            AddButton("Set Current character as A", () =>
+            {
+                MakerChaControl.SetTemplate();
+                if (textA.Exists) textA.Text = CharacterData.Templates.ElementAtOrDefault(0).CharacterName;
+            });
+            AddButton("Set Current character as B", () =>
+            {
+                MakerChaControl.SetTemplate(1);
+                if (textB.Exists) textB.Text = CharacterData.Templates.ElementAtOrDefault(1).CharacterName;
+            });
             AddButton("Save slider values of A", () => ABMXMutation.TrySaveSlot());
             AddButton("Save slider values of B", () => ABMXMutation.TrySaveSlot(1));
-            AddButton("Load slider values of A", () => ABMXMutation.TryLoadSlot());
-            AddButton("Load slider values of B", () => ABMXMutation.TryLoadSlot(1));
-            AddButton("Open Slider Preset Folder", CharacterData.CharacterSliders.OpenSlidePresetFolder);
+            AddButton("Load slider values of A", () =>
+            {
+                ABMXMutation.TryLoadSlot();
+                if (textA.Exists) textA.Text = CharacterData.Templates.ElementAtOrDefault(0).CharacterName;
+            });
+            AddButton("Load slider values of B", () =>
+            {
+                ABMXMutation.TryLoadSlot(1);
+                if (textB.Exists) textB.Text = CharacterData.Templates.ElementAtOrDefault(1).CharacterName;
+            });
 
-            e.AddControl(new MakerSeparator(Category, targetInstance));
-            e.AddControl(new MakerText(SlotAName, Category, targetInstance));
-            e.AddControl(new MakerText(SlotBName, Category, targetInstance));
-            e.AddControl(new MakerSeparator(Category, targetInstance));
-            var toggle = AddToggle("Use First Character's Body", true);
-            var updateTick = AddToggle("Update when change", false);
-            var preventFix = AddToggle("Remove face shifting", false);
+            AddSeparator();
+            e.AddControl(textA);
+            e.AddControl(textB);
+            AddSeparator();
 
             // initialize sliders
-            FaceSliderValues = new FaceSliderValues(in e, in targetInstance, in Category, true);
+            SliderValues = new FaceSliderValues(in e, in targetInstance, in Category, true);
+            minSlider = AddSlider("Random Minimum Bias");
+            maxSlider = AddSlider("Random Maximum Bias", 0, 1, 1);
+            medianSlider = AddSlider("Random Median", 0, 1, 0.5f);
+            rangeSlider = AddSlider("Random Deviation", 0, 1, 0.1f);
+            mixSlider = AddSlider("Mix Factor", 0, 1, 0.5f);
 
-            e.AddControl(new MakerSeparator(Category, targetInstance));
-            var min = AddSlider("Random Minimum Bias");
-            var max = AddSlider("Random Maximum Bias", 0, 1, 1);
-            var median = AddSlider("Random Median", 0, 1, 0.5f);
-            var range = AddSlider("Random Deviation", 0, 1, 0.1f);
-            var mix = AddSlider("Mix Factor", 0, 1, 0.5f);
-            e.AddControl(new MakerSeparator(Category, targetInstance));
+            AddSeparator();
 
-            void UpdateFactor(float x)
+            mixType = new MakerDropdown("Mix Type", new[] { "Mix Face", "Mix Body", "Mix All" }, Category, 0,
+                targetInstance);
+            e.AddControl(mixType);
+            defaultSide = AddToggle("Use First Character's Body", true);
+            updateTick = AddToggle("Update when change");
+            fixWarp = AddToggle("Remove face shifting");
+
+            AddSeparator();
+
+            var mixRandomized = AddToggle("Randomize Between Two Template");
+            var mixSliders = AddToggle("Mix Sliders", true);
+            var mixAbmx = AddToggle("Mix ABMX", true);
+
+            void UpdateFactorCallback(float x)
             {
-                UpdateFace(min, max, median, range, mix, toggle, preventFix, true, true, true, false,
-                    !updateTick.Value);
+                if (updateTick.Value) UpdateSliders(true, mixSliders.Value, mixAbmx.Value);
             }
 
-            void UpdateRealTime(float x)
+            void UpdateRandomCallback(float x)
             {
-                UpdateFace(min, max, median, range, mix, toggle, preventFix, true, true, false, false,
-                    !updateTick.Value);
+                if (updateTick.Value) UpdateSliders(false, mixSliders.Value, mixAbmx.Value);
             }
 
-            AddButton("Mix Head Sliders with Randomized Factor",
-                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, true, false)
-            );
-            AddButton("Mix Head Sliders with Mix Factor",
-                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, true, false, true)
-            );
+            void UpdateSliders(bool useFactor, bool sliders, bool abmx)
+            {
+                switch (mixTypeValue)
+                {
+                    case 0:
+                        UpdateFace(ABMXMutation.HeadBoneNames, sliders, abmx, useFactor);
+                        break;
+                    case 1:
+                        UpdateFace(ABMXMutation.HeadBoneNames, sliders, abmx, useFactor, true);
+                        break;
+                    case 2:
+                        UpdateFace(null, sliders, abmx, useFactor);
+                        break;
+                }
+            }
+
+            AddButton("Mix Sliders", () => UpdateSliders(mixRandomized.Value, mixSliders.Value, mixAbmx.Value));
+
             // only interpolate sliders
-
-            e.AddControl(new MakerSeparator(Category, targetInstance));
-
-            // initialize abmx values
-            AbmxSliderValues = new ABMXSliderValues(in e, in targetInstance, in Category, true);
-            AddButton("Mix Head ABMX with Randomized Factor",
-                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, false, true)
-            );
-
-            AddButton("Mix Head ABMX with Mix Factor",
-                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, false, true, true)
-            );
-
-            e.AddControl(new MakerSeparator(Category, targetInstance));
-
-            AddButton("Mix Head Slider&ABMX with Randomized Factor",
-                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, true, true)
-            );
-            AddButton("Mix Head Slider&ABMX with Mix Factor",
-                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, true, true, true)
-            );
-            AddButton("Mix Body Slider&ABMX with Randomized Factor",
-                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, true, true, false, true)
-            );
-            AddButton("Mix Body Slider&ABMX with Mix Factor",
-                () => UpdateFace(min, max, median, range, mix, toggle, preventFix, true, true, true, true)
-            );
-
-            min.ValueChanged.Subscribe(UpdateRealTime);
-            max.ValueChanged.Subscribe(UpdateRealTime);
-            range.ValueChanged.Subscribe(UpdateRealTime);
-            median.ValueChanged.Subscribe(UpdateRealTime);
-            mix.ValueChanged.Subscribe(UpdateFactor);
+            minSlider.ValueChanged.Subscribe(UpdateRandomCallback);
+            maxSlider.ValueChanged.Subscribe(UpdateRandomCallback);
+            rangeSlider.ValueChanged.Subscribe(UpdateRandomCallback);
+            medianSlider.ValueChanged.Subscribe(UpdateRandomCallback);
+            mixSlider.ValueChanged.Subscribe(UpdateFactorCallback);
             // interpolate sliders and abmx
         }
     }

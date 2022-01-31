@@ -20,6 +20,11 @@ namespace HooahRandMutation
 
         public ChaControl MakerChaControl => MakerAPI.GetCharacterControl();
 
+        protected void AddSeparator()
+        {
+            Event.AddControl(new MakerSeparator(Category, TargetInstance));
+        }
+
         protected void AddButton(string title, UnityAction onClick)
         {
             var btn = new MakerButton(title, Category, TargetInstance);
@@ -114,12 +119,31 @@ namespace HooahRandMutation
             ctl.enabled = true;
         }
 
+        public void InterpolateBodySliders(ChaControl chara, float min, float max, float median, float range,
+            bool stopUpdate = false)
+        {
+            chara.InterpolateBodySliders(min, max, median, range);
+
+            if (!stopUpdate) chara.AltBodyUpdate();
+            // for now, there is only two point blending
+        }
+
         public void InterpolateHeadSliders(ChaControl chara, float min, float max, float median, float range,
             bool stopUpdate = false)
         {
             chara.InterpolateFaceSliders(min, max, median, range);
 
             if (!stopUpdate) chara.AltFaceUpdate();
+            // for now, there is only two point blending
+        }
+
+        public void InterpolateBodySlidersWithFactor(ChaControl chara, float min, float max, float median, float range,
+            float factor,
+            bool stopUpdate = false)
+        {
+            chara.InterpolateBodySliders(min, max, median, range, true, factor);
+
+            if (!stopUpdate) chara.AltBodyUpdate();
             // for now, there is only two point blending
         }
 
