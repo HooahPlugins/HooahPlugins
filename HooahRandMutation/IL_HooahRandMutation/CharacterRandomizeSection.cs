@@ -26,14 +26,14 @@ namespace HooahRandMutation
             AddButton("Set current character as template", () =>
             {
                 MakerChaControl.SetTemplate();
-                if (text.Exists) text.Text = CharacterData.Templates.FirstOrDefault().CharacterName;
+                if (text.Exists) text.Text = $"Preset: {CharacterData.Templates.FirstOrDefault().CharacterName}";
             });
             AddButton("Save Current Template", () => ABMXMutation.TrySaveSlot());
             AddButton("Load Template From File", () =>
             {
                 ABMXMutation.TryLoadSlot(0, () =>
                 {
-                    if (text.Exists) text.Text = CharacterData.Templates.FirstOrDefault().CharacterName;
+                    if (text.Exists) text.Text = $"Preset: {CharacterData.Templates.FirstOrDefault().CharacterName}";
                 });
             });
             AddButton("Open Slider Preset Folder", CharacterData.CharacterSliders.OpenSlidePresetFolder);

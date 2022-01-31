@@ -130,12 +130,12 @@ namespace HooahRandMutation
             AddButton("Set Current character as A", () =>
             {
                 MakerChaControl.SetTemplate();
-                if (textA.Exists) textA.Text = CharacterData.Templates.ElementAtOrDefault(0).CharacterName;
+                if (textA.Exists) textA.Text = $"Slot A: {CharacterData.Templates.ElementAtOrDefault(0).CharacterName}";
             });
             AddButton("Set Current character as B", () =>
             {
                 MakerChaControl.SetTemplate(1);
-                if (textB.Exists) textB.Text = CharacterData.Templates.ElementAtOrDefault(1).CharacterName;
+                if (textB.Exists) textB.Text = $"Slot B: {CharacterData.Templates.ElementAtOrDefault(1).CharacterName}";
             });
             AddButton("Save slider values of A", () => ABMXMutation.TrySaveSlot());
             AddButton("Save slider values of B", () => ABMXMutation.TrySaveSlot(1));
@@ -143,14 +143,16 @@ namespace HooahRandMutation
             {
                 ABMXMutation.TryLoadSlot(0, () =>
                 {
-                    if (textA.Exists) textA.Text = CharacterData.Templates.ElementAtOrDefault(0).CharacterName;
+                    if (textA.Exists)
+                        textA.Text = $"Slot A: {CharacterData.Templates.ElementAtOrDefault(0).CharacterName}";
                 });
             });
             AddButton("Load slider values of B", () =>
             {
                 ABMXMutation.TryLoadSlot(1, () =>
                 {
-                    if (textB.Exists) textB.Text = CharacterData.Templates.ElementAtOrDefault(1).CharacterName;
+                    if (textB.Exists)
+                        textB.Text = $"Slot B: {CharacterData.Templates.ElementAtOrDefault(1).CharacterName}";
                 });
             });
 
