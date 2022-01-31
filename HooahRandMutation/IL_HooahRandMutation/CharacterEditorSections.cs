@@ -193,7 +193,7 @@ namespace HooahRandMutation
             AbmxLengthSlider = AddSlider("Abmx Length Deviation");
             // this is for more precise randomizer control for abmx.
             AbmxMultiplier = AddSlider("Randomize Multiplier", 0.01f, 2, 1f);
-            AbmxAbsoluteScale = AddToggle("Use Absolute Scale");
+            AbmxAbsoluteScale = AddToggle("Use Absolute instead of Relative");
         }
 
         public void RandomizeAbmxSliders(HashSet<string> filters, bool justAbmx, bool inverted = false)
@@ -203,7 +203,7 @@ namespace HooahRandMutation
                 AbmxPositionSliderValue, AbmxAngleSliderValue,
                 AbmxScaleSliderValue, AbmxLengthSliderValue, AbmxUseAbsolute,
                 filters,
-                false,
+                inverted,
                 justAbmx
             );
         }

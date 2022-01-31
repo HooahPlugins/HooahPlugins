@@ -16,7 +16,8 @@ namespace HooahRandMutation
             "cf_J_Chin_rs", "cf_J_FaceBase", "cf_J_FaceRoot", "cf_J_FaceLowBase", "cf_J_FaceLow_s", "cf_J_NoseBase_trs",
             "cf_J_MouthBase_tr", "cf_J_FaceUp_ty","cf_J_FaceUp_tz",
             "cf_J_CheekLow_L", "cf_J_CheekUp_L", "cf_J_CheekUp_R",
-            "cf_J_Chin_rs", "cf_J_ChinTip_s", "cf_J_ChinLow", "cf_J_MouthBase_tr"
+            "cf_J_Chin_rs", "cf_J_ChinTip_s", "cf_J_ChinLow", "cf_J_MouthBase_tr",
+            "cf_J_Nose_tip"
         };
 
         public static readonly HashSet<string> HeadBoneNames = new HashSet<string>()

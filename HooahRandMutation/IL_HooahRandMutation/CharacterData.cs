@@ -160,33 +160,37 @@ namespace HooahRandMutation
                 var controller = control.GetComponent<BoneController>();
                 if (controller == null) return;
                 controller.UpdateModifiers(AbmxValuesMap, true, x =>
-                    filters == null || filters.Contains(x.Name)
-                        ? new BoneModifierData
-                        {
-                            ScaleModifier = x.Scale == Vector3.one
-                                ? x.Scale
-                                : x.Scale + RandomVector(useAbsolute ? 1 : x.Scale.magnitude) * maxScale,
-                            LengthModifier = Math.Abs(x.RelativePosition - 1.0f) < 0.001f
-                                ? x.RelativePosition
-                                : x.RelativePosition
-                                  + (useAbsolute ? 1 : x.RelativePosition) * Random.Range(-maxLength, maxLength),
-                            PositionModifier = x.Position == Vector3.zero
-                                ? x.Position
-                                : Constant.HorizontalFix.Contains(x.Name)
-                                    ? (x.Position + RandomVector(useAbsolute ? 1 : x.Position.magnitude) * maxPos)
-                                    .ScaleAndReturn(HFixVector)
-                                    : x.Position + RandomVector(useAbsolute ? 1 : x.Position.magnitude) * maxPos,
-                            RotationModifier = x.VectorAngle == Vector3.zero
-                                ? x.VectorAngle
-                                : x.VectorAngle + RandomVector(useAbsolute ? 1 : x.VectorAngle.magnitude) * maxAng
-                        }
-                        : new BoneModifierData
-                        {
-                            ScaleModifier = x.Scale,
-                            LengthModifier = x.RelativePosition,
-                            PositionModifier = x.Position,
-                            RotationModifier = x.VectorAngle
-                        }, fullUpdate);
+                (
+                    inverted
+                        ? !(filters == null || filters.Contains(x.Name))
+                        : filters == null || filters.Contains(x.Name)
+                )
+                    ? new BoneModifierData
+                    {
+                        ScaleModifier = x.Scale == Vector3.one
+                            ? x.Scale
+                            : x.Scale + RandomVector(useAbsolute ? 1 : x.Scale.magnitude) * maxScale,
+                        LengthModifier = Math.Abs(x.RelativePosition - 1.0f) < 0.001f
+                            ? x.RelativePosition
+                            : x.RelativePosition
+                              + (useAbsolute ? 1 : x.RelativePosition) * Random.Range(-maxLength, maxLength),
+                        PositionModifier = x.Position == Vector3.zero
+                            ? x.Position
+                            : Constant.HorizontalFix.Contains(x.Name)
+                                ? (x.Position + RandomVector(useAbsolute ? 1 : x.Position.magnitude) * maxPos)
+                                .ScaleAndReturn(HFixVector)
+                                : x.Position + RandomVector(useAbsolute ? 1 : x.Position.magnitude) * maxPos,
+                        RotationModifier = x.VectorAngle == Vector3.zero
+                            ? x.VectorAngle
+                            : x.VectorAngle + RandomVector(useAbsolute ? 1 : x.VectorAngle.magnitude) * maxAng
+                    }
+                    : new BoneModifierData
+                    {
+                        ScaleModifier = x.Scale,
+                        LengthModifier = x.RelativePosition,
+                        PositionModifier = x.Position,
+                        RotationModifier = x.VectorAngle
+                    }, fullUpdate);
             }
 
             #endregion
@@ -441,7 +445,7 @@ namespace HooahRandMutation
 
                 if (values.Position.magnitude <= 0.1 &&
                     values.VectorAngle.magnitude <= VectorOneTolerance &&
-                    Mathf.Abs(values.Scale.magnitude - VectorOneTolerance) < 0.01 &&
+                    Mathf.Abs(values.Scale.magnitude - VectorOneTolerance) < 0.001 &&
                     Mathf.Abs(values.RelativePosition - 1) < 0.001) continue;
                 if (Mathf.Abs(values.RelativePosition - 1) < 0.010) values.RelativePosition = 1; // stop.
 

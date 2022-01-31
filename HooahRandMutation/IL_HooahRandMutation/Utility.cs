@@ -57,8 +57,9 @@ namespace HooahRandMutation
         public static void AltFaceUpdate(this ChaControl chaControl)
         {
             var sliders = chaControl.fileCustom.face.shapeValueFace;
-            for (var i = 0; i < sliders.Length; i++) chaControl.sibFace.ChangeValue(i, sliders[i]);
-            chaControl.sibFace.Update();
+            var sibFace = chaControl.GetFemaleFaceShape();
+            for (var i = 0; i < sliders.Length; i++) sibFace.ChangeValue(i, sliders[i]);
+            sibFace.Update();
         }
 
         public static void AltBodyUpdate(this ChaControl chaControl)
