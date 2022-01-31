@@ -24,6 +24,9 @@ public class DickNavigator : MonoBehaviour
     [NonSerialized] public float IntegrationFactor;
     [NonSerialized] public float IntegrationFactorUncap;
 
+    [Header("Pregmod Integration Active"), Key(10), Range(0f, 1f)]
+    public bool pmiEnabled = false;
+
     [Header("Pregmod Offset"), Key(0), Range(0f, 1f)]
     public float pmiOffset = 0.5f;
 
@@ -51,6 +54,7 @@ public class DickNavigator : MonoBehaviour
         Gizmos.DrawSphere(dickEndPoint.transform.position, .1f);
     }
 #else
+
     #region Reflection Type Reference
 
     private static readonly Type PregPlusControllerType;
@@ -78,7 +82,6 @@ public class DickNavigator : MonoBehaviour
 
     #region Pregmod Integraiton Context
 
-
     private const string IntegrationID = "hooah DN Integration";
     private float _lastMorphValue;
 
@@ -95,7 +98,7 @@ public class DickNavigator : MonoBehaviour
     private void LateUpdate()
     {
         // poll it if shit bad
-        if (!IsPmIntegrationValid() || _pregmodController == null) return;
+        if (!IsPmIntegrationValid() || _pregmodController == null || pmiEnabled == false) return;
         var value = Mathf.Min(1, Mathf.Max(0, IntegrationFactorUncap - pmiOffset) / pmiDepth) * pmiInflationMultiplier;
         if (Math.Abs(_lastMorphValue - value) < 0.01f) return;
         var infConfig = PregPlugControllerDataField.GetValue(_pregmodController);
@@ -110,7 +113,8 @@ public class DickNavigator : MonoBehaviour
 
     public void OnTransformParentChanged()
     {
-        if (IsPmIntegrationValid()) _pregmodController = GetComponentInParent(PregPlusControllerType);
+        if (IsPmIntegrationValid())
+            _pregmodController = GetComponentInParent(PregPlusControllerType);
     }
 
     #endregion
