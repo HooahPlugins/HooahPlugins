@@ -38,7 +38,7 @@ namespace HooahRandMutation
             {
                 // make sure the target directory exists
                 if (!Directory.Exists(GetDir())) Directory.CreateDirectory(GetDir());
-                var filename = $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}_{CharacterName}.{FileExtension}";
+                var filename = $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}_{CharacterName}{FileExtension}";
                 File.WriteAllBytes(Path.Combine(GetDir(), filename), MessagePackSerializer.Serialize(this));
                 HooahRandMutationPlugin.instance.loggerInstance.LogMessage($"Saved slider preset '{filename}.'");
             }
