@@ -62,7 +62,6 @@ public class DickNavigator : MonoBehaviour
     private static readonly FieldInfo PregPlugControllerDataField;
     private static readonly FieldInfo PregPlusInflationField;
     private static readonly MethodInfo MeshInflateMethod;
-    private static readonly ConstructorInfo MeshInflateTypeConstructor;
 
 #if AI || HS2
     static DickNavigator()
@@ -73,9 +72,7 @@ public class DickNavigator : MonoBehaviour
         PregPlugControllerDataField = PregPlusControllerType.GetField("infConfig");
         PregPlusInflationField = pregPlusDataType.GetField("inflationSize");
         var meshInflateFlagType = AccessTools.TypeByName("MeshInflateFlags");
-        MeshInflateMethod =
-            PregPlusControllerType.GetMethod("MeshInflate", new[] { meshInflateFlagType, typeof(string) });
-        MeshInflateTypeConstructor = meshInflateFlagType.GetConstructors().FirstOrDefault();
+        MeshInflateMethod = PregPlusControllerType.GetMethod("MeshInflate", new[] { typeof(float), typeof(string), meshInflateFlagType });
     }
 #endif
 
@@ -92,8 +89,7 @@ public class DickNavigator : MonoBehaviour
             PregPlusControllerType == null ||
             PregPlugControllerDataField == null ||
             PregPlusInflationField == null ||
-            MeshInflateMethod == null ||
-            MeshInflateTypeConstructor == null
+            MeshInflateMethod == null 
         );
 
     private void LateUpdate()
@@ -109,11 +105,8 @@ public class DickNavigator : MonoBehaviour
 
         #region Pregmod Integration
 
-        var infConfig = PregPlugControllerDataField.GetValue(_pregmodController);
-        PregPlusInflationField.SetValue(infConfig, value);
+        MeshInflateMethod.Invoke(_pregmodController, new object[] { Mathf.Clamp(value, 0f, 40f), IntegrationID, null });
         _lastMorphValue = value;
-        var flags = MeshInflateTypeConstructor.Invoke(new[] { _pregmodController, null, null, null, null, null, null });
-        MeshInflateMethod.Invoke(_pregmodController, new[] { flags, IntegrationID });
 
         #endregion
     }
