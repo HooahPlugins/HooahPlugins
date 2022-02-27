@@ -14,11 +14,7 @@ using System.Collections;
 
 #endif
 
-#if AI || HS2
-public class ParticleController : MonoBehaviour, IFormData
-#else
-public class ParticleController : MonoBehaviour
-#endif
+public class ParticleController : HooahBehavior
 {
     public enum ControlType { Loop, ForceResetLoop, PauseAndSeek, Manual, AwaitForExternalSignal }
 

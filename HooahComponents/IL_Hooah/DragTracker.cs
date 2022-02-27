@@ -2,13 +2,8 @@
 using MessagePack;
 using UniRx;
 using UnityEngine;
-#if AI || HS2
-using HooahUtility.Model;
 
-public class DragTracker : ChannelTrackerBase, IFormData
-#else
 public class DragTracker : ChannelTrackerBase
-#endif
 {
     public enum Behavior { Lerp, VelocityApporach, Instant }
 

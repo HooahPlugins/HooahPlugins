@@ -36,7 +36,6 @@ namespace HooahComponents
     }
 }
 
-#if AI || HS2
 /// <list type="bullet|number|table">
 ///     <listheader><index>Serialization Index</index><description>Data Description</description></listheader>
 ///     <item><index>0</index><description>Dock Distance (0.1f-5.0f:2.1f)</description></item>
@@ -52,10 +51,7 @@ namespace HooahComponents
 ///     Core controller MonoBehavior for the item.
 /// 
 /// </summary>
-public class DickController : MonoBehaviour, ISerializationCallbackReceiver, IFormData
-#else
-public class DickController : MonoBehaviour, ISerializationCallbackReceiver
-#endif
+public class DickController : HooahBehavior, ISerializationCallbackReceiver
 {
     #region Static Variables
 
@@ -325,9 +321,9 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
     public void ColliderWithSelectedCharacters()
     {
         foreach (var o in Studio.Studio.Instance
-            .treeNodeCtrl.selectObjectCtrl
-            .OfType<OCIChar>()
-            .Select(x => x.charInfo.gameObject)) RegisterCollidersWithGameObject(o);
+                     .treeNodeCtrl.selectObjectCtrl
+                     .OfType<OCIChar>()
+                     .Select(x => x.charInfo.gameObject)) RegisterCollidersWithGameObject(o);
     }
 
     public void RegisterCollidersWithGameObject(GameObject o)
@@ -558,7 +554,7 @@ public class DickController : MonoBehaviour, ISerializationCallbackReceiver
             dataCurve.Length == 0 || dataKey.Length == 0 || dataIndex.Length == 0 ||
             dataCurve.Length != dataKey.Length || dataCurve.Length != dataIndex.Length ||
             dataKey.Length != dataIndex.Length
-        ) return;
+           ) return;
 
         _shapeGraphs = new VertexShapeGraph[dataCurve.Length];
         for (var i = _shapeGraphs.Length - 1; i >= 0; i--)

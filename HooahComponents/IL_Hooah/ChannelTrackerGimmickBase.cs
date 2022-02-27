@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace HooahComponents
 {
-    public abstract class ChannelTrackerGimmickBase : ChannelTrackerBase, IFormData
+    public abstract class ChannelTrackerGimmickBase : ChannelTrackerBase
     {
         protected GameObject channelTarget;
 

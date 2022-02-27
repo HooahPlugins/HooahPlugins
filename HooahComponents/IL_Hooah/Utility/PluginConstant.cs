@@ -6,7 +6,7 @@ namespace HooahComponents.Utility
     public static class PluginConstant
     {
         public const string GUID = "com.hooh.hooah";
-        public const string VERSION = "2.2.0";
+        public const string VERSION = "2.2.2";
 #if HS2
         public const string NAME = "Hooah Game Extension (HS2)";
 #elif AI

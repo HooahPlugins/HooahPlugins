@@ -11,7 +11,7 @@ using HooahUtility.Model;
 #endif
 
 #if AI || HS2
-public class DickNavigator : MonoBehaviour, IFormData
+public class DickNavigator : HooahBehavior
 #else
 public class DickNavigator : MonoBehaviour
 #endif
@@ -26,7 +26,7 @@ public class DickNavigator : MonoBehaviour
     [NonSerialized] public float IntegrationFactorUncap;
 
     [FieldName("Enable Pregmod Integration"), Key(10)]
-    public bool pmiEnabled;
+    public bool pmiEnabled = false;
 
     [FieldName("Bulge Start Depth"), Key(0), Range(0f, 1f)]
     public float pmiOffset = 0.5f;

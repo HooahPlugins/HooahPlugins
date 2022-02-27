@@ -56,6 +56,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\Constant.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\Attributes\HooahSerializeAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\Attributes\StudioReferenceAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Serialization\Component\ComponentSerialization.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\Formatter\UnityHackResolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\Formatter\UnityObjectFormatter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Serialization\Formatter\UnityObjectFormatterGeneric.cs" />
@@ -91,5 +92,8 @@
     <Content Include="$(MSBuildThisFileDirectory)Controller\Controls\ColorPickerControl\ColorPickerEvent.cs.meta" />
     <Content Include="$(MSBuildThisFileDirectory)Controller\Controls\ColorPickerControl\ColorPickerLogic.cs.meta" />
     <Content Include="$(MSBuildThisFileDirectory)Model\Class\ColorReference.cs.meta" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Serialization\Scene" />
   </ItemGroup>
 </Project>

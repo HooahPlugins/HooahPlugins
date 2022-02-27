@@ -3,7 +3,7 @@ using HooahUtility.Model.Attribute;
 using MessagePack;
 using UnityEngine;
 
-public class XRayConfigurator : MonoBehaviour, IFormData
+public class XRayConfigurator : HooahBehavior
 {
     // the length of the xray path
     public float depth = 1f;

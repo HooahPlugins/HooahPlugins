@@ -1,10 +1,11 @@
-﻿using HooahUtility.Model.Attribute;
+﻿using HooahUtility.Model;
+using HooahUtility.Model.Attribute;
 using MessagePack;
 using UnityEngine;
 
 namespace HooahComponents
 {
-    public abstract class ChannelTrackerBase : MonoBehaviour
+    public abstract class ChannelTrackerBase : HooahBehavior
     {
         public enum Mode { Default, ChannelMode }
 

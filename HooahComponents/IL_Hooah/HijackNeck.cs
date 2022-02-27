@@ -8,9 +8,9 @@ using UnityEngine;
 #endif
 
 #if AI || HS2
-public class HijackNeck : CharacterGimmickBase, IFormData
+public class HijackNeck : CharacterGimmickBase
 #else
-public class HijackNeck : MonoBehaviour
+public class HijackNeck : HooahBehavior
 #endif
 {
 #if AI || HS2

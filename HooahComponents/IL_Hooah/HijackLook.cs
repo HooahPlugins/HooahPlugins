@@ -6,9 +6,9 @@ using System.Collections.Generic;
 #endif
 
 #if AI || HS2
-public class HijackLook : CharacterGimmickBase, IFormData
+public class HijackLook : CharacterGimmickBase
 #else
-public class HijackLook : MonoBehaviour
+public class HijackLook : HooahBehavior
 #endif
 {
 #if AI || HS2

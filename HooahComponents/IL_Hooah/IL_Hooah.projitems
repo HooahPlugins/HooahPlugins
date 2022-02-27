@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.KKAPI.HooahController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.IK.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.Serialization.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.Serialization.Deserializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.SkinnedBones.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.UIIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Hooks\Hooks.UIStudioIntegration.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SoundContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StudioExtension\ExtendedStudioItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StudioExtension\MaterialPresetGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TrailDecoration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\StudioItemControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\ItemAdjustment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\PluginConstant.cs" />
@@ -56,6 +58,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\StudioMacros.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\UIIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XRayConfigurator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SmashRailedTracker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TrailDecoration.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\icon.png" />

@@ -8,7 +8,7 @@ using UnityEngine;
 namespace HooahComponents
 {
     [DefaultExecutionOrder(1002)]
-    public class ChannelTarget : MonoBehaviour, IFormData
+    public class ChannelTarget : HooahBehavior
     {
         public static HashSet<ChannelTarget> Instances;
         public static Dictionary<uint, HashSet<ChannelTarget>> ChannelInstances;

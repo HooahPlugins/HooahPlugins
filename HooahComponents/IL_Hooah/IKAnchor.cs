@@ -13,9 +13,9 @@ using Utility;
 #endif
 
 #if AI || HS2
-public class IKAnchor : CharacterGimmickBase, IFormData
+public class IKAnchor : CharacterGimmickBase
 #else
-public class IKAnchor : MonoBehaviour, IFormData
+public class IKAnchor : HooahBehavior
 #endif
 {
 #if AI || HS2
@@ -23,6 +23,7 @@ public class IKAnchor : MonoBehaviour, IFormData
     {
         None, Torso, Pelvis, Hip, Waist,
         HandL, HandR, HandLR, FootLR, FootL,
+
         FootR
         //, ElbowLR, ElbowL, ElbowR, KneeLR, KneeL, KneeR
     }

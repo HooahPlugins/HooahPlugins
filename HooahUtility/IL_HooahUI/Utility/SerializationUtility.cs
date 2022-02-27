@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using HooahUtility;
 using HooahUtility.Model;
+using HooahUtility.Serialization.Component;
 using HooahUtility.Serialization.Formatter;
 using HooahUtility.Serialization.StudioReference;
 using MessagePack;
@@ -15,6 +16,21 @@ namespace Utility
     {
         private static MethodInfo _serialize;
         private static MethodInfo _deserialize;
+
+        public static void HandleError(string msg)
+        {
+#if AI || HS2
+            HooahUtilityPlugin.Instance.Log.LogError($"Save/Load Error: {msg}");
+#else
+            Debug.LogWarning(msg);
+#endif
+        }
+
+        public static void HandleError(bool isSer, string msg, int version)
+        {
+            var action = isSer ? "Save" : "Load";
+            HandleError($"[{version}:{action}]: {msg}");
+        }
 
         static SerializationUtility()
         {
@@ -47,8 +63,13 @@ namespace Utility
         public static IFormData GetSerializableComponent(GameObject gameObject) =>
             gameObject.GetComponent<IFormData>() ?? gameObject.GetComponentInChildren<IFormData>();
 
-        // ReSharper disable once CognitiveComplexity
-        // boost my ego
+        public static HooahBehavior[] GetSerializableComponents(GameObject gameObject) =>
+            gameObject.GetComponents<HooahBehavior>() ?? gameObject.GetComponentsInChildren<HooahBehavior>();
+
+        public static Dictionary<string, HooahBehavior> GetSerializableComponentsInDictionary(GameObject gameObject) =>
+            GetSerializableComponents(gameObject).ToDictionary(x => x.GetType().Name, x => x);
+
+
         public static Dictionary<object, MemberInfo> GetAllSerializableFields<T>(T component) where T : IFormData
         {
             if (component == null) return null;
@@ -100,23 +121,7 @@ namespace Utility
 
 
         public static Dictionary<object, object> GetSerializedData<T>(T component) where T : IFormData =>
-            component == null
-                ? null
-                : GetAllSerializableFields(component).Select(x =>
-                {
-                    switch (x.Value)
-                    {
-                        case FieldInfo fieldInfo:
-                            // if field have some special shits then ...
-                            return new KeyValuePair<object, object>(x.Key,
-                                Serialize(fieldInfo.FieldType, fieldInfo.GetValue(component)));
-                        case PropertyInfo propertyInfo:
-                            return new KeyValuePair<object, object>(x.Key,
-                                Serialize(propertyInfo.PropertyType, propertyInfo.GetValue(component)));
-                        default:
-                            return new KeyValuePair<object, object>(x.Key, null);
-                    }
-                }).ToDictionary(x => x.Key, x => x.Value);
+            SerializeHelper.ComponentSerializeV2(component);
 
         public static byte[] GetSerializedBytes<T>(T component) where T : IFormData => component == null
             ? null
@@ -127,56 +132,26 @@ namespace Utility
 
         public static void DeserializeAndApply<T>(T component, byte[] bytes, int version) where T : IFormData
         {
-            if (component == null) return;
-            var serializableFields = GetAllSerializableFields(component);
-
-            foreach (var keyValuePair in MessagePackSerializer.Deserialize<Dictionary<object, object>>(bytes,
-                UnityHackResolver.Instance))
+            if (component == null)
             {
-                if (!serializableFields.TryGetValue(keyValuePair.Key, out var memberInfo)) continue;
+                HandleError("Failed to deserialize: component invalid");
+                return;
+            }
 
-                try
-                {
-                    if (version == 0)
-                    {
-                        switch (memberInfo)
-                        {
-                            case FieldInfo fieldInfo:
-                                fieldInfo.SetValue(component, keyValuePair.Value);
-                                break;
-                            case PropertyInfo propertyInfo:
-                                propertyInfo.SetValue(component, keyValuePair.Value);
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        var valueBytes = keyValuePair.Value as byte[];
+            if (bytes == null)
+            {
+                HandleError("Failed to deserialize: empty data");
+                return;
+            }
 
-                        switch (memberInfo)
-                        {
-                            case FieldInfo fieldInfo:
-                                fieldInfo.SetValue(component, Deserialize(fieldInfo.FieldType, valueBytes));
-                                break;
-                            case PropertyInfo propertyInfo:
-                                propertyInfo.SetValue(component, Deserialize(propertyInfo.PropertyType, valueBytes));
-                                break;
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    var msg =
-                        $"Failed to deserialize some data from field {component.GetType().Name}::{memberInfo.Name}.";
-#if AI || HS2
-                    // todo: Somehow this exception handling cannot catch the reflection and serialization exceptions. which is resulting some sort of strange mess ups. it's working for now at least.
-                    HooahUtilityPlugin.Instance.Log.LogError(e);
-                    HooahUtilityPlugin.Instance.Log.LogMessage(msg);
-#else
-                    Debug.LogError(e);
-                    Debug.LogWarning(msg);
-#endif
-                }
+            switch (version)
+            {
+                case 0:
+                    SerializeHelper.ComponentDeserializeV1(component, bytes);
+                    break;
+                default:
+                    SerializeHelper.ComponentDeserializeV2(component, bytes);
+                    break;
             }
         }
 

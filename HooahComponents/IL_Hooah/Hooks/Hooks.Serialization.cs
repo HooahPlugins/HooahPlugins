@@ -16,16 +16,16 @@ using Studio;
 // TODO: also why this is in the hooah? what the fuck?
 namespace HooahComponents.Hooks
 {
-    public static class Serialization
+    public static partial class Serialization
     {
 #if AI || HS2
         private const int ConfigDataVersion = 1; // config manager data version
-        private const int NodeDataVersion = 1; // node data version
+        private const int NodeDataVersion = 2; // node data version
 
         // the bruh moment
         public static string ConfigPath => Path.Combine(Path.GetFullPath("./UserData"), "Hooah", "config.dat");
 
-        public class Controller : SceneCustomFunctionController
+        public partial class Controller : SceneCustomFunctionController
         {
             protected override void OnObjectsCopied(ReadOnlyDictionary<int, ObjectCtrlInfo> copiedItems)
             {
@@ -39,30 +39,21 @@ namespace HooahComponents.Hooks
             {
                 var extendedData = GetExtendedData();
                 if (extendedData == null) return;
-                foreach (var keyValuePair in extendedData.data)
+                switch (extendedData.version)
                 {
-                    if (!loadedItems.TryGetValue(Convert.ToInt32(keyValuePair.Key), out var objectCtrlInfo)) continue;
-                    if (!StudioReferenceUtility.TryGetOciEndNodeGameObject(objectCtrlInfo, out var target)) continue;
-                    SerializationUtility.DeserializeAndApply(
-                        SerializationUtility.GetSerializableComponent(target), keyValuePair.Value as byte[],
-                        extendedData.version);
+                    case 1:
+                        DeserializeSceneDataV1(loadedItems, extendedData);
+                        return;
+                    default:
+                        DeserializeSceneDataV2(loadedItems, extendedData);
+                        return;
                 }
             }
 
             protected override void OnSceneSave()
             {
                 var bytesMap = new Dictionary<string, object>();
-
-                foreach (var x in Studio.Studio.Instance.dicObjectCtrl)
-                {
-                    if (!StudioReferenceUtility.TryGetOciEndNodeGameObject(x.Value, out var refObject)) continue;
-                    var comp = SerializationUtility.GetSerializableComponent(refObject);
-                    if (comp == null) continue;
-                    var bytes = SerializationUtility.GetSerializedBytes(comp);
-                    if (bytes == null) continue;
-                    bytesMap[x.Key.ToString()] = bytes;
-                }
-
+                SerializeSceneDataV2(bytesMap);
                 SetExtendedData(new PluginData { data = bytesMap, version = NodeDataVersion });
             }
         }

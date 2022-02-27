@@ -16,11 +16,7 @@ using MessagePack;
 
 // todo: find a way to unscrew the unity native video issue
 //       (the game crashes when the video has audio track...)
-#if AI || HS2
-public class MonitorController : MonoBehaviour, IFormData
-#else
-public class MonitorController : MonoBehaviour
-#endif
+public class MonitorController : HooahBehavior
 {
     private RenderTexture _renderTexture;
     private VideoPlayer _videoPlayer;
