@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using AIChara;
 using KKABMX.Core;
@@ -23,6 +24,8 @@ namespace HooahRandMutation
         public struct CharacterSliders
         {
             [Key("version")] public int Version;
+
+            //[Key("hash")] public string Hash; -- for one who want to keep organized?
             [Key("name")] public string CharacterName;
             [Key("head")] public float[] HeadSliders;
             [Key("body")] public float[] BodySliders;
@@ -36,9 +39,25 @@ namespace HooahRandMutation
 
             public void Save()
             {
-                // make sure the target directory exists
+                Save($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}_{CharacterName}{FileExtension}");
+            }
+
+            public void Save(int saveType, string customName, ChaControl chaControl, int index)
+            {
+                var sb = new StringBuilder();
+                sb.Append($"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}_");
+                if (saveType > 0) sb.Append($"{chaControl.fileFace.headId}_");
+                if (saveType > 1) sb.Append($"{chaControl.sex}_");
+                if (saveType > 2) sb.Append($"{index}_");
+                sb.Append(customName.IsNullOrEmpty() ? CharacterName : customName);
+                sb.Append(FileExtension);
+
+                Save(sb.ToString());
+            }
+
+            public void Save(string filename)
+            {
                 if (!Directory.Exists(GetDir())) Directory.CreateDirectory(GetDir());
-                var filename = $"{DateTimeOffset.Now.ToUnixTimeMilliseconds()}_{CharacterName}{FileExtension}";
                 File.WriteAllBytes(Path.Combine(GetDir(), filename), MessagePackSerializer.Serialize(this));
                 HooahRandMutationPlugin.instance.loggerInstance.LogMessage($"Saved slider preset '{filename}.'");
             }

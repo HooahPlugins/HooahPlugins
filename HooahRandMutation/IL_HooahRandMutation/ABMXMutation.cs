@@ -63,6 +63,14 @@ namespace HooahRandMutation
             CharacterData.Templates.ElementAt(index).Save();
         }
 
+        public static void TrySaveSlot(int index, int format, string name, ChaControl chaControl)
+        {
+            // invalid
+            if (CharacterData.Templates == null || index < 0 ||
+                index > CharacterData.Templates.Length) return;
+            CharacterData.Templates.ElementAt(index).Save(format, name, chaControl, index);
+        }
+
         public static void TryLoadSlot(int index = 0, Action callback = null)
         {
             if (CharacterData.Templates == null || index < 0 ||

@@ -5,6 +5,8 @@ using KKABMX.Core;
 using KKAPI.Maker;
 using KKAPI.Maker.UI;
 using UniRx;
+using UnityEngine.UI;
+using static System.String;
 
 namespace HooahRandMutation
 {
@@ -28,6 +30,9 @@ namespace HooahRandMutation
         private readonly MakerToggle fixWarp;
         private readonly MakerToggle updateTick;
         private readonly MakerDropdown mixType;
+        private readonly MakerDropdown customFormat;
+        private readonly MakerToggle customName;
+        private readonly MakerTextbox customNameString;
 
         private int mixTypeValue => mixType.Value;
         private float maxSliderValue => maxSlider.Value;
@@ -117,6 +122,8 @@ namespace HooahRandMutation
             InterpolateAbmx(filters, sliders, abmx, useFactor, inverted);
         }
 
+        public string SaveName => customName?.Value != null ? customNameString.Value : MakerChaControl.fileParam.fullname;
+
         public CharacterInterpolateSection(RegisterSubCategoriesEvent e, HooahRandMutationPlugin targetInstance) : base(
             e, targetInstance)
         {
@@ -126,6 +133,14 @@ namespace HooahRandMutation
             var textB = new MakerText(Constant.NotLoaded, Category, targetInstance);
 
             AddButton("Open Slider Preset Folder", CharacterData.CharacterSliders.OpenSlidePresetFolder);
+            customFormat = new MakerDropdown("Save Filename Formatting", new[] { "time,name", "time,face,name", "time,face,gender,name", "time,face,gender,name,slot"}, Category, 0, targetInstance);
+            e.AddControl(customFormat);
+            customName = AddToggle("Override Name");
+            customNameString = new MakerTextbox(Category, "Name", Empty, targetInstance);
+            customNameString.CharacterLimit = 128;
+            customNameString.ContentType = InputField.ContentType.Standard;
+            e.AddControl(customNameString);
+
             AddSeparator();
             AddButton("Set Current character as A", () =>
             {
@@ -137,8 +152,8 @@ namespace HooahRandMutation
                 MakerChaControl.SetTemplate(1);
                 if (textB.Exists) textB.Text = $"Slot B: {CharacterData.Templates.ElementAtOrDefault(1).CharacterName}";
             });
-            AddButton("Save slider values of A", () => ABMXMutation.TrySaveSlot());
-            AddButton("Save slider values of B", () => ABMXMutation.TrySaveSlot(1));
+            AddButton("Save slider values of A", () => ABMXMutation.TrySaveSlot(0, customFormat.Value, SaveName, MakerChaControl));
+            AddButton("Save slider values of B", () => ABMXMutation.TrySaveSlot(1, customFormat.Value, SaveName, MakerChaControl));
             AddButton("Load slider values of A", () =>
             {
                 ABMXMutation.TryLoadSlot(0, () =>
