@@ -61,4 +61,11 @@
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <Import Project="..\IL_HooahUI\AdvancedStudioUI.projitems" Label="Shared" />
+    <PropertyGroup>
+        <PostBuildEvent>
+            mkdir "$(SolutionDir)\final"
+            call "$(SolutionDir)scripts/deploy.bat" "$(ProjectDir)$(IntermediateOutputPath)$(AssemblyName)" "$(SolutionDir)\final" "$(ProjectName)"
+            call "$(SolutionDir)scripts/deploy.bat" "$(ProjectDir)$(IntermediateOutputPath)$(AssemblyName)" "$(HS2Path)" "$(ProjectName)"
+        </PostBuildEvent>
+    </PropertyGroup>
 </Project>
