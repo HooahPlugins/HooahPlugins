@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
+#if AI || HS2
 using ExtensibleSaveFormat;
-using HooahUtility.Model;
-using HooahUtility.Serialization.Component;
 using HooahUtility.Utility;
-using KKAPI.Studio.SaveLoad;
 using KKAPI.Utilities;
 using MessagePack;
 using Studio;
 using Utility;
-
 namespace HooahComponents.Hooks
 {
     public partial class Serialization
@@ -84,3 +82,25 @@ namespace HooahComponents.Hooks
         }
     }
 }
+#else
+namespace HooahComponents.Hooks
+{
+    public partial class Serialization
+    {
+        public partial class Controller
+        {
+            protected void DeserializeSceneDataV1(Dictionary<int, object> loadedItems, object extendedData)
+            {
+            }
+
+            protected void DeserializeSceneDataV2(Dictionary<int, object> loadedItems, object extendedData)
+            {
+            }
+
+            protected void SerializeSceneDataV2(Dictionary<string, object> bytesMap)
+            {
+            }
+        }
+    }
+}
+#endif
