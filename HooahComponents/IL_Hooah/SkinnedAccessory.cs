@@ -204,6 +204,7 @@ public class SkinnedAccessory : MonoBehaviour
     private static readonly Bounds Bound = new Bounds(new Vector3(0f, 10f, 0f), new Vector3(20f, 20f, 20f));
     public List<SkinnedMeshRenderer> meshRenderers;
     public GameObject skeleton;
+    public bool isHeadAccessory;
     private int _done;
 
 #if AI || HS2
@@ -219,7 +220,10 @@ public class SkinnedAccessory : MonoBehaviour
         meshRenderers.ForEach(smr =>
         {
             smr.enabled = false;
-            smr.rootBone = chaControl.objBodyBone.transform;
+            smr.rootBone =
+                isHeadAccessory ? 
+                    chaControl.objHeadBone.transform : 
+                    chaControl.objBodyBone.transform;
             StartCoroutine(MergeCoroutine(smr, dict));
         });
     }
