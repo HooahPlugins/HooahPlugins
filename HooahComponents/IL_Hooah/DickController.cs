@@ -104,6 +104,16 @@ public class DickController : HooahBehavior, ISerializationCallbackReceiver
     [FormerlySerializedAs("_benisScale"), Key(4), Range(0.001f, 3f)]
     public float benisScale;
 
+    // todo: maybe i should save scale?
+    [Key(10), Header("Shrink Inserted Part")]
+    public bool adjustScale;
+
+    [Key(11), Header("Shrink Range"), Range(0.0001f, 1f)]
+    public float adjustScaleRange = 0.1f;
+
+    [Key(12), Header("Shrink Offset"), Range(0, 1f)]
+    public float adjustScaleOffset = 0f;
+
 
     [Key(5)]
     public bool UseCensorEffect
@@ -258,7 +268,7 @@ public class DickController : HooahBehavior, ISerializationCallbackReceiver
     private TransformAccessArray _transformAccessArray;
     private bool _disposed;
     private ApplyTransformJob _applyTransformJob;
-    private DickPositionCalcuationJob _jobPosCalc;
+    private DickPositionCalculationJob _jobPosCalc;
     private DickPullCalculationJob _jobCalcPull;
     private JobHandle _applyTransformJobHandle;
     private float _leftLength;
@@ -361,7 +371,7 @@ public class DickController : HooahBehavior, ISerializationCallbackReceiver
 
         // Initialize Unity Jobs
         _applyTransformJob = new ApplyTransformJob();
-        _jobPosCalc = new DickPositionCalcuationJob();
+        _jobPosCalc = new DickPositionCalculationJob();
         _jobCalcPull = new DickPullCalculationJob();
 
         if (censoringObject != null) _censoringMesh = censoringObject.GetComponent<SkinnedMeshRenderer>();
@@ -429,6 +439,7 @@ public class DickController : HooahBehavior, ISerializationCallbackReceiver
         _applyTransformJobHandle.Complete();
         if (_pullHandle.IsCompleted) _renderPullFactor = _factor[0];
         _applyTransformJob.Targets = _dickTransformTargetNative;
+        _applyTransformJob.ShoudScale = adjustScale;
         _applyTransformJobHandle = _applyTransformJob.Schedule(_transformAccessArray, _moveHandle);
     }
 
@@ -590,14 +601,16 @@ public class DickController : HooahBehavior, ISerializationCallbackReceiver
         _jobPosCalc.Right = transform.right;
         _jobPosCalc.BenisScale = benisScale;
         _jobPosCalc.ChainsLength = _dickTransformTargetNative.Length;
+        _jobPosCalc.ShouldScale = adjustScale;
+        _jobPosCalc.ScaleRange = adjustScaleRange;
+        _jobPosCalc.ScaleOffset = adjustScaleOffset;
 
         _leftLength = Vector3.Distance(_jobPosCalc.Start, _jobPosCalc.Middle);
         _rightLength = Vector3.Distance(_jobPosCalc.Middle, _jobPosCalc.End);
         _jobPosCalc.LeftLength = _leftLength;
         _jobPosCalc.RightLength = _rightLength;
 
-        // var total = Mathf.Max(0, rightLength - (benisScale / dickChains.Length)*transform.localScale.z);
-        var threshold = (segmentScale * (_dickTransformTargetNative.Length - 1));
+        var threshold = segmentScale * (_dickTransformTargetNative.Length - 1);
         var calcA = Math.Max(0, threshold - Mathf.Max(0, _leftLength));
         var calcB = Math.Max(0, calcA / Mathf.Max(0.00001f, _rightLength));
         _dickNavigator.IntegrationFactor = Math.Min(1, calcB);
@@ -668,6 +681,7 @@ public class DickController : HooahBehavior, ISerializationCallbackReceiver
 
     public struct ApproachTarget
     {
+        public Vector3 Scale;
         public Vector3 Position;
         public Quaternion Rotation;
     }
@@ -675,16 +689,18 @@ public class DickController : HooahBehavior, ISerializationCallbackReceiver
     private struct ApplyTransformJob : IJobParallelForTransform
     {
         [ReadOnly] public NativeArray<ApproachTarget> Targets;
+        [ReadOnly] public bool ShoudScale;
 
         public void Execute(int i, TransformAccess transform)
         {
+            if (ShoudScale) transform.localScale = Targets[i].Scale;
             transform.position = Targets[i].Position;
             if (i == Targets.Length - 1) return;
             transform.rotation = Targets[i].Rotation;
         }
     }
 
-    private struct DickPositionCalcuationJob : IJobParallelFor
+    private struct DickPositionCalculationJob : IJobParallelFor
     {
         public NativeArray<ApproachTarget> DickTransformTarget;
         [ReadOnly] public Vector3 Start;
@@ -695,6 +711,9 @@ public class DickController : HooahBehavior, ISerializationCallbackReceiver
         [ReadOnly] public float BenisScale;
         [ReadOnly] public float LeftLength;
         [ReadOnly] public float RightLength;
+        [ReadOnly] public bool ShouldScale;
+        [ReadOnly] public float ScaleRange;
+        [ReadOnly] public float ScaleOffset;
 
 
         private static Vector3 Linear(Vector3 p0, Vector3 p1, Vector3 p2, float left, float right, float length,
@@ -720,6 +739,14 @@ public class DickController : HooahBehavior, ISerializationCallbackReceiver
                 var q = Quaternion.LookRotation(dir, this.Right);
                 q *= RotationA;
                 approachTarget.Rotation = q;
+            }
+
+            if (ShouldScale)
+            {
+                var ilen = (index + 1) * BenisScale / ChainsLength;
+                var ins = Mathf.Max(0f, ilen - leftDistance);
+                var fadeFactor = Mathf.Max(0, Mathf.Min(1, (ins + ScaleOffset) / rightDistance * ScaleRange));
+                approachTarget.Scale = Vector3.Lerp(Vector3.one, Vector3.zero, fadeFactor);
             }
 
             DickTransformTarget[index] = approachTarget;
