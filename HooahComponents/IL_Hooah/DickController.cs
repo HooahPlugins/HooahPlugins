@@ -736,7 +736,7 @@ public class DickController : HooahBehavior, ISerializationCallbackReceiver
             approachTarget.Position = posA;
             if (dir != Vector3.zero)
             {
-                var q = Quaternion.LookRotation(dir, this.Right);
+                var q = Quaternion.LookRotation(dir, Right);
                 q *= RotationA;
                 approachTarget.Rotation = q;
             }

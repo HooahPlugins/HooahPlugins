@@ -59,7 +59,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\UIIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XRayConfigurator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SmashRailedTracker.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TrailDecoration.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\icon.png" />
